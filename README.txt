@@ -1,10 +1,17 @@
-ZOMBIE HANGMAN WEB v1031
+ZOMBIE HANGMAN WEB v1032
 
 Najważniejsze zmiany:
-- przycisk WYJŚCIE na drogowskazie ma teraz najlepsze możliwe zachowanie zamykania,
-- najpierw próbuje zamknąć kartę/aplikację,
-- jeśli przeglądarka blokuje zamknięcie, próbuje wrócić historią wstecz,
-- jeśli nadal nie może zamknąć, pokazuje komunikat.
+- podmienione menu główne na nowe drzewo z czaszkami,
+- dodane nowe osobne deski menu:
+  O GRZE, GRAJ, GALERIA ZOMBIE, INNE GRY, WYJŚCIE,
+- menu jest złożone z osobnych grafik, więc łatwiej będzie dopasować pozycje,
+- przycisk INNE GRY ma na razie komunikat roboczy,
+- odświeżony cache service workera.
 
-Ważne:
-Zwykła strona WWW nie ma pełnego prawa do zamknięcia karty przeglądarki tak jak przycisk X. To blokada bezpieczeństwa przeglądarek. Najlepiej działa po uruchomieniu jako PWA z ikony na ekranie głównym.
+Pliki dodane:
+assets/ui/menu/tree_menu.png
+assets/ui/menu/btn_o_grze.png
+assets/ui/menu/btn_graj.png
+assets/ui/menu/btn_galeria_zombie.png
+assets/ui/menu/btn_inne_gry.png
+assets/ui/menu/btn_wyjscie.png

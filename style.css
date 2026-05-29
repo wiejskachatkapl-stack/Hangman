@@ -18,6 +18,81 @@ body{overflow:hidden;position:fixed;inset:0}
 .hotspot-stats{left:4.2%;top:31.4%;width:85%;height:10.8%}
 .hotspot-gallery{left:10.5%;top:44.5%;width:77%;height:10.8%}
 .hotspot-exit{left:7.2%;top:57.9%;width:81%;height:10.6%}
+
+/* NOWE MENU GŁÓWNE v1032: drzewo + osobne deski */
+.tree-main-menu{
+  position:absolute;
+  left:clamp(12px,2.4vw,42px);
+  bottom:clamp(8px,1.6vh,22px);
+  width:clamp(270px,30vw,540px);
+  height:clamp(460px,86vh,760px);
+  z-index:4;
+  filter:drop-shadow(0 18px 26px rgba(0,0,0,.82));
+}
+.tree-menu-img{
+  position:absolute;
+  left:0;
+  bottom:0;
+  height:100%;
+  width:auto;
+  user-select:none;
+  -webkit-user-drag:none;
+  pointer-events:none;
+}
+.tree-board{
+  position:absolute;
+  left:18%;
+  width:112%;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  z-index:5;
+  transition:transform .14s ease, filter .14s ease;
+}
+.tree-board img{
+  display:block;
+  width:100%;
+  height:auto;
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.tree-board:hover,
+.tree-board:focus-visible{
+  outline:none;
+  transform:translateX(6px) scale(1.015);
+  filter:brightness(1.07);
+}
+.tree-board:active{
+  transform:translateX(3px) scale(.995);
+  filter:brightness(.97);
+}
+.tree-board-about{top:11%}
+.tree-board-play{top:24%}
+.tree-board-gallery{top:37%}
+.tree-board-other{top:50%}
+.tree-board-exit{top:63%}
+
+@media(max-width:1100px){
+  .tree-main-menu{left:clamp(10px,2vw,28px);bottom:clamp(8px,1.4vh,18px);width:clamp(240px,31vw,430px);height:clamp(400px,82vh,660px)}
+  .tree-board{left:18%;width:112%}
+}
+@media(max-width:900px){
+  .tree-main-menu{left:clamp(8px,1.6vw,20px);bottom:clamp(6px,1vh,14px);width:clamp(210px,36vw,350px);height:clamp(340px,78vh,560px)}
+}
+@media(max-width:680px){
+  .tree-main-menu{left:clamp(6px,1.2vw,14px);bottom:clamp(5px,.8vh,10px);width:clamp(185px,42vw,300px);height:clamp(300px,74vh,480px)}
+}
+@media (orientation: portrait) {
+  .tree-main-menu{
+    left:clamp(8px,2vh,30px);
+    bottom:clamp(5px,1.2vw,14px);
+    width:clamp(210px,34vh,460px);
+    height:clamp(350px,82vw,700px);
+  }
+}
+
 .gear{position:absolute;left:2.2%;bottom:3.5%;width:44px;height:44px;border:0;border-radius:50%;font-size:28px;color:#fff;background:rgba(0,0,0,.22);text-shadow:0 2px 4px #000;cursor:pointer;z-index:5}
 .copyright{display:none}
 

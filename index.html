@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman WEB v1031</title>
+  <title>Zombie Hangman WEB v1032</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
@@ -20,13 +20,23 @@
     <section id="screen-menu" class="screen active menu-screen" aria-label="Menu główne">
       <div class="menu-overlay"></div>
       <div class="menu-wrap">
-        <aside class="signpost-menu" aria-label="Menu gry">
-          <img class="signpost-image" src="assets/img/menu_signpost_active_transparent.png" alt="Drogowskaz menu" />
-          <button class="menu-hotspot hotspot-about" data-action="about" aria-label="O grze"></button>
-          <button class="menu-hotspot hotspot-play" data-action="play-menu" aria-label="Graj"></button>
-          <button class="menu-hotspot hotspot-stats" data-action="stats" aria-label="Statystyki"></button>
-          <button class="menu-hotspot hotspot-gallery" data-action="gallery" aria-label="Galeria zombie"></button>
-          <button class="menu-hotspot hotspot-exit" data-action="exit" aria-label="Wyjście"></button>
+        <aside class="tree-main-menu" aria-label="Menu gry">
+          <img class="tree-menu-img" src="assets/ui/menu/tree_menu.png" alt="" aria-hidden="true" />
+          <button class="tree-board tree-board-about" data-action="about" aria-label="O grze">
+            <img src="assets/ui/menu/btn_o_grze.png" alt="O grze" />
+          </button>
+          <button class="tree-board tree-board-play" data-action="play-menu" aria-label="Graj">
+            <img src="assets/ui/menu/btn_graj.png" alt="Graj" />
+          </button>
+          <button class="tree-board tree-board-gallery" data-action="gallery" aria-label="Galeria zombie">
+            <img src="assets/ui/menu/btn_galeria_zombie.png" alt="Galeria zombie" />
+          </button>
+          <button class="tree-board tree-board-other" data-action="other-games" aria-label="Inne gry">
+            <img src="assets/ui/menu/btn_inne_gry.png" alt="Inne gry" />
+          </button>
+          <button class="tree-board tree-board-exit" data-action="exit" aria-label="Wyjście">
+            <img src="assets/ui/menu/btn_wyjscie.png" alt="Wyjście" />
+          </button>
         </aside>
       </div>
 
@@ -111,7 +121,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>WEB v1031</strong></p>
+        <p>Wersja: <strong>WEB v1032</strong></p>
         <p>Skalowanie ekranu startowego:</p>
         <div class="scale-row">
           <button class="wood-btn small" data-action="scale-down">Pomniejsz</button>
