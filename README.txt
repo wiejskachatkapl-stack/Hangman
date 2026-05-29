@@ -1,7 +1,8 @@
-ZOMBIE HANGMAN WEB v1033
+ZOMBIE HANGMAN WEB v1030
 
 Najważniejsze zmiany:
-- przyciski nowego menu zostały przygaszone kolorystycznie,
-- usunięto mocny złoty/żółty odcień,
-- kolory są teraz bliższe drewniano-beżowemu stylowi logo Zombie Hangman,
-- układ menu i działanie przycisków bez zmian.
+- po kliknięciu GRAJ otwiera się nowe menu wyboru trybu,
+- ekran wyboru trybu korzysta z tego samego klimatycznego tła co strona startowa,
+- dodano dwa duże szyldy: Gra podwójna i Gra pojedyncza,
+- dodano deskę MENU do powrotu na ekran główny,
+- odświeżony cache service workera.
