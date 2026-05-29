@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1025';
+const VERSION = 'WEB v1028';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
@@ -8,7 +8,7 @@ const PHRASES = [
   {cat:'MUZYKA', text:'GITARA'}, {cat:'W DOMU', text:'LODÓWKA'}, {cat:'ROŚLINY', text:'RÓŻA'}
 ];
 const ZOMBIES = ['Szmaciany','Pielęgniarka','Budowlaniec','Doktor','Klaun','Leśny'];
-const STORE_KEY = 'zombieHangmanWebV1025';
+const STORE_KEY = 'zombieHangmanWebV1028';
 let state = loadState();
 let game = null;
 let menuScale = Number(localStorage.getItem('zhMenuScale') || '1');

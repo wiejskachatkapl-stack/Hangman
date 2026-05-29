@@ -1,8 +1,8 @@
 {
   "name": "Zombie Hangman",
-  "short_name": "Zombie Hangman",
-  "start_url": "./index.html",
-  "display": "standalone",
+  "short_name": "ZombieHangman",
+  "start_url": "./index.html?source=pwa",
+  "display": "fullscreen",
   "orientation": "landscape",
   "background_color": "#05070c",
   "theme_color": "#05070c",
@@ -50,5 +50,11 @@
       "type": "image/png"
     }
   ],
-  "scope": "./"
+  "scope": "./",
+  "display_override": [
+    "fullscreen",
+    "standalone",
+    "minimal-ui"
+  ],
+  "id": "./index.html"
 }

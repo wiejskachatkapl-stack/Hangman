@@ -1,11 +1,10 @@
-ZOMBIE HANGMAN WEB v1026
+ZOMBIE HANGMAN WEB v1028
 
-Uruchomienie:
-1. Rozpakuj ZIP.
-2. Otwórz plik index.html w przeglądarce.
+Najważniejsze zmiany w v1028:
+- przygotowanie projektu do uruchamiania jako pełnoekranowe PWA,
+- manifest ustawiony na tryb fullscreen,
+- dodane meta tagi mobilne dla uruchamiania bez paska przeglądarki,
+- odświeżony service worker i cache.
 
-Najważniejsze zmiany w v1026:
-- z ekranu O GRZE usunięto brązowe tło panelu,
-- panel został jeszcze bardziej rozszerzony, aby uniknąć przewijania,
-- litery opisu otrzymały bardziej "zombie" charakter, podobny do stylu MENU, ale lżejszy i cieńszy,
-- przycisk MENU pozostał bez zmian.
+Ważne:
+Aby zniknęły białe paski i nawigacja przeglądarki, stronę trzeba uruchamiać z ikony na ekranie głównym telefonu (Dodaj do ekranu głównego / Zainstaluj aplikację), a nie z normalnej karty przeglądarki.
