@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman WEB v1029</title>
+  <title>Zombie Hangman WEB v1031</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
@@ -34,17 +34,23 @@
       <div class="copyright"></div>
     </section>
 
-    <section id="screen-play-menu" class="screen sub-screen play-menu-screen">
-      <div class="panel board-panel narrow play-panel">
-        <h1>GRAJ</h1>
-        <button class="mode-img-btn" data-action="new-single" aria-label="Gra pojedyncza">
-          <img src="assets/recovered_menu/btn_menu_single.png" alt="Gra pojedyncza" />
-        </button>
-        <button class="mode-img-btn" data-action="dual-info" aria-label="Gra podwójna">
-          <img src="assets/recovered_menu/btn_menu_dual.png" alt="Gra podwójna" />
-        </button>
-        <button class="wood-btn small" data-action="menu">Menu</button>
+    <section id="screen-play-menu" class="screen play-menu-screen" aria-label="Menu gry">
+      <div class="menu-overlay"></div>
+      <div class="play-start-wrap">
+        <aside class="play-signpost" aria-label="Wybór trybu gry">
+          <div class="play-post"></div>
+          <button class="mode-img-btn play-board play-board-dual" data-action="dual-info" aria-label="Gra podwójna">
+            <img src="assets/recovered_menu/btn_menu_dual.png" alt="Gra podwójna" />
+          </button>
+          <button class="mode-img-btn play-board play-board-single" data-action="new-single" aria-label="Gra pojedyncza">
+            <img src="assets/recovered_menu/btn_menu_single.png" alt="Gra pojedyncza" />
+          </button>
+          <button class="back-board-btn" data-action="menu" aria-label="Powrót do menu głównego">
+            <img src="assets/img/btn_menu_zombie_board_transparent.png" alt="Menu" />
+          </button>
+        </aside>
       </div>
+      <button class="gear" data-action="settings" aria-label="Ustawienia">⚙</button>
     </section>
 
     <section id="screen-game" class="screen game-screen">
@@ -105,7 +111,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>WEB v1029</strong></p>
+        <p>Wersja: <strong>WEB v1031</strong></p>
         <p>Skalowanie ekranu startowego:</p>
         <div class="scale-row">
           <button class="wood-btn small" data-action="scale-down">Pomniejsz</button>
