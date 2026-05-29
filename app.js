@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1028';
+const VERSION = 'WEB v1029';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
@@ -8,7 +8,7 @@ const PHRASES = [
   {cat:'MUZYKA', text:'GITARA'}, {cat:'W DOMU', text:'LODÓWKA'}, {cat:'ROŚLINY', text:'RÓŻA'}
 ];
 const ZOMBIES = ['Szmaciany','Pielęgniarka','Budowlaniec','Doktor','Klaun','Leśny'];
-const STORE_KEY = 'zombieHangmanWebV1028';
+const STORE_KEY = 'zombieHangmanWebV1029';
 let state = loadState();
 let game = null;
 let menuScale = Number(localStorage.getItem('zhMenuScale') || '1');
@@ -31,3 +31,23 @@ function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach
 document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') newGame();if(action==='hint') hint();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+
+
+// Próba uruchomienia pełnego ekranu po pierwszym dotknięciu/kliknięciu.
+// W normalnej karcie przeglądarki pasek systemowy może zostać, ale po instalacji jako PWA ekran jest pełny.
+(function(){
+  let tried = false;
+  async function enterGameFullscreen(){
+    if(tried) return;
+    tried = true;
+    try{
+      const el = document.documentElement;
+      if(el.requestFullscreen) await el.requestFullscreen();
+      if(screen.orientation && screen.orientation.lock){
+        try{ await screen.orientation.lock('landscape'); }catch(e){}
+      }
+    }catch(e){}
+  }
+  window.addEventListener('pointerdown', enterGameFullscreen, {once:true, passive:true});
+  window.addEventListener('touchstart', enterGameFullscreen, {once:true, passive:true});
+})();
