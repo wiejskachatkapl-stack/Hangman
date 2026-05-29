@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#090b10" />
+  <title>Zombie Hangman WEB v1026</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <section id="screen-menu" class="screen active menu-screen" aria-label="Menu główne">
+      <div class="menu-overlay"></div>
+      <div class="menu-wrap">
+        <aside class="signpost-menu" aria-label="Menu gry">
+          <img class="signpost-image" src="assets/img/menu_signpost_active_transparent.png" alt="Drogowskaz menu" />
+          <button class="menu-hotspot hotspot-about" data-action="about" aria-label="O grze"></button>
+          <button class="menu-hotspot hotspot-play" data-action="play-menu" aria-label="Graj"></button>
+          <button class="menu-hotspot hotspot-stats" data-action="stats" aria-label="Statystyki"></button>
+          <button class="menu-hotspot hotspot-gallery" data-action="gallery" aria-label="Galeria zombie"></button>
+          <button class="menu-hotspot hotspot-exit" data-action="exit" aria-label="Wyjście"></button>
+        </aside>
+      </div>
+
+      <button class="gear" data-action="settings" aria-label="Ustawienia">⚙</button>
+      <div class="copyright"></div>
+    </section>
+
+    <section id="screen-play-menu" class="screen sub-screen play-menu-screen">
+      <div class="panel board-panel narrow play-panel">
+        <h1>GRAJ</h1>
+        <button class="mode-img-btn" data-action="new-single" aria-label="Gra pojedyncza">
+          <img src="assets/recovered_menu/btn_menu_single.png" alt="Gra pojedyncza" />
+        </button>
+        <button class="mode-img-btn" data-action="dual-info" aria-label="Gra podwójna">
+          <img src="assets/recovered_menu/btn_menu_dual.png" alt="Gra podwójna" />
+        </button>
+        <button class="wood-btn small" data-action="menu">Menu</button>
+      </div>
+    </section>
+
+    <section id="screen-game" class="screen game-screen">
+      <div class="game-top">
+        <button class="small-wood" data-action="menu">MENU</button>
+        <div class="hud-card"><span>Kategoria:</span><strong id="category">---</strong></div>
+        <div class="hud-card"><span>Punkty:</span><strong id="score">0</strong></div>
+        <div class="hud-card"><span>Zombie:</span><strong id="zombieMeter">0/300</strong></div>
+        <div class="hud-card"><span>Błędy:</span><strong id="mistakes">0/6</strong></div>
+      </div>
+
+      <div class="game-layout">
+        <div class="hang-area">
+          <div class="gallows"><div id="body" class="body-stage stage-0">☠</div></div>
+          <div class="lifelines"><button class="life" data-action="hint">⚡ Koło ratunkowe <span id="lifelinesLeft">3</span></button></div>
+        </div>
+        <div class="play-area">
+          <div id="word" class="word"></div>
+          <div id="message" class="message">Wylosuj hasło i zgaduj litery.</div>
+          <div id="keyboard" class="keyboard"></div>
+          <div class="game-actions"><button class="wood-btn small" data-action="new-single">Nowe hasło</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-about" class="screen sub-screen">
+      <div class="panel board-panel about-panel">
+        <h1>O GRZE</h1>
+        <div class="about-copy">
+          <p class="about-lead">Zombie Hangman to mroczna, odwrócona o 180 stopni wersja klasycznej gry słownej <span>Wisielec</span>.</p>
+          <p>Wisielec (szubienica) to klasyczna gra słowna dla dwóch lub więcej osób. Jej celem jest odgadnięcie ukrytego hasła litera po literze, zanim przeciwnik ukończy rysunek wiszącego ludzika.</p>
+          <p>W grze Hangman, tak jak i w pierwowzorze, mamy odgadywać hasła, lecz tutaj naszym zadaniem nie jest ratować, a <strong>wieszać zombiaka</strong>. Po odgadnięciu hasła jedna część postaci jest dokładana, aż do momentu powieszenia całej postaci.</p>
+          <p>W grze do dyspozycji mamy na każdą postać <strong>trzy podpowiedzi liter</strong>. Oczywiście możemy grać pojedynczo, jak i w dwie osoby.</p>
+          <p>Mamy również do dyspozycji <strong>pokoje</strong>, w których możemy rywalizować ze znajomymi i piąć się w <strong>rankingach</strong>, przechodząc kolejne poziomy.</p>
+          <p class="about-finale">Myślę, że gra przypadnie do gustu i wciągnie w świat zombie w tradycyjnej grze wisielec, lecz odwróconej o 180 stopni.</p>
+        </div>
+        <button class="wood-btn" data-action="menu">Menu</button>
+      </div>
+    </section>
+
+    <section id="screen-stats" class="screen sub-screen">
+      <div class="panel board-panel">
+        <h1>STATYSTYKA</h1>
+        <div id="statsBox" class="stats-box"></div>
+        <button class="wood-btn" data-action="reset-stats">Reset statystyk</button>
+        <button class="wood-btn" data-action="menu">Menu</button>
+      </div>
+    </section>
+
+    <section id="screen-gallery" class="screen sub-screen">
+      <div class="panel board-panel">
+        <h1>GALERIA ZOMBIE</h1>
+        <div id="galleryBox" class="gallery"></div>
+        <button class="wood-btn" data-action="menu">Menu</button>
+      </div>
+    </section>
+
+    <section id="screen-settings" class="screen sub-screen">
+      <div class="panel board-panel">
+        <h1>USTAWIENIA</h1>
+        <p>Wersja: <strong>WEB v1026</strong></p>
+        <p>Skalowanie ekranu startowego:</p>
+        <div class="scale-row">
+          <button class="wood-btn small" data-action="scale-down">Pomniejsz</button>
+          <button class="wood-btn small" data-action="scale-reset">Dopasuj</button>
+          <button class="wood-btn small" data-action="scale-up">Powiększ</button>
+        </div>
+        <button class="wood-btn" data-action="menu">Menu</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
+  <script src="app.js"></script>
+</body>
+</html>
