@@ -158,40 +158,59 @@ button[data-action="menu"]:active{
   .rotate-hint{display:none!important}
 }
 
-/* v1035: nowe, mniejsze przyciski na podstronie GRAJ */
-.play-signpost{
-  left:clamp(34px,3vw,56px) !important;
-  bottom:clamp(28px,3vh,44px) !important;
-  width:clamp(280px,25vw,440px) !important;
-  height:clamp(440px,64vh,680px) !important;
+
+
+/* v1037: podstrona GRAJ jako jeden kompletny drogowskaz z aktywnymi polami */
+.play-signpost-full{
+  left:clamp(22px,2.4vw,54px) !important;
+  bottom:clamp(12px,2vh,28px) !important;
+  width:clamp(250px,26vw,430px) !important;
+  height:auto !important;
+  aspect-ratio:704/977;
+  z-index:4;
+  filter:drop-shadow(0 18px 26px rgba(0,0,0,.78));
 }
-.play-board{
-  width:86% !important;
-  left:3% !important;
+.play-signpost-image{
+  display:block;
+  width:100%;
+  height:auto;
+  user-select:none;
+  -webkit-user-drag:none;
+  pointer-events:none;
 }
-.play-board-dual{top:24% !important}
-.play-board-single{top:45% !important}
-.back-board-btn{
-  width:48% !important;
-  left:10% !important;
-  bottom:3% !important;
+.play-hotspot{
+  position:absolute;
+  left:15%;
+  width:75%;
+  height:8.8%;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  cursor:pointer;
+  z-index:8;
 }
+.play-hotspot:focus-visible{
+  outline:2px solid rgba(255,225,150,.5);
+  border-radius:12px;
+}
+.play-hotspot-single{top:21.8%}
+.play-hotspot-multi{top:44.0%}
+.play-hotspot-back{top:63.0%;left:22%;width:61%;height:8.4%}
+
 @media(max-width:1100px){
-  .play-signpost{width:clamp(255px,27vw,380px) !important;height:clamp(390px,62vh,600px) !important}
+  .play-signpost-full{width:clamp(230px,28vw,380px) !important}
 }
 @media(max-width:900px){
-  .play-signpost{width:clamp(230px,31vw,330px) !important;height:clamp(340px,60vh,520px) !important}
-  .play-board{width:86% !important}
-  .back-board-btn{width:46% !important}
+  .play-signpost-full{width:clamp(205px,31vw,330px) !important}
 }
 @media(max-width:680px){
-  .play-signpost{width:clamp(200px,38vw,290px) !important;height:clamp(300px,58vh,450px) !important}
+  .play-signpost-full{width:clamp(175px,39vw,285px) !important}
 }
 @media (orientation: portrait){
-  .play-signpost{
-    left:clamp(10px,2vh,30px) !important;
-    bottom:clamp(8px,1.5vw,18px) !important;
-    width:clamp(230px,30vh,400px) !important;
-    height:clamp(350px,72vw,620px) !important;
+  .play-signpost-full{
+    left:clamp(8px,1.8vh,30px) !important;
+    bottom:clamp(6px,1.2vw,18px) !important;
+    width:clamp(210px,34vh,420px) !important;
   }
 }

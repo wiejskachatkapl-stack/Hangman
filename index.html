@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman WEB v1036</title>
+  <title>Zombie Hangman WEB v1037</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
@@ -37,17 +37,11 @@
     <section id="screen-play-menu" class="screen play-menu-screen" aria-label="Menu gry">
       <div class="menu-overlay"></div>
       <div class="play-start-wrap">
-        <aside class="play-signpost" aria-label="Wybór trybu gry">
-          <div class="play-post"></div>
-          <button class="mode-img-btn play-board play-board-dual" data-action="dual-info" aria-label="Gra podwójna">
-            <img src="assets/ui/menu/btn_multiplayer.png" alt="Multiplayer" />
-          </button>
-          <button class="mode-img-btn play-board play-board-single" data-action="new-single" aria-label="Gra pojedyncza">
-            <img src="assets/ui/menu/btn_gra_pojedyncza.png" alt="Gra pojedyncza" />
-          </button>
-          <button class="back-board-btn" data-action="menu" aria-label="Cofnij">
-            <img src="assets/ui/menu/btn_cofnij.png" alt="Cofnij" />
-          </button>
+        <aside class="play-signpost play-signpost-full" aria-label="Wybór trybu gry">
+          <img class="play-signpost-image" src="assets/ui/menu/btn_drogowskaz_graj.png" alt="Graj: Multiplayer, Gra pojedyncza, Cofnij" />
+          <button class="play-hotspot play-hotspot-single" data-action="new-single" aria-label="Gra pojedyncza"></button>
+          <button class="play-hotspot play-hotspot-multi" data-action="dual-info" aria-label="Multiplayer"></button>
+          <button class="play-hotspot play-hotspot-back" data-action="menu" aria-label="Cofnij"></button>
         </aside>
       </div>
       <button class="gear" data-action="settings" aria-label="Ustawienia">⚙</button>
@@ -111,7 +105,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>WEB v1036</strong></p>
+        <p>Wersja: <strong>WEB v1037</strong></p>
         <p>Skalowanie ekranu startowego:</p>
         <div class="scale-row">
           <button class="wood-btn small" data-action="scale-down">Pomniejsz</button>

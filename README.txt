@@ -1,7 +1,10 @@
-ZOMBIE HANGMAN WEB v1036
+ZOMBIE HANGMAN WEB v1037
 
 Najważniejsze zmiany:
-- na podstronie GRAJ wszystkie przyciski typu btn są pobierane z katalogu assets/ui/menu/,
-- przycisk powrotu/Menu na podstronie GRAJ został zamieniony na assets/ui/menu/btn_cofnij.png,
-- na razie zmiana dotyczy tylko zakładki GRAJ,
-- menu główne pozostaje bez zmian.
+- w zakładce GRAJ zamiast osobnych małych przycisków wstawiono jeden kompletny drogowskaz: assets/ui/menu/btn_drogowskaz_graj.png,
+- podpięto aktywne pola:
+  GRA POJEDYNCZA -> start gry pojedynczej,
+  MULTIPLAYER -> komunikat/ekran multiplayer,
+  COFNIJ -> powrót do menu głównego,
+- dopasowano rozmiar drogowskazu do tła strony,
+- zmiana dotyczy tylko zakładki GRAJ.
