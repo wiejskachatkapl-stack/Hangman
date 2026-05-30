@@ -1,8 +1,7 @@
-ZOMBIE HANGMAN WEB v1035
+ZOMBIE HANGMAN WEB v1036
 
 Najważniejsze zmiany:
-- na podstronie GRAJ wstawiono nowe przyciski:
-  MULTIPLAYER, GRA POJEDYNCZA, COFNIJ,
-- grafiki zostały oczyszczone z jasnego tła i zapisane w assets/ui/menu/,
-- przyciski na podstronie GRAJ zostały proporcjonalnie zmniejszone,
-- układ menu głównego z poprzednim drogowskazem zostaje bez zmian.
+- na podstronie GRAJ wszystkie przyciski typu btn są pobierane z katalogu assets/ui/menu/,
+- przycisk powrotu/Menu na podstronie GRAJ został zamieniony na assets/ui/menu/btn_cofnij.png,
+- na razie zmiana dotyczy tylko zakładki GRAJ,
+- menu główne pozostaje bez zmian.
