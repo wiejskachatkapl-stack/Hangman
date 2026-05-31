@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1059';
+const VERSION = 'WEB v1060';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
@@ -26,7 +26,46 @@ function show(name){
 }
 function newGame(){const item=PHRASES[Math.floor(Math.random()*PHRASES.length)];game={phrase:item.text.toUpperCase(),cat:item.cat,guessed:new Set(),mistakes:0,finished:false};show('game');renderKeyboard();renderGame('Nowe hasło wylosowane. Powodzenia!');}
 function renderKeyboard(){const box=$('keyboard'); box.innerHTML='';ALPHABET.forEach(ch=>{const b=document.createElement('button'); b.className='key'; b.textContent=ch; b.onclick=()=>guess(ch); box.appendChild(b);});}
-function renderGame(msg){if(!game) return;$('category').textContent=game.cat; $('score').textContent=state.score; $('zombieMeter').textContent=`${state.zombiePoints}/300`; $('mistakes').textContent=`${game.mistakes}/6`; $('lifelinesLeft').textContent=state.lifelines;const word=$('word'); word.innerHTML='';[...game.phrase].forEach(ch=>{const d=document.createElement('div'); if(ch===' '){d.className='letter-box space'; d.textContent='';} else {d.className='letter-box'; d.textContent=game.guessed.has(ch)?ch:'';} word.appendChild(d);});$('message').textContent=msg || '';$('body').className='body-stage stage-'+Math.min(6,game.mistakes);document.querySelectorAll('.key').forEach(k=>{const ch=k.textContent; if(game.guessed.has(ch)){k.classList.add('used'); k.classList.add(game.phrase.includes(ch)?'good':'bad');}});}
+function renderGame(msg){
+  if(!game) return;
+  $('category').textContent=game.cat;
+  $('score').textContent=state.score;
+  $('zombieMeter').textContent=`${state.zombiePoints}/300`;
+  $('mistakes').textContent=`${game.mistakes}/6`;
+  $('lifelinesLeft').textContent=state.lifelines;
+
+  const word=$('word');
+  word.innerHTML='';
+  [...game.phrase].forEach(ch=>{
+    const d=document.createElement('div');
+    if(ch===' '){
+      d.className='letter-box space';
+      d.textContent='';
+    } else {
+      d.className='letter-box';
+      d.textContent=game.guessed.has(ch)?ch:'';
+    }
+    word.appendChild(d);
+  });
+
+  $('message').textContent=msg || '';
+  $('body').className='body-stage stage-'+Math.min(6,game.mistakes);
+
+  document.querySelectorAll('.key').forEach(k=>{
+    const ch=k.textContent;
+    k.classList.remove('used','good','bad');
+    if(game.guessed.has(ch)){
+      k.classList.add('used');
+      k.classList.add(game.phrase.includes(ch)?'good':'bad');
+    }
+  });
+
+  document.querySelectorAll('.old-style-lifelines .life').forEach((btn, idx)=>{
+    const active = idx < state.lifelines && !game.finished;
+    btn.classList.toggle('life-used', !active);
+    btn.disabled = !active;
+  });
+}
 function guess(ch){if(!game || game.finished || game.guessed.has(ch)) return;game.guessed.add(ch);if(game.phrase.includes(ch)){const count=[...game.phrase].filter(x=>x===ch).length; state.score += 10*count; state.zombiePoints += 10*count;checkZombieUnlock();if(isWin()) return finish(true);renderGame(`Dobrze! Litera ${ch} występuje ${count}x.`);} else {game.mistakes++;if(game.mistakes>=6) return finish(false);renderGame(`Nie ma litery ${ch}.`);}save();}
 function isWin(){return [...game.phrase].every(ch=>ch===' ' || game.guessed.has(ch));}
 function finish(win){game.finished=true; state.played++;if(win){state.wins++; state.score+=50; state.zombiePoints+=50; checkZombieUnlock(); renderGame('WYGRANA! +50 punktów. Kliknij „Nowe hasło”.');}else {state.losses++; renderGame(`PRZEGRANA. Hasło: ${game.phrase}. Kliknij „Nowe hasło”.`);}save();}

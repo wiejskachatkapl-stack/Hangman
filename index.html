@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman WEB v1059</title>
+  <title>Zombie Hangman WEB v1060</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
@@ -72,7 +72,12 @@
         <div class="play-area">
           <div id="word" class="word"></div>
           <div class="game-category-line">Kategoria: <strong id="category">---</strong></div>
-          <div class="lifelines old-style-lifelines">Pomoc: <strong id="lifelinesLeft">3</strong>/3 <button class="life" data-action="hint" aria-label="Pomoc">☠</button><button class="life" data-action="hint" aria-label="Pomoc">☠</button><button class="life" data-action="hint" aria-label="Pomoc">☠</button></div>
+          <div class="lifelines old-style-lifelines">
+            <span class="lifelines-label">Pomoc: <strong id="lifelinesLeft">3</strong>/3</span>
+            <button class="life" data-action="hint" aria-label="Koło ratunkowe 1"><img src="assets/img/img_ratunek.png" alt="Koło ratunkowe" /></button>
+            <button class="life" data-action="hint" aria-label="Koło ratunkowe 2"><img src="assets/img/img_ratunek.png" alt="Koło ratunkowe" /></button>
+            <button class="life" data-action="hint" aria-label="Koło ratunkowe 3"><img src="assets/img/img_ratunek.png" alt="Koło ratunkowe" /></button>
+          </div>
           <div id="message" class="message">Wylosuj hasło i zgaduj litery.</div>
           <div id="keyboard" class="keyboard"></div>
           <div class="game-actions"><button class="wood-btn small" data-action="draw-category">Nowe hasło</button></div>
@@ -115,7 +120,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>WEB v1059</strong></p>
+        <p>Wersja: <strong>WEB v1060</strong></p>
         <p>Skalowanie ekranu startowego:</p>
         <div class="scale-row">
           <button class="wood-btn small" data-action="scale-down">Pomniejsz</button>
