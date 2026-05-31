@@ -1,4 +1,4 @@
-ZOMBIE HANGMAN WEB v1048 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1049 - pliki do podmiany
 
 Podmień pliki w głównym katalogu projektu:
 - index.html
@@ -7,7 +7,10 @@ Podmień pliki w głównym katalogu projektu:
 - sw.js
 
 Zmiany:
-- usunięto osobny przycisk MENU z zakładki GRAJ,
-- COFNIJ ma osobną akcję play-back i wraca do strony tytułowej,
-- pola aktywne przesunięte niżej, żeby trafiały w napisy: GRA POJEDYNCZA, MULTIPLAYER, COFNIJ,
-- zwiększony cache SW do v1048.
+- NIE zmieniano grafiki,
+- poprawiono wyłącznie niewidzialne pola aktywne na zakładce GRAJ,
+- GRA POJEDYNCZA obniżona o ok. 2 cm,
+- MULTIPLAYER obniżony o ok. 1,5 cm,
+- COFNIJ obniżony o ok. 0,5 cm,
+- COFNIJ nadal wraca do strony tytułowej, bez osobnego przycisku MENU,
+- cache Service Workera podniesiony do v1049.
