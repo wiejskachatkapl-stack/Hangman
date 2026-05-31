@@ -453,3 +453,21 @@ button[data-action="menu"]:active{
   overflow:hidden !important;
   z-index:999 !important;
 }
+
+/* v1053 — START/MENU na telefonie: drogowskaz dużo większy, prawie na całą wysokość ekranu.
+   Dotyczy tylko głównego menu .signpost-menu, nie zmienia grafiki i nie rusza ekranu GRAJ. */
+@media (orientation: portrait) {
+  .signpost-menu{
+    width:clamp(400px, 50vh, 470px) !important;
+    left:clamp(12px, 1.6vh, 24px) !important;
+    bottom:clamp(0px, .4vw, 6px) !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 820px) and (max-width: 1700px) {
+  .signpost-menu{
+    width:clamp(400px, 56vh, 470px) !important;
+    left:clamp(18px, 2vw, 36px) !important;
+    bottom:clamp(0px, .6vh, 8px) !important;
+  }
+}
