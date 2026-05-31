@@ -14,3 +14,11 @@ Zmiany:
 - COFNIJ obniżony o ok. 0,5 cm,
 - COFNIJ nadal wraca do strony tytułowej, bez osobnego przycisku MENU,
 - cache Service Workera podniesiony do v1049.
+
+
+WEB v1050:
+- Poprawiono tylko niewidzialne pola kliknięć na ekranie GRAJ.
+- Gra pojedyncza: pole aktywne przesunięte ok. 1 cm w górę.
+- Multiplayer: pole aktywne przesunięte ok. 1 cm w górę.
+- Cofnij: pole aktywne przesunięte ok. 2,5 cm w górę.
+- Grafika/tło nie zostały zmienione.
