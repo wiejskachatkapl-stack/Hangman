@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman WEB v1052</title>
+  <title>Zombie Hangman WEB v1054</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
@@ -46,25 +46,32 @@
       <button class="gear" data-action="settings" aria-label="Ustawienia">⚙</button>
     </section>
 
+    <section id="screen-draw-category" class="screen draw-category-screen" aria-label="Losowanie kategorii">
+      <div class="draw-card">
+        <h1>LOSOWANIE KATEGORII</h1>
+        <button class="wood-btn draw-btn" data-action="draw-category">Losuj kategorię</button>
+        <button class="wood-btn draw-btn back" data-action="play-menu">Cofnij</button>
+      </div>
+    </section>
+
     <section id="screen-game" class="screen game-screen">
       <div class="game-top">
-        <button class="small-wood" data-action="menu">MENU</button>
-        <div class="hud-card"><span>Kategoria:</span><strong id="category">---</strong></div>
-        <div class="hud-card"><span>Punkty:</span><strong id="score">0</strong></div>
-        <div class="hud-card"><span>Zombie:</span><strong id="zombieMeter">0/300</strong></div>
-        <div class="hud-card"><span>Błędy:</span><strong id="mistakes">0/6</strong></div>
+        <div class="hud-line">Punkty: <strong id="score">0</strong>&nbsp;&nbsp; Zombiak: <strong id="zombieMeter">0/300</strong>&nbsp;&nbsp; Błędy: <strong id="mistakes">0/6</strong></div>
+        <button class="small-wood game-menu-btn" data-action="menu">MENU</button>
       </div>
 
       <div class="game-layout">
         <div class="hang-area">
           <div class="gallows"><div id="body" class="body-stage stage-0">☠</div></div>
-          <div class="lifelines"><button class="life" data-action="hint">⚡ Koło ratunkowe <span id="lifelinesLeft">3</span></button></div>
+          <div class="lifelines hang-lifelines-hidden"></div>
         </div>
         <div class="play-area">
           <div id="word" class="word"></div>
+          <div class="game-category-line">Kategoria: <strong id="category">---</strong></div>
+          <div class="lifelines old-style-lifelines">Pomoc: <strong id="lifelinesLeft">3</strong>/3 <button class="life" data-action="hint" aria-label="Pomoc">☠</button><button class="life" data-action="hint" aria-label="Pomoc">☠</button><button class="life" data-action="hint" aria-label="Pomoc">☠</button></div>
           <div id="message" class="message">Wylosuj hasło i zgaduj litery.</div>
           <div id="keyboard" class="keyboard"></div>
-          <div class="game-actions"><button class="wood-btn small" data-action="new-single">Nowe hasło</button></div>
+          <div class="game-actions"><button class="wood-btn small" data-action="draw-category">Nowe hasło</button></div>
         </div>
       </div>
     </section>
@@ -104,7 +111,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>WEB v1052</strong></p>
+        <p>Wersja: <strong>WEB v1054</strong></p>
         <p>Skalowanie ekranu startowego:</p>
         <div class="scale-row">
           <button class="wood-btn small" data-action="scale-down">Pomniejsz</button>

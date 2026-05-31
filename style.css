@@ -471,3 +471,179 @@ button[data-action="menu"]:active{
     bottom:clamp(0px, .6vh, 8px) !important;
   }
 }
+
+
+/* v1054: układ po kliknięciu GRA POJEDYNCZA jak w starszej wersji gry */
+.draw-category-screen,
+.game-screen{
+  background:linear-gradient(rgba(2,3,5,.25),rgba(2,3,5,.35)),url('assets/img/bg_game.png') center center/cover no-repeat !important;
+}
+.draw-card{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:min(920px,60vw);
+  min-height:320px;
+  padding:34px 48px 38px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  background:rgba(0,0,0,.36);
+  border:0;
+  box-shadow:none;
+}
+.draw-card h1{
+  margin:0 0 18px;
+  font-family:Arial,sans-serif;
+  font-size:clamp(32px,4.2vw,54px);
+  color:#fff4d4;
+  text-shadow:0 4px 7px #000;
+}
+.draw-card .draw-btn{
+  width:min(330px,42vw);
+  min-height:58px;
+  margin:0;
+  padding:10px 20px;
+  font-size:clamp(20px,2.2vw,34px);
+  border-radius:8px;
+}
+.game-top{
+  top:2.1%;left:1.4%;right:auto;height:auto;z-index:20;
+}
+.hud-line{
+  padding:14px 26px;
+  border-radius:12px;
+  background:rgba(0,0,0,.58);
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:clamp(28px,2.5vw,42px);
+  font-weight:900;
+  text-shadow:0 3px 5px #000;
+}
+.hud-line strong{color:#fff}
+.game-menu-btn{
+  position:fixed !important;
+  right:2.8vw;
+  bottom:4.5vh;
+  width:min(210px,15vw) !important;
+  min-width:120px;
+  min-height:60px;
+  margin:0 !important;
+  z-index:40;
+  font-size:clamp(22px,2vw,36px) !important;
+  border-radius:8px;
+}
+.game-layout{
+  display:block !important;
+  left:2%;right:2%;top:13%;bottom:2%;
+}
+.hang-area{display:none !important}
+.play-area{
+  position:absolute;
+  left:0;top:0;
+  width:min(860px,58vw);
+  min-height:280px;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  padding:42px 36px 30px !important;
+  border:0 !important;
+  border-radius:18px !important;
+  background:rgba(0,0,0,.34) !important;
+  box-shadow:none !important;
+}
+.word{
+  justify-content:flex-start !important;
+  margin:0 0 12px !important;
+  padding:0 !important;
+  gap:12px !important;
+}
+.letter-box{
+  min-width:34px !important;
+  height:48px !important;
+  border-bottom:0 !important;
+  font-family:Arial,sans-serif;
+  font-size:44px !important;
+  line-height:48px;
+  color:#fff;
+}
+.letter-box:not(.space):empty::after{content:'_'}
+.game-category-line,
+.old-style-lifelines{
+  font-family:Arial,sans-serif;
+  color:#fff;
+  font-size:clamp(28px,2.5vw,42px);
+  font-weight:900;
+  text-shadow:0 3px 5px #000;
+  margin:4px 0 22px;
+}
+.old-style-lifelines{display:flex;align-items:center;gap:24px;margin-top:18px}
+.old-style-lifelines .life{
+  width:76px;height:76px;
+  min-width:76px;
+  border:0;
+  border-radius:50%;
+  background:rgba(0,0,0,.18);
+  color:#d9bd83;
+  font-size:42px;
+  padding:0;
+  box-shadow:none;
+}
+.message{display:none !important}
+.keyboard{
+  position:fixed;
+  left:1.6vw;
+  bottom:3.5vh;
+  width:min(820px,54vw) !important;
+  display:grid !important;
+  grid-template-columns:repeat(12, minmax(44px,1fr)) !important;
+  gap:8px !important;
+  z-index:25;
+}
+.key{
+  min-width:0;
+  min-height:56px;
+  padding:4px 0 !important;
+  border:0 !important;
+  border-radius:9px !important;
+  background:rgba(0,0,0,.58) !important;
+  box-shadow:none !important;
+  font-family:Arial,sans-serif;
+  font-size:clamp(28px,2.4vw,44px) !important;
+  color:#fff !important;
+}
+.key.used{opacity:.32 !important}
+.game-actions{display:none !important}
+
+@media (orientation: landscape) and (max-width: 950px), (max-height: 520px){
+  .signpost-menu{
+    width:min(31vw,88vh,390px) !important;
+    left:clamp(16px,2.2vw,34px) !important;
+    bottom:clamp(8px,1.8vh,18px) !important;
+  }
+  .draw-card{
+    width:min(900px,60vw);
+    min-height:320px;
+    padding:28px 34px;
+  }
+  .draw-card h1{font-size:clamp(32px,4.2vw,52px)}
+  .draw-card .draw-btn{width:min(310px,36vw);min-height:54px}
+  .hud-line{font-size:clamp(24px,3.2vw,36px);padding:10px 16px}
+  .game-layout{top:16%}
+  .play-area{width:56vw;min-height:260px;padding:34px 28px 24px !important}
+  .letter-box{font-size:38px !important;height:42px !important;line-height:42px}
+  .game-category-line,.old-style-lifelines{font-size:clamp(25px,3.5vw,38px);margin-bottom:18px}
+  .old-style-lifelines .life{width:62px;height:62px;min-width:62px;font-size:34px}
+  .keyboard{width:53vw !important;gap:6px !important;bottom:3vh}
+  .key{min-height:48px;font-size:clamp(25px,3.4vw,38px) !important}
+  .game-menu-btn{right:2.5vw;bottom:4vh;width:min(160px,14vw) !important;min-height:52px;font-size:26px !important}
+}
+
+@media (orientation: portrait){
+  .signpost-menu{
+    width:min(35vh,50vw,380px) !important;
+    left:clamp(8px,1.5vh,22px) !important;
+    bottom:clamp(6px,1vh,12px) !important;
+  }
+}

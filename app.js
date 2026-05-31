@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1052';
+const VERSION = 'WEB v1054';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
@@ -41,7 +41,7 @@ function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach
 // dla telefonu i komputera przy background-size: cover.
 const PLAY_BG_SIZE = { w: 2048, h: 1365 };
 const PLAY_HOTSPOTS = {
-  // v1052: współrzędne dopasowane do grafiki bg_graj_integrated.png.
+  // v1054: współrzędne dopasowane do grafiki bg_graj_integrated.png.
   // To są piksele ORYGINALNEJ grafiki 2048x1365.
   // Funkcja updatePlayHotspots() sama przelicza je na ekran telefonu/komputera.
   single: { x: 60,  y: 390, w: 780, h: 165 },  // GRA POJEDYNCZA
@@ -79,7 +79,7 @@ window.addEventListener('load', () => {
   setTimeout(updatePlayHotspots, 800);
 });
 
-document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') newGame();if(action==='hint') hint();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
+document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 
