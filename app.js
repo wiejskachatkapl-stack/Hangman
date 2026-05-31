@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1054';
+const VERSION = 'WEB v1055';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
@@ -41,7 +41,7 @@ function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach
 // dla telefonu i komputera przy background-size: cover.
 const PLAY_BG_SIZE = { w: 2048, h: 1365 };
 const PLAY_HOTSPOTS = {
-  // v1054: współrzędne dopasowane do grafiki bg_graj_integrated.png.
+  // v1055: współrzędne dopasowane do grafiki bg_graj_integrated.png.
   // To są piksele ORYGINALNEJ grafiki 2048x1365.
   // Funkcja updatePlayHotspots() sama przelicza je na ekran telefonu/komputera.
   single: { x: 60,  y: 390, w: 780, h: 165 },  // GRA POJEDYNCZA

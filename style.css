@@ -473,7 +473,7 @@ button[data-action="menu"]:active{
 }
 
 
-/* v1054: układ po kliknięciu GRA POJEDYNCZA jak w starszej wersji gry */
+/* v1055: układ po kliknięciu GRA POJEDYNCZA jak w starszej wersji gry */
 .draw-category-screen,
 .game-screen{
   background:linear-gradient(rgba(2,3,5,.25),rgba(2,3,5,.35)),url('assets/img/bg_game.png') center center/cover no-repeat !important;
@@ -646,4 +646,18 @@ button[data-action="menu"]:active{
     left:clamp(8px,1.5vh,22px) !important;
     bottom:clamp(6px,1vh,12px) !important;
   }
+}
+
+
+/* v1055: nowe tła dla kolejnych plansz po kliknięciu GRA POJEDYNCZA */
+#screen-draw-category.draw-category-screen{
+  background:
+    linear-gradient(rgba(2,3,5,.10),rgba(2,3,5,.18)),
+    url('assets/img/bg_draw_category_v1055.png') center center/cover no-repeat !important;
+}
+
+#screen-game.game-screen{
+  background:
+    linear-gradient(rgba(2,3,5,.08),rgba(2,3,5,.16)),
+    url('assets/img/bg_game_guess_v1055.png') center center/cover no-repeat !important;
 }
