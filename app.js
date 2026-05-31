@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1041';
+const VERSION = 'WEB v1042';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
@@ -11,9 +11,14 @@ const ZOMBIES = ['Szmaciany','Pielęgniarka','Budowlaniec','Doktor','Klaun','Le�
 const STORE_KEY = 'zombieHangmanWebV1041';
 let state = loadState();
 let game = null;
-let menuScale = Number(localStorage.getItem('zhMenuScale') || '1');
+let menuScale = 1;
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
-function applyScale(){menuScale=clamp(menuScale,.72,1.18);document.documentElement.style.setProperty('--menu-scale', menuScale.toFixed(2));localStorage.setItem('zhMenuScale', String(menuScale));}
+function applyScale(){
+  // v1042: skalowanie jest automatyczne w CSS osobno dla telefonu i komputera.
+  // Nie używamy już starego ręcznego localStorage, bo powodowało za małe/za duże ekrany.
+  menuScale = 1;
+  document.documentElement.style.setProperty('--menu-scale', '1');
+}
 function loadState(){const base={score:0,zombiePoints:0,wins:0,losses:0,played:0,unlocked:1,lifelines:3};try{return {...base,...JSON.parse(localStorage.getItem(STORE_KEY)||'{}')}}catch(e){return base}}
 function save(){localStorage.setItem(STORE_KEY, JSON.stringify(state));}
 function $(id){return document.getElementById(id)}
@@ -28,7 +33,7 @@ function checkZombieUnlock(){while(state.zombiePoints>=300){state.zombiePoints-=
 function hint(){if(!game || game.finished) return;if(state.lifelines<=0){renderGame('Nie masz już kół ratunkowych.'); return;}const missing=[...new Set([...game.phrase].filter(ch=>ch!==' ' && !game.guessed.has(ch)))];if(!missing.length) return;const ch=missing[Math.floor(Math.random()*missing.length)];state.lifelines--; game.guessed.add(ch); state.score+=5; state.zombiePoints+=5; checkZombieUnlock();if(isWin()) finish(true); else renderGame(`Koło ratunkowe odkryło literę ${ch}.`);save();}
 function renderStats(){$('statsBox').innerHTML=`<div>Wersja: <strong>${VERSION}</strong></div><div>Rozegrane partie: <strong>${state.played}</strong></div><div>Wygrane: <strong>${state.wins}</strong></div><div>Przegrane: <strong>${state.losses}</strong></div><div>Punkty: <strong>${state.score}</strong></div><div>Postęp zombie: <strong>${state.zombiePoints}/300</strong></div><div>Odblokowane zombie: <strong>${state.unlocked}/${ZOMBIES.length}</strong></div>`;}
 function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach((z,i)=>{const d=document.createElement('div'); d.className='zombie-card'; d.innerHTML=`${i<state.unlocked?'🧟':'🔒'}<span>${i<state.unlocked?z:'Zablokowany'}</span>`; g.appendChild(d);});}
-document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') newGame();if(action==='hint') hint();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
+document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') newGame();if(action==='hint') hint();if(action==='scale-down'){applyScale();}if(action==='scale-up'){applyScale();}if(action==='scale-reset'){applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 

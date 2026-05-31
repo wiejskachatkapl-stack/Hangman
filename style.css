@@ -397,3 +397,83 @@ button[data-action="menu"]:active{
   .play-bg-hotspot-multi{left:7.0%;top:39.0%;width:29%;height:9%}
   .play-bg-hotspot-back{left:8.0%;top:56.5%;width:24%;height:9%}
 }
+
+
+/* v1042: automatyczne skalowanie obrazu i drogowskazów dla telefonu oraz komputera.
+   Najważniejsze: nie ma już ręcznego powiększania całego ekranu przez localStorage. */
+:root{--menu-scale:1!important}
+.menu-wrap,
+.play-start-wrap{
+  transform:none!important;
+  transform-origin:center center!important;
+}
+
+/* Strona główna — osobny drogowskaz, więc skalujemy sam drogowskaz zależnie od ekranu. */
+.menu-screen{
+  background-size:auto, auto, cover!important;
+  background-position:center center, center center, center center!important;
+}
+
+@media (orientation: landscape) and (min-width: 1000px){
+  .signpost-menu{
+    width:min(36vw,650px)!important;
+    max-height:96vh!important;
+    left:clamp(28px,3vw,70px)!important;
+    bottom:clamp(12px,2vh,32px)!important;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 999px),
+       (orientation: landscape) and (max-height: 540px){
+  .signpost-menu{
+    width:min(31vw,42vh,300px)!important;
+    max-height:94vh!important;
+    left:clamp(8px,1.4vw,18px)!important;
+    bottom:clamp(4px,1vh,10px)!important;
+  }
+}
+
+@media (orientation: portrait){
+  .signpost-menu{
+    width:min(30vh,42vw,260px)!important;
+    max-height:94vw!important;
+    left:clamp(6px,1.4vh,18px)!important;
+    bottom:clamp(4px,1vw,10px)!important;
+  }
+}
+
+/* Zakładka GRAJ — tło ma już wbudowany drogowskaz.
+   Skalujemy cały obraz do aktualnego ekranu, żeby na PC i telefonie nie rozjeżdżały się proporcje przycisków. */
+.play-menu-screen{
+  background-color:#05070c!important;
+  background-image:url('assets/img/bg_graj_integrated.png')!important;
+  background-repeat:no-repeat!important;
+  background-position:center center!important;
+  background-size:100% 100%!important;
+}
+.play-integrated-hotspots{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+}
+
+/* Pola klikalne na GRAJ dopasowane procentowo do rozciągniętego tła. */
+@media (orientation: landscape) and (min-width: 901px){
+  .play-bg-hotspot-single{left:5.4%!important;top:6.1%!important;width:25.5%!important;height:9.2%!important}
+  .play-bg-hotspot-multi{left:7.3%!important;top:29.1%!important;width:25.0%!important;height:9.0%!important}
+  .play-bg-hotspot-back{left:9.1%!important;top:51.4%!important;width:19.8%!important;height:8.8%!important}
+}
+
+@media (orientation: landscape) and (max-width: 900px),
+       (orientation: landscape) and (max-height: 540px){
+  .play-bg-hotspot-single{left:5.2%!important;top:6.0%!important;width:26.0%!important;height:9.8%!important}
+  .play-bg-hotspot-multi{left:7.0%!important;top:28.8%!important;width:25.6%!important;height:9.8%!important}
+  .play-bg-hotspot-back{left:8.8%!important;top:51.0%!important;width:20.5%!important;height:9.5%!important}
+}
+
+@media (orientation: portrait){
+  .play-bg-hotspot-single{left:5.2%!important;top:6.0%!important;width:26.0%!important;height:9.8%!important}
+  .play-bg-hotspot-multi{left:7.0%!important;top:28.8%!important;width:25.6%!important;height:9.8%!important}
+  .play-bg-hotspot-back{left:8.8%!important;top:51.0%!important;width:20.5%!important;height:9.5%!important}
+}
