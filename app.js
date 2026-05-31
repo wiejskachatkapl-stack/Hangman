@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1050';
+const VERSION = 'WEB v1051';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
@@ -36,18 +36,14 @@ function renderStats(){$('statsBox').innerHTML=`<div>Wersja: <strong>${VERSION}<
 function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach((z,i)=>{const d=document.createElement('div'); d.className='zombie-card'; d.innerHTML=`${i<state.unlocked?'🧟':'🔒'}<span>${i<state.unlocked?z:'Zablokowany'}</span>`; g.appendChild(d);});}
 
 
-// v1050: pola kliknięć na ekranie GRAJ liczone z faktycznego położenia tła COVER.
-// Dzięki temu trafiają w napisy/deski na telefonie i komputerze, także gdy tło jest przycinane.
+// v1051: pola kliknięć ustawione bezpośrednio na napisach/deskach z grafiki bg_graj_integrated.png.
+// Współrzędne są w pikselach oryginalnej grafiki 2048x1365, a funkcja niżej sama przelicza je
+// dla telefonu i komputera przy background-size: cover.
 const PLAY_BG_SIZE = { w: 2048, h: 1365 };
 const PLAY_HOTSPOTS = {
-  // v1048: przesunięte niżej, bo w przeglądarce obraz tła jest przycinany przez cover.
-  // Pola trafiają teraz w realne napisy na wbudowanym drogowskazie:
-  // GRA POJEDYNCZA / MULTIPLAYER / COFNIJ.
-  // v1050: korekta na prośbę użytkownika — przesunięcie pól aktywnych do góry:
-  // GRA POJEDYNCZA - ok. 1 cm, MULTIPLAYER - ok. 1 cm, COFNIJ - ok. 2,5 cm względem v1049.
-  single: { x: 110, y: 493, w: 560, h: 120 },
-  multi:  { x: 115, y: 714, w: 555, h: 120 },
-  back:   { x: 120, y: 859, w: 520, h: 125 }
+  single: { x: 118, y: 238, w: 540, h: 112 },  // GRA POJEDYNCZA
+  multi:  { x: 118, y: 462, w: 540, h: 112 },  // MULTIPLAYER
+  back:   { x: 128, y: 690, w: 510, h: 112 }   // COFNIJ
 };
 function placeHotspot(selector, box, rect, scale, ox, oy){
   const el = document.querySelector(selector);
