@@ -733,3 +733,120 @@ button[data-action="menu"]:active{
     max-width:none !important;
   }
 }
+
+
+/* v1057: Losowanie kategorii jak na makiecie użytkownika — duża ramka i duże graficzne przyciski */
+#screen-draw-category.draw-category-screen{
+  background:
+    linear-gradient(rgba(2,3,5,.06),rgba(2,3,5,.14)),
+    url('assets/img/bg_draw_category_v1055.png') center center/cover no-repeat !important;
+}
+
+#screen-draw-category .draw-card{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  transform:translate(-50%,-50%) !important;
+  width:min(980px,58vw) !important;
+  height:min(520px,64vh) !important;
+  min-height:0 !important;
+  padding:clamp(18px,3vh,34px) clamp(26px,3.8vw,52px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:clamp(14px,3vh,28px) !important;
+  background:rgba(5,7,10,.52) !important;
+  border:clamp(3px,.35vw,6px) solid rgba(116,75,38,.92) !important;
+  border-radius:0 !important;
+  box-shadow:0 22px 60px rgba(0,0,0,.42), inset 0 0 0 2px rgba(225,170,85,.16) !important;
+  overflow:visible !important;
+}
+
+#screen-draw-category .draw-card h1{
+  margin:0 0 clamp(2px,1.2vh,14px) !important;
+  padding:0 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(30px,3.15vw,56px) !important;
+  line-height:1 !important;
+  letter-spacing:2px !important;
+  color:#fff0c0 !important;
+  text-shadow:0 4px 6px #000,0 0 8px rgba(0,0,0,.75) !important;
+  white-space:nowrap !important;
+}
+
+#screen-draw-category .image-btn{
+  display:block !important;
+  border:0 !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 auto !important;
+  cursor:pointer !important;
+  line-height:0 !important;
+  width:min(760px,88%) !important;
+  max-width:none !important;
+  min-width:0 !important;
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+#screen-draw-category .image-btn img{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  pointer-events:none !important;
+  user-select:none !important;
+  -webkit-user-drag:none !important;
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.78)) !important;
+}
+
+#screen-draw-category .draw-img-btn{
+  width:min(760px,88%) !important;
+  max-width:none !important;
+}
+
+#screen-draw-category .draw-back-img-btn{
+  margin-top:0 !important;
+}
+
+#screen-draw-category .image-btn:active{
+  transform:translateY(2px) !important;
+}
+
+#screen-draw-category .image-btn:hover img,
+#screen-draw-category .image-btn:focus-visible img{
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.78)) brightness(1.06) !important;
+}
+
+/* Telefon w poziomie / niski ekran — ramka szeroka jak zielona ramka, przyciski duże */
+@media (orientation: landscape) and (max-width:950px), (max-height:520px){
+  #screen-draw-category .draw-card{
+    width:60vw !important;
+    height:62vh !important;
+    padding:clamp(10px,2.2vh,20px) clamp(18px,2.6vw,32px) !important;
+    gap:clamp(8px,2.3vh,18px) !important;
+  }
+  #screen-draw-category .draw-card h1{
+    font-size:clamp(24px,4vw,42px) !important;
+    margin-bottom:clamp(0px,.8vh,8px) !important;
+  }
+  #screen-draw-category .draw-img-btn{
+    width:92% !important;
+  }
+}
+
+/* Telefon trzymany pionowo — aplikacja jest obrócona; liczymy po widocznym poziomym ekranie */
+@media (orientation: portrait){
+  #screen-draw-category .draw-card{
+    width:min(62vh,92vw) !important;
+    height:min(64vw,58vh) !important;
+    padding:clamp(10px,2vw,22px) clamp(18px,3.2vh,36px) !important;
+    gap:clamp(8px,2vw,18px) !important;
+  }
+  #screen-draw-category .draw-card h1{
+    font-size:clamp(24px,4.2vh,44px) !important;
+    margin-bottom:clamp(0px,.8vw,8px) !important;
+  }
+  #screen-draw-category .draw-img-btn{
+    width:92% !important;
+  }
+}
