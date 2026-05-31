@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1055';
+const VERSION = 'WEB v1056';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},

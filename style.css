@@ -661,3 +661,75 @@ button[data-action="menu"]:active{
     linear-gradient(rgba(2,3,5,.08),rgba(2,3,5,.16)),
     url('assets/img/bg_game_guess_v1055.png') center center/cover no-repeat !important;
 }
+
+
+/* v1056: graficzne przyciski LOSUJ i COFNIJ na ekranie losowania kategorii */
+.draw-card{
+  width:min(960px,62vw) !important;
+  min-height:330px !important;
+  padding:34px 48px 38px !important;
+  gap:16px !important;
+}
+.draw-card .wood-btn.draw-btn{display:none !important}
+.image-btn{
+  display:block;
+  border:0;
+  background:transparent;
+  padding:0;
+  margin:0 auto;
+  cursor:pointer;
+  line-height:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.image-btn img{
+  display:block;
+  width:100%;
+  height:auto;
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-drag:none;
+  filter:drop-shadow(0 8px 12px rgba(0,0,0,.75));
+}
+.image-btn:hover img,.image-btn:focus-visible img{filter:drop-shadow(0 8px 12px rgba(0,0,0,.75)) brightness(1.06)}
+.image-btn:focus-visible{outline:none}
+.image-btn:active{transform:translateY(2px)}
+.draw-img-btn{
+  width:clamp(300px,32vw,560px);
+  max-width:72vw;
+}
+.draw-back-img-btn{margin-top:6px}
+
+@media (orientation: landscape) and (max-width:950px), (max-height:520px){
+  .draw-card{
+    width:min(940px,68vw) !important;
+    min-height:300px !important;
+    padding:24px 30px !important;
+    gap:10px !important;
+  }
+  .draw-card h1{
+    font-size:clamp(30px,4.4vw,48px) !important;
+    margin-bottom:10px !important;
+  }
+  .draw-img-btn{
+    width:clamp(330px,48vw,620px) !important;
+    max-width:78vw !important;
+  }
+}
+
+@media (orientation: portrait){
+  .draw-card{
+    width:min(92vw,82vh) !important;
+    min-height:auto !important;
+    padding:22px 22px 26px !important;
+    gap:12px !important;
+  }
+  .draw-card h1{
+    font-size:clamp(28px,7vw,48px) !important;
+    margin-bottom:8px !important;
+    text-align:center;
+  }
+  .draw-img-btn{
+    width:min(78vw,64vh) !important;
+    max-width:none !important;
+  }
+}
