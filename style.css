@@ -1104,3 +1104,297 @@ button[data-action="menu"]:active{
   #screen-game .key{min-height:42px !important;font-size:clamp(20px,4vw,30px) !important;border-width:2px !important;}
   #screen-game .game-actions{left:42vh !important;bottom:1vw !important;width:32vh !important;}
 }
+
+
+/* v1061: plansza rozgrywki - nowy układ po lewej, nowe tło z pustym miejscem pod zombiaka.
+   Nie zmienia ekranu Losowanie kategorii. */
+#screen-game.game-screen{
+  background:
+    linear-gradient(rgba(2,3,5,.02),rgba(2,3,5,.04)),
+    url('assets/img/bg_game_single.png') center center/cover no-repeat !important;
+}
+
+#screen-game .game-top{
+  position:absolute !important;
+  left:1.6vw !important;
+  right:6.2vw !important;
+  top:2.2vh !important;
+  height:clamp(58px,7vh,86px) !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
+  z-index:70 !important;
+}
+#screen-game .hud-line{
+  flex:1 1 auto !important;
+  width:auto !important;
+  max-width:none !important;
+  height:100% !important;
+  padding:clamp(10px,1.45vh,18px) clamp(24px,2.2vw,40px) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border:3px solid rgba(112,73,36,.86) !important;
+  border-radius:5px !important;
+  background:linear-gradient(180deg,rgba(91,49,20,.96),rgba(42,20,7,.98)) !important;
+  box-shadow:0 8px 18px rgba(0,0,0,.56), inset 0 2px 0 rgba(255,219,144,.10) !important;
+  color:#fff2d2 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(30px,2.45vw,46px) !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  text-shadow:0 3px 4px #000 !important;
+  white-space:nowrap !important;
+}
+#screen-game .hud-line strong{color:#fff9e8 !important}
+#screen-game .game-menu-btn{
+  position:static !important;
+  flex:0 0 auto !important;
+  width:clamp(116px,9vw,170px) !important;
+  height:clamp(50px,6.5vh,78px) !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  z-index:72 !important;
+}
+
+#screen-game .game-layout{
+  position:absolute !important;
+  left:0 !important;
+  right:0 !important;
+  top:0 !important;
+  bottom:0 !important;
+  display:block !important;
+  pointer-events:none;
+}
+#screen-game .hang-area{
+  display:none !important;
+}
+#screen-game .play-area{
+  position:absolute !important;
+  left:1.6vw !important;
+  top:13.0vh !important;
+  width:min(61vw,1010px) !important;
+  height:83vh !important;
+  min-height:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  display:block !important;
+  pointer-events:none;
+}
+#screen-game .play-area > *{pointer-events:auto}
+
+#screen-game .game-category-line{
+  position:absolute !important;
+  left:0 !important;
+  top:0 !important;
+  width:min(520px,31vw) !important;
+  min-height:clamp(48px,6vh,70px) !important;
+  margin:0 !important;
+  padding:clamp(8px,1.2vh,14px) clamp(18px,1.6vw,28px) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  border:3px solid rgba(68,61,50,.82) !important;
+  border-radius:5px !important;
+  background:linear-gradient(180deg,rgba(17,17,16,.96),rgba(5,5,5,.90)) !important;
+  color:#ffe3a0 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(24px,2.05vw,38px) !important;
+  font-weight:900 !important;
+  text-align:left !important;
+  text-shadow:0 3px 4px #000 !important;
+  z-index:5 !important;
+}
+
+#screen-game .word{
+  position:absolute !important;
+  left:0 !important;
+  top:clamp(66px,7.8vh,96px) !important;
+  width:min(900px,53vw) !important;
+  min-height:clamp(105px,14vh,160px) !important;
+  margin:0 !important;
+  padding:clamp(18px,3vh,34px) clamp(18px,2vw,34px) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:clamp(6px,.8vw,14px) !important;
+  border:4px solid rgba(83,49,22,.92) !important;
+  border-radius:4px !important;
+  background:radial-gradient(circle at center,rgba(255,231,181,.95),rgba(206,158,96,.91)) !important;
+  box-shadow:inset 0 0 32px rgba(89,45,11,.42),0 12px 28px rgba(0,0,0,.46) !important;
+  z-index:4 !important;
+}
+#screen-game .letter-box{
+  min-width:clamp(25px,2.05vw,42px) !important;
+  height:clamp(36px,5vh,60px) !important;
+  line-height:clamp(36px,5vh,60px) !important;
+  padding:0 !important;
+  border-bottom:0 !important;
+  color:#0e0c08 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(27px,2.4vw,46px) !important;
+  font-weight:900 !important;
+  text-shadow:0 1px 1px rgba(255,245,210,.65) !important;
+}
+#screen-game .letter-box:not(.space):empty::after{content:'—';color:#080705;}
+
+#screen-game .message{
+  display:block !important;
+  position:absolute !important;
+  left:0 !important;
+  top:clamp(190px,23vh,260px) !important;
+  width:min(700px,41vw) !important;
+  min-height:clamp(48px,6.5vh,70px) !important;
+  margin:0 !important;
+  padding:clamp(8px,1.1vh,14px) clamp(18px,1.5vw,26px) !important;
+  border:3px solid rgba(65,55,45,.78) !important;
+  border-radius:6px !important;
+  background:rgba(0,0,0,.70) !important;
+  color:#f6dfad !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(20px,1.7vw,32px) !important;
+  font-weight:900 !important;
+  text-align:center !important;
+  text-shadow:0 3px 4px #000 !important;
+  z-index:5 !important;
+}
+
+#screen-game .old-style-lifelines{
+  position:absolute !important;
+  left:0 !important;
+  top:clamp(270px,34vh,370px) !important;
+  width:auto !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:clamp(12px,1.2vw,22px) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  z-index:6 !important;
+}
+#screen-game .lifelines-label{
+  color:#ffe3a0 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(26px,2.25vw,42px) !important;
+  font-weight:900 !important;
+  text-shadow:0 3px 4px #000 !important;
+  white-space:nowrap !important;
+  margin-right:8px !important;
+}
+#screen-game .old-style-lifelines .life{
+  width:clamp(62px,5.2vw,98px) !important;
+  height:clamp(62px,5.2vw,98px) !important;
+  min-width:clamp(62px,5.2vw,98px) !important;
+  border:0 !important;
+  border-radius:50% !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  box-shadow:none !important;
+  cursor:pointer !important;
+}
+#screen-game .old-style-lifelines .life img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  display:block !important;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.76)) !important;
+  pointer-events:none !important;
+}
+#screen-game .old-style-lifelines .life:not(.life-used):hover{transform:scale(1.06)}
+#screen-game .old-style-lifelines .life.life-used,
+#screen-game .old-style-lifelines .life:disabled{
+  opacity:.28 !important;
+  filter:grayscale(1) brightness(.65) !important;
+  cursor:default !important;
+}
+
+#screen-game .keyboard{
+  position:absolute !important;
+  left:0 !important;
+  top:clamp(390px,49vh,520px) !important;
+  width:min(1000px,58vw) !important;
+  display:grid !important;
+  grid-template-columns:repeat(12, minmax(0,1fr)) !important;
+  gap:clamp(7px,.65vw,12px) !important;
+  z-index:7 !important;
+}
+#screen-game .key{
+  min-width:0 !important;
+  height:clamp(52px,6.3vh,72px) !important;
+  min-height:0 !important;
+  padding:0 !important;
+  border:3px solid rgba(105,93,78,.72) !important;
+  border-radius:8px !important;
+  background:linear-gradient(180deg,rgba(55,55,51,.96),rgba(14,14,13,.98)) !important;
+  color:#ead8b6 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(26px,2.05vw,38px) !important;
+  font-weight:900 !important;
+  text-shadow:0 2px 3px #000 !important;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.12),0 5px 0 rgba(0,0,0,.56),0 9px 16px rgba(0,0,0,.42) !important;
+}
+#screen-game .key.good{background:linear-gradient(180deg,#356c3b,#102f16) !important;color:#fff4d4 !important;}
+#screen-game .key.bad{background:linear-gradient(180deg,#743737,#2a0d0d) !important;color:#fff4d4 !important;}
+
+#screen-game .game-actions{
+  display:block !important;
+  position:absolute !important;
+  left:0 !important;
+  top:clamp(590px,78vh,760px) !important;
+  width:min(560px,34vw) !important;
+  z-index:8 !important;
+}
+#screen-game .game-actions .wood-btn{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:clamp(10px,1.5vh,18px) 18px !important;
+  border-radius:8px !important;
+  font-size:clamp(24px,2.2vw,40px) !important;
+}
+
+@media (orientation: landscape) and (max-width:950px), (max-height:520px){
+  #screen-game .game-top{left:1.4vw !important;right:4.8vw !important;top:1.6vh !important;height:50px !important;gap:9px !important;}
+  #screen-game .hud-line{font-size:clamp(20px,2.9vw,31px) !important;padding:7px 12px !important;}
+  #screen-game .game-menu-btn{width:96px !important;height:40px !important;}
+  #screen-game .play-area{left:1.5vw !important;top:13vh !important;width:63vw !important;height:84vh !important;}
+  #screen-game .game-category-line{width:32vw !important;font-size:clamp(19px,3vw,28px) !important;min-height:42px !important;padding:7px 10px !important;}
+  #screen-game .word{top:48px !important;width:54vw !important;min-height:86px !important;padding:10px 14px !important;}
+  #screen-game .letter-box{min-width:19px !important;height:31px !important;line-height:31px !important;font-size:26px !important;}
+  #screen-game .message{top:145px !important;width:42vw !important;min-height:38px !important;font-size:clamp(16px,2.4vw,24px) !important;padding:6px 10px !important;}
+  #screen-game .old-style-lifelines{top:202px !important;gap:8px !important;}
+  #screen-game .lifelines-label{font-size:clamp(18px,2.8vw,27px) !important;margin-right:4px !important;}
+  #screen-game .old-style-lifelines .life{width:48px !important;height:48px !important;min-width:48px !important;}
+  #screen-game .keyboard{top:282px !important;width:61vw !important;gap:5px !important;grid-template-columns:repeat(12,minmax(0,1fr)) !important;}
+  #screen-game .key{height:37px !important;font-size:clamp(18px,2.8vw,27px) !important;border-width:2px !important;}
+  #screen-game .game-actions{top:auto !important;bottom:1.4vh !important;width:31vw !important;}
+  #screen-game .game-actions .wood-btn{font-size:clamp(20px,3vw,30px) !important;padding:8px 12px !important;}
+}
+
+@media (orientation: portrait){
+  #screen-game .game-top{left:1.4vh !important;right:4.8vh !important;top:1.6vw !important;height:50px !important;gap:9px !important;}
+  #screen-game .hud-line{font-size:clamp(20px,4vw,31px) !important;padding:7px 12px !important;}
+  #screen-game .game-menu-btn{width:96px !important;height:40px !important;}
+  #screen-game .play-area{left:1.5vh !important;top:13vw !important;width:63vh !important;height:84vw !important;}
+  #screen-game .game-category-line{width:32vh !important;font-size:clamp(19px,4vw,28px) !important;min-height:42px !important;padding:7px 10px !important;}
+  #screen-game .word{top:48px !important;width:54vh !important;min-height:86px !important;padding:10px 14px !important;}
+  #screen-game .letter-box{min-width:19px !important;height:31px !important;line-height:31px !important;font-size:26px !important;}
+  #screen-game .message{top:145px !important;width:42vh !important;min-height:38px !important;font-size:clamp(16px,3.2vw,24px) !important;padding:6px 10px !important;}
+  #screen-game .old-style-lifelines{top:202px !important;gap:8px !important;}
+  #screen-game .lifelines-label{font-size:clamp(18px,3.8vw,27px) !important;margin-right:4px !important;}
+  #screen-game .old-style-lifelines .life{width:48px !important;height:48px !important;min-width:48px !important;}
+  #screen-game .keyboard{top:282px !important;width:61vh !important;gap:5px !important;grid-template-columns:repeat(12,minmax(0,1fr)) !important;}
+  #screen-game .key{height:37px !important;font-size:clamp(18px,3.8vw,27px) !important;border-width:2px !important;}
+  #screen-game .game-actions{top:auto !important;bottom:1.4vw !important;width:31vh !important;}
+  #screen-game .game-actions .wood-btn{font-size:clamp(20px,4vw,30px) !important;padding:8px 12px !important;}
+}
