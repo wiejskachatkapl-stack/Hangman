@@ -303,3 +303,33 @@ button[data-action="menu"]:active{
     width:clamp(440px,33vw,650px) !important;
   }
 }
+
+/* v1040: korekta strony głównej na telefonie.
+   Na telefonie drogowskaz główny był za duży i wychodził poza górę ekranu.
+   Zmniejszamy tylko ekran główny na telefonie, GRAJ zostaje po poprawce v1039. */
+
+/* Telefon w poziomie / PWA na małej wysokości */
+@media (orientation: landscape) and (max-width: 950px),
+       (orientation: landscape) and (max-height: 520px) {
+  .signpost-menu{
+    width:min(25vw, 35vh, 245px) !important;
+    left:clamp(8px,1.4vw,18px) !important;
+    bottom:clamp(5px,1vh,12px) !important;
+  }
+}
+
+/* Telefon trzymany pionowo — gra jest obrócona do poziomu */
+@media (orientation: portrait) {
+  .signpost-menu{
+    width:min(30vh, 42vw, 260px) !important;
+    left:clamp(6px,1.4vh,18px) !important;
+    bottom:clamp(4px,1vw,10px) !important;
+  }
+}
+
+/* Komputer nadal ma większy drogowskaz */
+@media (orientation: landscape) and (min-width: 1200px) and (min-height: 650px) {
+  .signpost-menu{
+    width:clamp(440px,33vw,650px) !important;
+  }
+}
