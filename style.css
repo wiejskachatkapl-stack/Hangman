@@ -431,3 +431,25 @@ button[data-action="menu"]:active{
   transform:none !important;
   filter:none !important;
 }
+
+
+/* v1048 — GRAJ: Cofnij nie używa już data-action=menu, więc nie może dostać grafiki MENU.
+   Pola kliknięć ustawiane są wyłącznie z app.js według faktycznie widocznego tła. */
+.play-menu-screen .play-bg-hotspot,
+.play-menu-screen .play-bg-hotspot[data-action="play-back"]{
+  position:absolute !important;
+  display:block !important;
+  background:transparent !important;
+  background-image:none !important;
+  border:0 !important;
+  box-shadow:none !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  color:transparent !important;
+  font-size:0 !important;
+  text-indent:-9999px !important;
+  overflow:hidden !important;
+  z-index:999 !important;
+}

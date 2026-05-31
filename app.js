@@ -40,9 +40,12 @@ function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach
 // Dzięki temu trafiają w napisy/deski na telefonie i komputerze, także gdy tło jest przycinane.
 const PLAY_BG_SIZE = { w: 2048, h: 1365 };
 const PLAY_HOTSPOTS = {
-  single: { x: 105, y: 238, w: 560, h: 118 },
-  multi:  { x: 112, y: 480, w: 550, h: 118 },
-  back:   { x: 108, y: 715, w: 535, h: 120 }
+  // v1048: przesunięte niżej, bo w przeglądarce obraz tła jest przycinany przez cover.
+  // Pola trafiają teraz w realne napisy na wbudowanym drogowskazie:
+  // GRA POJEDYNCZA / MULTIPLAYER / COFNIJ.
+  single: { x: 110, y: 455, w: 560, h: 120 },
+  multi:  { x: 115, y: 695, w: 555, h: 120 },
+  back:   { x: 120, y: 935, w: 520, h: 125 }
 };
 function placeHotspot(selector, box, rect, scale, ox, oy){
   const el = document.querySelector(selector);
@@ -68,9 +71,14 @@ function updatePlayHotspots(){
 }
 window.addEventListener('resize', updatePlayHotspots);
 window.addEventListener('orientationchange', () => setTimeout(updatePlayHotspots, 150));
-window.addEventListener('load', updatePlayHotspots);
+window.addEventListener('load', () => {
+  updatePlayHotspots();
+  setTimeout(updatePlayHotspots, 100);
+  setTimeout(updatePlayHotspots, 300);
+  setTimeout(updatePlayHotspots, 800);
+});
 
-document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') newGame();if(action==='hint') hint();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
+document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') newGame();if(action==='hint') hint();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 
