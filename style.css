@@ -76,7 +76,11 @@ h1{text-align:center;letter-spacing:2px;margin:0 0 10px;color:var(--gold);font-s
 
 
 
-button[data-action="menu"]{
+/* Przyciski MENU tylko na podstronach tekstowych.
+   Ważne: nie stylujemy globalnie button[data-action="menu"],
+   bo Cofnij na zintegrowanym drogowskazie jest przezroczystym hotspotem. */
+.sub-screen .wood-btn[data-action="menu"],
+.about-panel .wood-btn[data-action="menu"]{
   border:0 !important;
   background:url('assets/img/btn_menu_zombie_board.png') center/100% 100% no-repeat !important;
   background-color:transparent !important;
@@ -94,36 +98,27 @@ button[data-action="menu"]{
   min-height:44px;
   align-self:center;
 }
-button[data-action="menu"]:hover,
-button[data-action="menu"]:focus-visible{
+.sub-screen .wood-btn[data-action="menu"]:hover,
+.sub-screen .wood-btn[data-action="menu"]:focus-visible,
+.about-panel .wood-btn[data-action="menu"]:hover,
+.about-panel .wood-btn[data-action="menu"]:focus-visible{
   outline:none;
   box-shadow:none !important;
   filter:brightness(1.04);
   transform:translateY(-1px);
 }
-button[data-action="menu"]:active{
+.sub-screen .wood-btn[data-action="menu"]:active,
+.about-panel .wood-btn[data-action="menu"]:active{
   transform:translateY(1px);
   filter:brightness(.98);
 }
-.game-top .small-wood[data-action="menu"]{
-  flex:0 0 auto;
-  width:min(126px, 14vw);
-  min-width:98px;
-  min-height:28px;
-}
-.play-menu-screen .wood-btn.small[data-action="menu"],
-.sub-screen .wood-btn[data-action="menu"],
-.game-screen .wood-btn[data-action="menu"]{
-  width:min(220px, 54vw);
-  min-height:44px;
-}
 @media(max-width:900px){
-  button[data-action="menu"]{width:min(190px, 62vw);min-height:38px}
-  .game-top .small-wood[data-action="menu"]{width:min(112px, 20vw);min-width:84px;min-height:24px}
+  .sub-screen .wood-btn[data-action="menu"],
+  .about-panel .wood-btn[data-action="menu"]{width:min(190px, 62vw);min-height:38px}
 }
 @media(max-width:680px){
-  button[data-action="menu"]{width:min(170px, 66vw);min-height:34px}
-  .game-top .small-wood[data-action="menu"]{width:min(100px, 24vw);min-width:76px;min-height:22px}
+  .sub-screen .wood-btn[data-action="menu"],
+  .about-panel .wood-btn[data-action="menu"]{width:min(170px, 66vw);min-height:34px}
 }
 
 @media(max-width:900px){.about-panel{width:calc(100vw - 10px);height:calc(100vh - 8px);max-height:calc(100vh - 8px);padding:10px 12px 8px}.about-copy{max-width:100%;padding-right:0}.about-copy p{font-size:clamp(11px,1.9vw,15px);line-height:1.18}.about-copy .about-lead{font-size:clamp(11px,1.9vw,15px)}.about-copy .about-finale{font-size:clamp(11px,1.9vw,15px)}}
@@ -398,129 +393,34 @@ button[data-action="menu"]:active{
   .play-bg-hotspot-back{left:8.0%;top:56.5%;width:24%;height:9%}
 }
 
-
-/* v1042: automatyczne skalowanie obrazu i drogowskazów dla telefonu oraz komputera.
-   Najważniejsze: nie ma już ręcznego powiększania całego ekranu przez localStorage. */
-:root{--menu-scale:1!important}
-.menu-wrap,
-.play-start-wrap{
-  transform:none!important;
-  transform-origin:center center!important;
-}
-
-/* Strona główna — osobny drogowskaz, więc skalujemy sam drogowskaz zależnie od ekranu. */
-.menu-screen{
-  background-size:auto, auto, cover!important;
-  background-position:center center, center center, center center!important;
-}
-
-@media (orientation: landscape) and (min-width: 1000px){
-  .signpost-menu{
-    width:min(36vw,650px)!important;
-    max-height:96vh!important;
-    left:clamp(28px,3vw,70px)!important;
-    bottom:clamp(12px,2vh,32px)!important;
-  }
-}
-
-@media (orientation: landscape) and (max-width: 999px),
-       (orientation: landscape) and (max-height: 540px){
-  .signpost-menu{
-    width:min(31vw,42vh,300px)!important;
-    max-height:94vh!important;
-    left:clamp(8px,1.4vw,18px)!important;
-    bottom:clamp(4px,1vh,10px)!important;
-  }
-}
-
-@media (orientation: portrait){
-  .signpost-menu{
-    width:min(30vh,42vw,260px)!important;
-    max-height:94vw!important;
-    left:clamp(6px,1.4vh,18px)!important;
-    bottom:clamp(4px,1vw,10px)!important;
-  }
-}
-
-/* Zakładka GRAJ — tło ma już wbudowany drogowskaz.
-   Skalujemy cały obraz do aktualnego ekranu, żeby na PC i telefonie nie rozjeżdżały się proporcje przycisków. */
-.play-menu-screen{
-  background-color:#05070c!important;
-  background-image:url('assets/img/bg_graj_integrated.png')!important;
-  background-repeat:no-repeat!important;
-  background-position:center center!important;
-  background-size:100% 100%!important;
-}
+/* v1045: dokładne kliknięcia zakładki GRAJ według realnej grafiki bg_graj_integrated.png.
+   Warstwa ma zawsze takie same proporcje jak tło (2048x1365), więc działa na komputerze i telefonie. */
 .play-integrated-hotspots{
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
+  width:max(100vw, calc(100vh * 2048 / 1365));
+  height:max(100vh, calc(100vw * 1365 / 2048));
+  left:50%;
+  top:50%;
+  right:auto;
+  bottom:auto;
+  transform:translate(-50%,-50%);
+  position:absolute;
+  z-index:10;
+  pointer-events:none;
 }
-
-/* Pola klikalne na GRAJ dopasowane procentowo do rozciągniętego tła. */
-@media (orientation: landscape) and (min-width: 901px){
-  .play-bg-hotspot-single{left:5.4%!important;top:6.1%!important;width:25.5%!important;height:9.2%!important}
-  .play-bg-hotspot-multi{left:7.3%!important;top:29.1%!important;width:25.0%!important;height:9.0%!important}
-  .play-bg-hotspot-back{left:9.1%!important;top:51.4%!important;width:19.8%!important;height:8.8%!important}
+.play-bg-hotspot{
+  background:rgba(255,255,255,0) !important;
+  box-shadow:none !important;
+  border:0 !important;
+  border-radius:12px;
+  color:transparent !important;
+  font-size:0 !important;
+  text-indent:-9999px;
+  overflow:hidden;
+  pointer-events:auto;
 }
+.play-bg-hotspot-single{left:5.7% !important;top:17.2% !important;width:26.2% !important;height:7.2% !important;}
+.play-bg-hotspot-multi{left:6.0% !important;top:33.4% !important;width:26.2% !important;height:7.4% !important;}
+.play-bg-hotspot-back{left:5.5% !important;top:49.7% !important;width:26.2% !important;height:7.5% !important;}
 
-@media (orientation: landscape) and (max-width: 900px),
-       (orientation: landscape) and (max-height: 540px){
-  .play-bg-hotspot-single{left:5.2%!important;top:6.0%!important;width:26.0%!important;height:9.8%!important}
-  .play-bg-hotspot-multi{left:7.0%!important;top:28.8%!important;width:25.6%!important;height:9.8%!important}
-  .play-bg-hotspot-back{left:8.8%!important;top:51.0%!important;width:20.5%!important;height:9.5%!important}
-}
-
-@media (orientation: portrait){
-  .play-bg-hotspot-single{left:5.2%!important;top:6.0%!important;width:26.0%!important;height:9.8%!important}
-  .play-bg-hotspot-multi{left:7.0%!important;top:28.8%!important;width:25.6%!important;height:9.8%!important}
-  .play-bg-hotspot-back{left:8.8%!important;top:51.0%!important;width:20.5%!important;height:9.5%!important}
-}
-
-
-/* v1044: ekran GRAJ — przycisk MENU nie może nakładać się na pole COFNIJ.
-   Cofnij zostaje aktywnym, przezroczystym obszarem kliknięcia dopasowanym do napisu. */
-.play-menu-screen .play-bg-hotspot,
-.play-menu-screen .play-bg-hotspot-back,
-.play-menu-screen button.play-bg-hotspot[data-action="menu"]{
-  background:none!important;
-  background-image:none!important;
-  background-color:transparent!important;
-  box-shadow:none!important;
-  border:0!important;
-  padding:0!important;
-  margin:0!important;
-  color:transparent!important;
-  font-size:0!important;
-  line-height:0!important;
-  text-indent:-9999px!important;
-  overflow:hidden!important;
-  min-width:0!important;
-  min-height:0!important;
-  max-width:none!important;
-  max-height:none!important;
-  aspect-ratio:auto!important;
-  border-radius:10px!important;
-}
-
-/* Obszary kliknięcia ustawione dokładniej na same napisy/deski:
-   GRA POJEDYNCZA, MULTIPLAYER, COFNIJ. */
-@media (orientation: landscape) and (min-width: 901px){
-  .play-bg-hotspot-single{left:7.7%!important;top:14.0%!important;width:24.2%!important;height:6.7%!important}
-  .play-bg-hotspot-multi{left:9.2%!important;top:36.7%!important;width:22.8%!important;height:6.9%!important}
-  .play-bg-hotspot-back{left:9.9%!important;top:58.8%!important;width:20.4%!important;height:7.2%!important}
-}
-
-@media (orientation: landscape) and (max-width: 900px),
-       (orientation: landscape) and (max-height: 540px){
-  .play-bg-hotspot-single{left:7.4%!important;top:13.6%!important;width:24.8%!important;height:7.2%!important}
-  .play-bg-hotspot-multi{left:8.8%!important;top:36.2%!important;width:23.6%!important;height:7.3%!important}
-  .play-bg-hotspot-back{left:9.5%!important;top:58.0%!important;width:21.0%!important;height:7.8%!important}
-}
-
-@media (orientation: portrait){
-  .play-bg-hotspot-single{left:7.4%!important;top:13.6%!important;width:24.8%!important;height:7.2%!important}
-  .play-bg-hotspot-multi{left:8.8%!important;top:36.2%!important;width:23.6%!important;height:7.3%!important}
-  .play-bg-hotspot-back{left:9.5%!important;top:58.0%!important;width:21.0%!important;height:7.8%!important}
-}
+/* Na ekranie samej gry nie pokazujemy osobnego przycisku MENU. */
+.game-top .small-wood[data-action="menu"]{display:none !important;}
