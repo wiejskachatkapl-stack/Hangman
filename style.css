@@ -160,44 +160,6 @@ button[data-action="menu"]:active{
 
 
 
-/* v1037: podstrona GRAJ jako jeden kompletny drogowskaz z aktywnymi polami */
-.play-signpost-full{
-  left:clamp(22px,2.4vw,54px) !important;
-  bottom:clamp(12px,2vh,28px) !important;
-  width:clamp(250px,26vw,430px) !important;
-  height:auto !important;
-  aspect-ratio:704/977;
-  z-index:4;
-  filter:drop-shadow(0 18px 26px rgba(0,0,0,.78));
-}
-.play-signpost-image{
-  display:block;
-  width:100%;
-  height:auto;
-  user-select:none;
-  -webkit-user-drag:none;
-  pointer-events:none;
-}
-.play-hotspot{
-  position:absolute;
-  left:15%;
-  width:75%;
-  height:8.8%;
-  border:0;
-  padding:0;
-  margin:0;
-  background:transparent;
-  cursor:pointer;
-  z-index:8;
-}
-.play-hotspot:focus-visible{
-  outline:2px solid rgba(255,225,150,.5);
-  border-radius:12px;
-}
-.play-hotspot-single{top:21.8%}
-.play-hotspot-multi{top:44.0%}
-.play-hotspot-back{top:63.0%;left:22%;width:61%;height:8.4%}
-
 @media(max-width:1100px){
   .play-signpost-full{width:clamp(230px,28vw,380px) !important}
 }
@@ -212,5 +174,132 @@ button[data-action="menu"]:active{
     left:clamp(8px,1.8vh,30px) !important;
     bottom:clamp(6px,1.2vw,18px) !important;
     width:clamp(210px,34vh,420px) !important;
+  }
+}
+
+
+/* v1038: osobne proporcje drogowskazów dla komputera i telefonu */
+
+/* KOMPUTER / szeroki ekran */
+@media (orientation: landscape) and (min-width: 901px) {
+  .signpost-menu{
+    width:clamp(420px,32vw,620px) !important;
+    left:clamp(32px,3vw,70px) !important;
+    bottom:clamp(18px,2.4vh,36px) !important;
+  }
+
+  .play-signpost-full{
+    left:clamp(34px,3vw,70px) !important;
+    bottom:clamp(14px,2.2vh,34px) !important;
+    width:clamp(350px,28vw,520px) !important;
+    height:auto !important;
+    aspect-ratio:704/977;
+    z-index:4;
+    filter:drop-shadow(0 18px 26px rgba(0,0,0,.78));
+  }
+}
+
+/* TABLET / mniejszy poziomy ekran */
+@media (orientation: landscape) and (max-width: 900px) {
+  .signpost-menu{
+    width:clamp(250px,24vw,330px) !important;
+    left:clamp(14px,2vw,28px) !important;
+    bottom:clamp(8px,1.4vh,16px) !important;
+  }
+
+  .play-signpost-full{
+    left:clamp(12px,1.8vw,26px) !important;
+    bottom:clamp(6px,1.2vh,14px) !important;
+    width:clamp(185px,22vw,285px) !important;
+    height:auto !important;
+    aspect-ratio:704/977;
+    z-index:4;
+    filter:drop-shadow(0 14px 20px rgba(0,0,0,.76));
+  }
+}
+
+/* TELEFON trzymany pionowo — gra jest obrócona do poziomu */
+@media (orientation: portrait) {
+  .signpost-menu{
+    width:clamp(190px,30vh,330px) !important;
+    left:clamp(8px,2vh,26px) !important;
+    bottom:clamp(5px,1.4vw,15px) !important;
+  }
+
+  .play-signpost-full{
+    left:clamp(8px,1.8vh,22px) !important;
+    bottom:clamp(4px,1vw,10px) !important;
+    width:clamp(150px,24vh,260px) !important;
+    max-height:92vw !important;
+    height:auto !important;
+    aspect-ratio:704/977;
+    z-index:4;
+    filter:drop-shadow(0 12px 18px rgba(0,0,0,.75));
+  }
+}
+
+.play-signpost-image{
+  display:block;
+  width:100%;
+  height:auto;
+  user-select:none;
+  -webkit-user-drag:none;
+  pointer-events:none;
+}
+
+.play-hotspot{
+  position:absolute;
+  left:15%;
+  width:75%;
+  height:8.8%;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  cursor:pointer;
+  z-index:8;
+}
+
+.play-hotspot:focus-visible{
+  outline:2px solid rgba(255,225,150,.5);
+  border-radius:12px;
+}
+
+.play-hotspot-single{top:21.8%}
+.play-hotspot-multi{top:44.0%}
+.play-hotspot-back{top:63.0%;left:22%;width:61%;height:8.4%}
+
+/* v1039: korekta telefonu — drogowskaz GRAJ był za duży i wychodził poza ekran */
+
+/* Telefon w poziomie lub PWA po obrocie — zmniejszamy tylko zakładkę GRAJ */
+@media (orientation: landscape) and (max-width: 950px), 
+       (orientation: landscape) and (max-height: 520px) {
+  .play-signpost-full{
+    width:min(28vw, 30vh, 230px) !important;
+    left:clamp(10px,1.6vw,22px) !important;
+    bottom:clamp(6px,1.2vh,14px) !important;
+    height:auto !important;
+    max-height:88vh !important;
+  }
+}
+
+/* Telefon trzymany pionowo — gra jest obrócona, więc pilnujemy szerokości po obrocie */
+@media (orientation: portrait) {
+  .play-signpost-full{
+    width:min(27vh, 38vw, 220px) !important;
+    left:clamp(6px,1.4vh,18px) !important;
+    bottom:clamp(4px,.9vw,10px) !important;
+    height:auto !important;
+    max-height:86vw !important;
+  }
+}
+
+/* Komputer nadal ma większy drogowskaz */
+@media (orientation: landscape) and (min-width: 1200px) and (min-height: 650px) {
+  .play-signpost-full{
+    width:clamp(390px,30vw,560px) !important;
+  }
+  .signpost-menu{
+    width:clamp(440px,33vw,650px) !important;
   }
 }

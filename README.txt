@@ -1,10 +1,9 @@
-ZOMBIE HANGMAN WEB v1037
+ZOMBIE HANGMAN WEB v1039
 
 Najważniejsze zmiany:
-- w zakładce GRAJ zamiast osobnych małych przycisków wstawiono jeden kompletny drogowskaz: assets/ui/menu/btn_drogowskaz_graj.png,
-- podpięto aktywne pola:
-  GRA POJEDYNCZA -> start gry pojedynczej,
-  MULTIPLAYER -> komunikat/ekran multiplayer,
-  COFNIJ -> powrót do menu głównego,
-- dopasowano rozmiar drogowskazu do tła strony,
-- zmiana dotyczy tylko zakładki GRAJ.
+- poprawiono responsywność zakładki GRAJ na telefonie,
+- drogowskaz GRAJ został wyraźnie zmniejszony na telefonie, żeby nie wychodził poza ekran,
+- strona główna na telefonie pozostaje bez zmian,
+- na komputerze drogowskazy nadal są większe.
+
+Zmiana dotyczy głównie pliku style.css.
