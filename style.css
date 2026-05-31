@@ -333,3 +333,67 @@ button[data-action="menu"]:active{
     width:clamp(440px,33vw,650px) !important;
   }
 }
+
+/* v1041: zakładka GRAJ z nowym tłem użytkownika i wbudowanym drogowskazem */
+.play-menu-screen{
+  background-color:#05070c !important;
+  background-image:
+    linear-gradient(rgba(2,4,8,.02),rgba(2,4,8,.08)),
+    url('assets/img/bg_graj_integrated.png') !important;
+  background-position:center center, center center !important;
+  background-repeat:no-repeat, no-repeat !important;
+  background-size:auto, cover !important;
+}
+
+.play-start-wrap{
+  position:absolute;
+  inset:0;
+  transform:none !important;
+}
+
+.play-integrated-hotspots{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  pointer-events:none;
+}
+
+/* Przezroczyste pola klikalne na tablicach w tle GRAJ.
+   Dopasowane do grafiki 16:9 z drogowskazem po lewej. */
+.play-bg-hotspot{
+  position:absolute;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  cursor:pointer;
+  pointer-events:auto;
+  z-index:12;
+}
+
+.play-bg-hotspot:focus-visible{
+  outline:2px solid rgba(255,225,150,.55);
+  border-radius:10px;
+}
+
+/* komputer / szeroki ekran */
+@media (orientation: landscape) and (min-width: 901px) {
+  .play-bg-hotspot-single{left:6.5%;top:18.5%;width:29%;height:8.5%}
+  .play-bg-hotspot-multi{left:7.5%;top:39.5%;width:28%;height:8.5%}
+  .play-bg-hotspot-back{left:8.5%;top:57.0%;width:23%;height:8.5%}
+}
+
+/* telefon w poziomie / niski ekran */
+@media (orientation: landscape) and (max-width: 900px),
+       (orientation: landscape) and (max-height: 520px) {
+  .play-bg-hotspot-single{left:6.0%;top:18.0%;width:29.5%;height:9%}
+  .play-bg-hotspot-multi{left:7.0%;top:39.0%;width:28.5%;height:9%}
+  .play-bg-hotspot-back{left:8.0%;top:56.5%;width:24%;height:9%}
+}
+
+/* telefon trzymany pionowo — ekran gry jest obracany przez CSS */
+@media (orientation: portrait) {
+  .play-bg-hotspot-single{left:6.0%;top:18.0%;width:30%;height:9%}
+  .play-bg-hotspot-multi{left:7.0%;top:39.0%;width:29%;height:9%}
+  .play-bg-hotspot-back{left:8.0%;top:56.5%;width:24%;height:9%}
+}

@@ -1,9 +1,11 @@
-ZOMBIE HANGMAN WEB v1040
+ZOMBIE HANGMAN WEB v1041
 
 Najważniejsze zmiany:
-- poprawiono stronę główną na telefonie,
-- drogowskaz główny został zmniejszony na telefonie, żeby nie wychodził poza ekran,
-- zakładka GRAJ zostaje z poprawką v1039,
-- na komputerze drogowskazy nadal są większe.
-
-Zmiana dotyczy głównie pliku style.css.
+- w zakładce GRAJ wstawiono nowe tło użytkownika z wbudowanym drogowskazem,
+- tło zapisano jako assets/img/bg_graj_integrated.png,
+- usunięto widoczny osobny drogowskaz z zakładki GRAJ,
+- zostawiono przezroczyste aktywne pola:
+  GRA POJEDYNCZA -> start gry pojedynczej,
+  MULTIPLAYER -> ekran/komunikat multiplayer,
+  COFNIJ -> powrót do menu głównego,
+- zmiana dotyczy tylko zakładki GRAJ.
