@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1051';
+const VERSION = 'WEB v1052';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
@@ -41,9 +41,12 @@ function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach
 // dla telefonu i komputera przy background-size: cover.
 const PLAY_BG_SIZE = { w: 2048, h: 1365 };
 const PLAY_HOTSPOTS = {
-single: { x: 60,  y: 390, w: 780, h: 165 },  // GRA POJEDYNCZA
-multi:  { x: 60,  y: 640, w: 790, h: 175 },  // MULTIPLAYER
-back:   { x: 115, y: 840, w: 560, h: 155 }  // COFNIJ
+  // v1052: współrzędne dopasowane do grafiki bg_graj_integrated.png.
+  // To są piksele ORYGINALNEJ grafiki 2048x1365.
+  // Funkcja updatePlayHotspots() sama przelicza je na ekran telefonu/komputera.
+  single: { x: 60,  y: 390, w: 780, h: 165 },  // GRA POJEDYNCZA
+  multi:  { x: 60,  y: 640, w: 790, h: 175 },  // MULTIPLAYER
+  back:   { x: 115, y: 840, w: 560, h: 155 }   // COFNIJ
 };
 function placeHotspot(selector, box, rect, scale, ox, oy){
   const el = document.querySelector(selector);
