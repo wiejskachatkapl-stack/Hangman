@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1063';
+const VERSION = 'WEB v1064';
 const ALPHABET = 'AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ'.split('');
 const PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
@@ -24,7 +24,7 @@ function show(name){
   if(name==='gallery') renderGallery();
   if(name==='play-menu') requestAnimationFrame(updatePlayHotspots);
 }
-function newGame(){const item=PHRASES[Math.floor(Math.random()*PHRASES.length)];game={phrase:item.text.toUpperCase(),cat:item.cat,guessed:new Set(),mistakes:0,finished:false};show('game');renderKeyboard();renderGame('Nowe hasło wylosowane. Powodzenia!');}
+function newGame(){const item=PHRASES[Math.floor(Math.random()*PHRASES.length)];game={phrase:item.text.toUpperCase(),cat:item.cat,guessed:new Set(),mistakes:0,finished:false};show('game');renderKeyboard();renderGame('');}
 function renderKeyboard(){const box=$('keyboard'); box.innerHTML='';ALPHABET.forEach(ch=>{const b=document.createElement('button'); b.className='key'; b.textContent=ch; b.onclick=()=>guess(ch); box.appendChild(b);});}
 function renderGame(msg){
   if(!game) return;
@@ -48,7 +48,7 @@ function renderGame(msg){
     word.appendChild(d);
   });
 
-  $('message').textContent=msg || '';
+  $('message').textContent='';
   $('body').className='body-stage stage-'+Math.min(6,game.mistakes);
 
   document.querySelectorAll('.key').forEach(k=>{
@@ -120,7 +120,7 @@ window.addEventListener('load', () => {
 
 document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1063').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1064').catch(()=>{}));}
 
 
 // Próba uruchomienia pełnego ekranu po pierwszym dotknięciu/kliknięciu.
