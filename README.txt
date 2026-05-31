@@ -1,5 +1,4 @@
-ZOMBIE HANGMAN WEB v1061 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1062 - pliki do podmiany
 
-Podmień pliki z paczki na GitHubie.
-Zmiany: nowy układ ekranu rozgrywki po lewej, nowe tło bg_game_single.png, większy panel górny, koła ratunkowe bez brązowego tła, klawiatura w 3 rzędach.
-Ekran Losowanie kategorii bez zmian.
+Podmień całą zawartość paczki na GitHubie.
+Zmiany dotyczą tylko planszy rozgrywki: układ dosunięty do lewej, nowe tło, koła ratunkowe bez tła, klawiatura w 3 równych rzędach. Ekranu Losowanie kategorii nie zmieniano.
