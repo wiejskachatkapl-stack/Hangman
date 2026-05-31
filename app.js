@@ -41,9 +41,9 @@ function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach
 // dla telefonu i komputera przy background-size: cover.
 const PLAY_BG_SIZE = { w: 2048, h: 1365 };
 const PLAY_HOTSPOTS = {
-single: { x: 70, y: 400, w: 500, h: 130 },  // GRA POJEDYNCZA
-multi:  { x: 70, y: 630, w: 500, h: 140},  // MULTIPLAYER
-back:   { x: 90, y: 760, w: 430, h: 120 }  // COFNIJ
+single: { x: 60,  y: 390, w: 780, h: 165 },  // GRA POJEDYNCZA
+multi:  { x: 60,  y: 640, w: 790, h: 175 },  // MULTIPLAYER
+back:   { x: 115, y: 840, w: 560, h: 155 }  // COFNIJ
 };
 function placeHotspot(selector, box, rect, scale, ox, oy){
   const el = document.querySelector(selector);
