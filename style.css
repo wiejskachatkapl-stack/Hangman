@@ -371,26 +371,29 @@ h1{text-align:center;letter-spacing:2px;margin:0 0 10px;color:var(--gold);font-s
   border-radius:10px;
 }
 
+/* v1046: poprawione aktywne pola kliknięć.
+   Grafika pozostaje bez zmian — przesuwamy tylko niewidzialne hotspoty na napisy. */
+
 /* komputer / szeroki ekran */
 @media (orientation: landscape) and (min-width: 901px) {
-  .play-bg-hotspot-single{left:6.5%;top:18.5%;width:29%;height:8.5%}
-  .play-bg-hotspot-multi{left:7.5%;top:39.5%;width:28%;height:8.5%}
-  .play-bg-hotspot-back{left:8.5%;top:57.0%;width:23%;height:8.5%}
+  .play-bg-hotspot-single{left:5.8%;top:27.2%;width:29.8%;height:8.8%}
+  .play-bg-hotspot-multi{left:6.4%;top:43.6%;width:29.0%;height:8.8%}
+  .play-bg-hotspot-back{left:7.0%;top:60.0%;width:25.0%;height:8.8%}
 }
 
 /* telefon w poziomie / niski ekran */
 @media (orientation: landscape) and (max-width: 900px),
        (orientation: landscape) and (max-height: 520px) {
-  .play-bg-hotspot-single{left:6.0%;top:18.0%;width:29.5%;height:9%}
-  .play-bg-hotspot-multi{left:7.0%;top:39.0%;width:28.5%;height:9%}
-  .play-bg-hotspot-back{left:8.0%;top:56.5%;width:24%;height:9%}
+  .play-bg-hotspot-single{left:5.5%;top:26.6%;width:31.0%;height:9.4%}
+  .play-bg-hotspot-multi{left:6.0%;top:43.0%;width:30.0%;height:9.4%}
+  .play-bg-hotspot-back{left:6.8%;top:59.5%;width:26.2%;height:9.4%}
 }
 
 /* telefon trzymany pionowo — ekran gry jest obracany przez CSS */
 @media (orientation: portrait) {
-  .play-bg-hotspot-single{left:6.0%;top:18.0%;width:30%;height:9%}
-  .play-bg-hotspot-multi{left:7.0%;top:39.0%;width:29%;height:9%}
-  .play-bg-hotspot-back{left:8.0%;top:56.5%;width:24%;height:9%}
+  .play-bg-hotspot-single{left:5.5%;top:26.6%;width:31.0%;height:9.4%}
+  .play-bg-hotspot-multi{left:6.0%;top:43.0%;width:30.0%;height:9.4%}
+  .play-bg-hotspot-back{left:6.8%;top:59.5%;width:26.2%;height:9.4%}
 }
 
 /* v1045: dokładne kliknięcia zakładki GRAJ według realnej grafiki bg_graj_integrated.png.
