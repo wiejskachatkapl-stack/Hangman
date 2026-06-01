@@ -2639,3 +2639,72 @@ button[data-action="menu"]{
 .game-menu-btn[data-action="menu"]{
   background:url('assets/img/btn_menu_v1067.png') center/100% 100% no-repeat !important;
 }
+
+
+/* v1068: bez automatycznego pełnego ekranu, przycisk MENU większy w rozgrywce,
+   koła ratunkowe po wykorzystaniu zmieniają się w jedno koło z dużym plusem. */
+#screen-game .game-menu-btn,
+#screen-game .small-wood.game-menu-btn[data-action="menu"]{
+  width:clamp(112px, 12vw, 190px) !important;
+  height:clamp(46px, 7.5vh, 78px) !important;
+  min-width:112px !important;
+}
+#screen-game .old-style-lifelines .life.life-add{
+  display:inline-flex !important;
+  position:relative !important;
+  opacity:1 !important;
+  filter:none !important;
+  pointer-events:auto !important;
+  cursor:pointer !important;
+  width:clamp(58px,6.4vw,104px) !important;
+  height:clamp(58px,6.4vw,104px) !important;
+  min-width:clamp(58px,6.4vw,104px) !important;
+}
+#screen-game .old-style-lifelines .life.life-add img{
+  opacity:1 !important;
+  filter:drop-shadow(0 8px 10px rgba(0,0,0,.9)) brightness(1.05) !important;
+}
+#screen-game .old-style-lifelines .life.life-add::after{
+  content:'+';
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-54%);
+  font-family:Arial, sans-serif;
+  font-size:clamp(44px,5.4vw,86px);
+  line-height:1;
+  font-weight:1000;
+  color:#68ff44;
+  text-shadow:0 4px 5px #000,0 0 10px rgba(104,255,68,.7);
+  pointer-events:none;
+}
+#screen-game .old-style-lifelines .life.life-hidden{
+  display:none !important;
+}
+@media (orientation: landscape) and (max-height:560px), (orientation: landscape) and (max-width:950px){
+  #screen-game .game-menu-btn,
+  #screen-game .small-wood.game-menu-btn[data-action="menu"]{
+    width:clamp(96px,14vw,140px) !important;
+    height:clamp(40px,8.8vh,58px) !important;
+    min-width:96px !important;
+  }
+  #screen-game .old-style-lifelines .life.life-add{
+    width:clamp(44px,8vw,66px) !important;
+    height:clamp(44px,8vw,66px) !important;
+    min-width:clamp(44px,8vw,66px) !important;
+  }
+  #screen-game .old-style-lifelines .life.life-add::after{font-size:clamp(34px,7vw,56px)}
+}
+@media (orientation: portrait){
+  #screen-game .game-menu-btn,
+  #screen-game .small-wood.game-menu-btn[data-action="menu"]{
+    width:clamp(96px,14vh,140px) !important;
+    height:clamp(40px,8.8vw,58px) !important;
+    min-width:96px !important;
+  }
+  #screen-game .old-style-lifelines .life.life-add{
+    width:clamp(44px,8vh,66px) !important;
+    height:clamp(44px,8vh,66px) !important;
+    min-width:clamp(44px,8vh,66px) !important;
+  }
+  #screen-game .old-style-lifelines .life.life-add::after{font-size:clamp(34px,7vh,56px)}
+}
