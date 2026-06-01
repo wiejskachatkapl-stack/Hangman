@@ -1,4 +1,4 @@
-ZOMBIE HANGMAN WEB v1067 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1068 - pliki do podmiany
 
 Podmień całą zawartość paczki na GitHubie.
-Wersja wymienia przycisk MENU wszędzie poza drogowskazem głównym oraz wymusza odświeżenie cache.
+Usunięto automatyczny pełny ekran, dodano przycisk Pełny ekran w ustawieniach, powiększono MENU w rozgrywce i dodano koło z plusem po wykorzystaniu pomocy.
