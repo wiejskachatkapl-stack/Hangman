@@ -1,5 +1,3 @@
-ZOMBIE HANGMAN WEB v1065 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1066 - pliki do podmiany
 
-Podmień całą zawartość paczki na GitHubie.
-Poprawiono responsywność planszy rozgrywki na telefonie i komputerze.
-Ekranu Losowanie kategorii nie zmieniano.
+Poprawiono widoczność kół ratunkowych na telefonie i komputerze. Okna Losowanie kategorii nie zmieniano.
