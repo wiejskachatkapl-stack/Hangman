@@ -78,7 +78,7 @@ h1{text-align:center;letter-spacing:2px;margin:0 0 10px;color:var(--gold);font-s
 
 button[data-action="menu"]{
   border:0 !important;
-  background:url('assets/img/btn_menu_zombie_board.png') center/100% 100% no-repeat !important;
+  background:url('assets/img/btn_menu_v1067.png') center/100% 100% no-repeat !important;
   background-color:transparent !important;
   box-shadow:none !important;
   border-radius:0 !important;
@@ -2626,4 +2626,16 @@ button[data-action="menu"]:active{
     height:clamp(38px,6.6vh,54px) !important;
     min-width:clamp(38px,6.6vh,54px) !important;
   }
+}
+
+
+/* v1067: nowy przycisk MENU wszędzie poza drogowskazem.
+   Drogowskaz główny pozostaje nietknięty, bo jest osobną grafiką. */
+button[data-action="menu"]{
+  background:url('assets/img/btn_menu_v1067.png') center/100% 100% no-repeat !important;
+  aspect-ratio:1548/622 !important;
+}
+.game-top .small-wood[data-action="menu"],
+.game-menu-btn[data-action="menu"]{
+  background:url('assets/img/btn_menu_v1067.png') center/100% 100% no-repeat !important;
 }

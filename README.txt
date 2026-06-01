@@ -1,3 +1,4 @@
-ZOMBIE HANGMAN WEB v1066 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1067 - pliki do podmiany
 
-Poprawiono widoczność kół ratunkowych na telefonie i komputerze. Okna Losowanie kategorii nie zmieniano.
+Podmień całą zawartość paczki na GitHubie.
+Wersja wymienia przycisk MENU wszędzie poza drogowskazem głównym oraz wymusza odświeżenie cache.
