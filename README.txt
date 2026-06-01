@@ -1,4 +1,5 @@
-ZOMBIE HANGMAN WEB v1068 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1069 - pliki do podmiany
 
-Podmień całą zawartość paczki na GitHubie.
-Usunięto automatyczny pełny ekran, dodano przycisk Pełny ekran w ustawieniach, powiększono MENU w rozgrywce i dodano koło z plusem po wykorzystaniu pomocy.
+Poprawiono responsywność ekranu rozgrywki na telefonach i komputerach.
+Usunięto wymuszanie pełnoekranowego trybu PWA przez meta tagi; pełny ekran zostaje tylko jako przycisk w ustawieniach.
+Okna Losowanie kategorii nie zmieniano.
