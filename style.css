@@ -3133,3 +3133,60 @@ html, body, .app{
   }
   #screen-game .game-actions{width:60vw !important;}
 }
+
+
+/* v1070: ekran GRAJ ma zawsze mieścić całą grafikę w oknie.
+   Nie używamy cover, bo na telefonie i różnych proporcjach ucinał obraz albo wypychał go poza ekran.
+   Hotspoty są liczone w app.js z tym samym algorytmem contain. */
+#screen-play-menu.play-menu-screen{
+  background-color:#000 !important;
+  background-image:url('assets/img/bg_graj_integrated.png') !important;
+  background-repeat:no-repeat !important;
+  background-position:center center !important;
+  background-size:contain !important;
+}
+#screen-play-menu .menu-overlay{display:none !important;}
+#screen-play-menu .play-start-wrap,
+#screen-play-menu .play-integrated-hotspots{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  transform:none !important;
+  transform-origin:center center !important;
+}
+#screen-play-menu .play-bg-hotspot{
+  position:absolute !important;
+  display:block !important;
+  background:rgba(255,255,255,0) !important;
+  border:0 !important;
+  box-shadow:none !important;
+  z-index:9999 !important;
+  pointer-events:auto !important;
+}
+
+/* v1070: wyłączamy obracanie całej aplikacji CSS-em.
+   Telefon ma sam skalować widok, a nie dostawać obrócony ekran, który robi czarne marginesy. */
+@media (orientation: portrait){
+  body{position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; overflow:hidden !important;}
+  .app{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    transform:none !important;
+    transform-origin:center center !important;
+  }
+  #screen-play-menu.play-menu-screen{
+    background-size:contain !important;
+    background-position:center center !important;
+  }
+}
+
+/* v1070: w razie bardzo szerokiego lub bardzo niskiego ekranu nie przycinamy tła GRAJ. */
+@media (max-height:520px), (max-width:900px){
+  #screen-play-menu.play-menu-screen{
+    background-size:contain !important;
+    background-position:center center !important;
+  }
+}

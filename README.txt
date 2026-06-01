@@ -1,5 +1,6 @@
-ZOMBIE HANGMAN WEB v1069 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1070 - pliki do podmiany
 
-Poprawiono responsywność ekranu rozgrywki na telefonach i komputerach.
-Usunięto wymuszanie pełnoekranowego trybu PWA przez meta tagi; pełny ekran zostaje tylko jako przycisk w ustawieniach.
+Podmień całą zawartość paczki na GitHubie.
+Poprawiono ekran GRAJ: grafika jest skalowana przez contain i mieści się w oknie na telefonie i komputerze.
+Wyłączono obracanie aplikacji CSS-em, które powodowało czarne/ucięte ekrany.
 Okna Losowanie kategorii nie zmieniano.
