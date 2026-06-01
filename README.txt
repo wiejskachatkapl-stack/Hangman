@@ -1,6 +1,3 @@
-ZOMBIE HANGMAN WEB v1072 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1073 - pliki do podmiany
 
-Podmień całą zawartość paczki na GitHubie.
-Poprawiono ekran GRAJ: grafika jest skalowana przez contain i mieści się w oknie na telefonie i komputerze.
-Wyłączono obracanie aplikacji CSS-em, które powodowało czarne/ucięte ekrany.
-Okna Losowanie kategorii nie zmieniano.
+Poprawka skalowania tylko dla komputera. Telefon zostaje ze stabilnym dopasowaniem jak w v1070/v1072.

@@ -2641,7 +2641,7 @@ button[data-action="menu"]{
 }
 
 
-/* v1072: bez automatycznego pełnego ekranu, przycisk MENU większy w rozgrywce,
+/* v1073: bez automatycznego pełnego ekranu, przycisk MENU większy w rozgrywce,
    koła ratunkowe po wykorzystaniu zmieniają się w jedno koło z dużym plusem. */
 #screen-game .game-menu-btn,
 #screen-game .small-wood.game-menu-btn[data-action="menu"]{
@@ -2710,7 +2710,7 @@ button[data-action="menu"]{
 }
 
 
-/* v1072: naprawa responsywności rozgrywki + brak wymuszania pełnego ekranu.
+/* v1073: naprawa responsywności rozgrywki + brak wymuszania pełnego ekranu.
    Ekranu LOSOWANIE KATEGORII nie zmieniamy. */
 html, body, .app{
   min-width:0 !important;
@@ -3135,7 +3135,7 @@ html, body, .app{
 }
 
 
-/* v1072: ekran GRAJ ma zawsze mieścić całą grafikę w oknie.
+/* v1073: ekran GRAJ ma zawsze mieścić całą grafikę w oknie.
    Nie używamy cover, bo na telefonie i różnych proporcjach ucinał obraz albo wypychał go poza ekran.
    Hotspoty są liczone w app.js z tym samym algorytmem contain. */
 #screen-play-menu.play-menu-screen{
@@ -3165,7 +3165,7 @@ html, body, .app{
   pointer-events:auto !important;
 }
 
-/* v1072: wyłączamy obracanie całej aplikacji CSS-em.
+/* v1073: wyłączamy obracanie całej aplikacji CSS-em.
    Telefon ma sam skalować widok, a nie dostawać obrócony ekran, który robi czarne marginesy. */
 @media (orientation: portrait){
   body{position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; overflow:hidden !important;}
@@ -3183,7 +3183,7 @@ html, body, .app{
   }
 }
 
-/* v1072: w razie bardzo szerokiego lub bardzo niskiego ekranu nie przycinamy tła GRAJ. */
+/* v1073: w razie bardzo szerokiego lub bardzo niskiego ekranu nie przycinamy tła GRAJ. */
 @media (max-height:520px), (max-width:900px){
   #screen-play-menu.play-menu-screen{
     background-size:contain !important;
@@ -3191,7 +3191,7 @@ html, body, .app{
   }
 }
 
-/* v1072: powrót do stabilnego skalowania z v1070.
+/* v1073: powrót do stabilnego skalowania z v1070.
    Ekran GRAJ zostaje dokładnie jak w v1070: contain, bez rozciągania 104%.
    Pozostałe pełnoekranowe plansze dostają bezpieczne dopasowanie tła do okna,
    bez przycinania obrazu i bez wymuszania pełnego ekranu. */
@@ -3252,4 +3252,38 @@ html, body, .app{
 @media (orientation: portrait){
   body{position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; overflow:hidden !important;}
   .app{position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; transform:none !important;}
+}
+
+
+/* v1073: korekta TYLKO dla komputera.
+   Telefon zostaje z ustawieniami v1070/v1072, bo tam było dobrze.
+   Na desktopie delikatnie rozszerzamy pełnoekranowe tła w lewo i w prawo,
+   bez zmiany układu klawiatury ani ekranu rozgrywki. */
+@media (orientation: landscape) and (min-width: 901px) and (min-height: 521px) {
+  #screen-menu.menu-screen,
+  #screen-draw-category.draw-category-screen,
+  #screen-about,
+  #screen-stats.sub-screen,
+  #screen-gallery.sub-screen,
+  #screen-settings.sub-screen{
+    background-size:102% auto !important;
+    background-position:center center !important;
+    background-color:#000 !important;
+  }
+
+  /* Ekran GRAJ zostaje dopasowany jak w v1070, ale na komputerze lekko wypełnia boki. */
+  #screen-play-menu.play-menu-screen{
+    background-size:102% auto !important;
+    background-position:center center !important;
+    background-color:#000 !important;
+  }
+}
+
+/* v1073: zachowujemy pełne dopasowanie na telefonach i małych ekranach. */
+@media (orientation: portrait), (max-width:900px), (max-height:520px){
+  #screen-play-menu.play-menu-screen{
+    background-size:contain !important;
+    background-position:center center !important;
+    background-color:#000 !important;
+  }
 }
