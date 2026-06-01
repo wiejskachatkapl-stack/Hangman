@@ -2641,7 +2641,7 @@ button[data-action="menu"]{
 }
 
 
-/* v1069: bez automatycznego pełnego ekranu, przycisk MENU większy w rozgrywce,
+/* v1071: bez automatycznego pełnego ekranu, przycisk MENU większy w rozgrywce,
    koła ratunkowe po wykorzystaniu zmieniają się w jedno koło z dużym plusem. */
 #screen-game .game-menu-btn,
 #screen-game .small-wood.game-menu-btn[data-action="menu"]{
@@ -2710,7 +2710,7 @@ button[data-action="menu"]{
 }
 
 
-/* v1069: naprawa responsywności rozgrywki + brak wymuszania pełnego ekranu.
+/* v1071: naprawa responsywności rozgrywki + brak wymuszania pełnego ekranu.
    Ekranu LOSOWANIE KATEGORII nie zmieniamy. */
 html, body, .app{
   min-width:0 !important;
@@ -3135,7 +3135,7 @@ html, body, .app{
 }
 
 
-/* v1070: ekran GRAJ ma zawsze mieścić całą grafikę w oknie.
+/* v1071: ekran GRAJ ma zawsze mieścić całą grafikę w oknie.
    Nie używamy cover, bo na telefonie i różnych proporcjach ucinał obraz albo wypychał go poza ekran.
    Hotspoty są liczone w app.js z tym samym algorytmem contain. */
 #screen-play-menu.play-menu-screen{
@@ -3165,7 +3165,7 @@ html, body, .app{
   pointer-events:auto !important;
 }
 
-/* v1070: wyłączamy obracanie całej aplikacji CSS-em.
+/* v1071: wyłączamy obracanie całej aplikacji CSS-em.
    Telefon ma sam skalować widok, a nie dostawać obrócony ekran, który robi czarne marginesy. */
 @media (orientation: portrait){
   body{position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; overflow:hidden !important;}
@@ -3183,10 +3183,68 @@ html, body, .app{
   }
 }
 
-/* v1070: w razie bardzo szerokiego lub bardzo niskiego ekranu nie przycinamy tła GRAJ. */
+/* v1071: w razie bardzo szerokiego lub bardzo niskiego ekranu nie przycinamy tła GRAJ. */
 @media (max-height:520px), (max-width:900px){
   #screen-play-menu.play-menu-screen{
     background-size:contain !important;
     background-position:center center !important;
+  }
+}
+
+
+/* v1071: delikatnie rozszerzamy tła w lewo i prawo na wszystkich pełnoekranowych planszach.
+   Dzięki temu obraz nie wygląda jak zbyt wąski, ale nadal pozostaje responsywny. */
+.menu-screen,
+.play-menu-screen,
+.draw-category-screen,
+.game-screen,
+.sub-screen,
+#screen-about{
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+  background-size:104% auto !important;
+}
+
+#screen-play-menu.play-menu-screen{
+  background-size:104% auto !important;
+}
+
+/* Jeżeli ekran jest bardzo wysoki/wąski, przełączamy się na dopasowanie wysokości,
+   żeby tło nie zrobiło pustych pasów. */
+@media (max-aspect-ratio: 16/10){
+  .menu-screen,
+  .play-menu-screen,
+  .draw-category-screen,
+  .game-screen,
+  .sub-screen,
+  #screen-about,
+  #screen-play-menu.play-menu-screen{
+    background-size:auto 104% !important;
+  }
+}
+
+/* Bardzo małe telefony: jeszcze ostrożniejsze skalowanie, żeby nic nie uciekało poza ekran. */
+@media (max-width:900px), (max-height:520px){
+  .menu-screen,
+  .play-menu-screen,
+  .draw-category-screen,
+  .game-screen,
+  .sub-screen,
+  #screen-about,
+  #screen-play-menu.play-menu-screen{
+    background-size:103% auto !important;
+  }
+}
+
+@media (max-width:900px) and (max-aspect-ratio: 16/10),
+       (max-height:520px) and (max-aspect-ratio: 16/10){
+  .menu-screen,
+  .play-menu-screen,
+  .draw-category-screen,
+  .game-screen,
+  .sub-screen,
+  #screen-about,
+  #screen-play-menu.play-menu-screen{
+    background-size:auto 103% !important;
   }
 }
