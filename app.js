@@ -1,4 +1,4 @@
-const VERSION = '1082';
+const VERSION = '1083';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -20,9 +20,27 @@ const FALLBACK_PHRASES = [
   {cat:'W DOMU', text:'LODÓWKA'},
   {cat:'ROŚLINY', text:'RÓŻA'}
 ];
-const PHRASES = (Array.isArray(window.ZH_PHRASES) && window.ZH_PHRASES.length ? window.ZH_PHRASES : FALLBACK_PHRASES)
-  .filter(p => p && p.text)
-  .map(p => ({cat:String(p.cat || 'HASŁO'), text:String(p.text).toUpperCase()}));
+function normalizePhrases(){
+  const out=[];
+  const simple = window.ZH_HASLA;
+  if(simple && typeof simple === 'object' && !Array.isArray(simple)){
+    Object.entries(simple).forEach(([cat, list])=>{
+      if(Array.isArray(list)){
+        list.forEach(text=>{
+          if(text) out.push({cat:String(cat || 'HASŁO'), text:String(text).toUpperCase()});
+        });
+      }
+    });
+  }
+  // Zgodność ze starszym formatem z wersji 1082.
+  if(!out.length && Array.isArray(window.ZH_PHRASES)){
+    window.ZH_PHRASES.forEach(p=>{
+      if(p && p.text) out.push({cat:String(p.cat || 'HASŁO'), text:String(p.text).toUpperCase()});
+    });
+  }
+  return out.length ? out : FALLBACK_PHRASES.map(p=>({cat:p.cat, text:p.text.toUpperCase()}));
+}
+const PHRASES = normalizePhrases();
 let lastPhraseIndex = -1;
 
 const START_LIFELINES = 2;
@@ -35,14 +53,14 @@ let menuScale = Number(localStorage.getItem('zhMenuScale') || '1');
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 function applyScale(){menuScale=clamp(menuScale,.72,1.18);document.documentElement.style.setProperty('--menu-scale', menuScale.toFixed(2));localStorage.setItem('zhMenuScale', String(menuScale));}
 function loadState(){
-  const base={score:0,zombiePoints:0,wins:0,losses:0,played:0,unlocked:1,lifelines:START_LIFELINES,adLifelinesUsed:0,z1080Migrated:false};
+  const base={score:0,zombiePoints:0,wins:0,losses:0,played:0,unlocked:1,lifelines:START_LIFELINES,adLifelinesUsed:0,z1083Migrated:false};
   try{
     const loaded={...base,...JSON.parse(localStorage.getItem(STORE_KEY)||'{}')};
     // Migracja z wcześniejszych wersji: startujemy z 2 kołami i limitem 3 reklam na jednego zombiaka.
-    if(!loaded.z1080Migrated){
+    if(!loaded.z1083Migrated){
       loaded.lifelines=Math.min(Number(loaded.lifelines||0),START_LIFELINES);
       loaded.adLifelinesUsed=0;
-      loaded.z1080Migrated=true;
+      loaded.z1083Migrated=true;
       localStorage.setItem(STORE_KEY, JSON.stringify(loaded));
     }
     loaded.lifelines=clamp(Number(loaded.lifelines||0),0,START_LIFELINES);
@@ -257,5 +275,5 @@ window.addEventListener('load', () => {
 
 document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1082').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1083').catch(()=>{}));}
 

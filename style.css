@@ -3877,3 +3877,50 @@ body{
     top:clamp(6px,1.4vw,10px) !important;
   }
 }
+
+/* v1083: dopilnowanie widoczności przycisku MENU w oknie po odgadnięciu hasła.
+   Nie zmienia układu gry z 1079/1078. */
+#winPrompt .game-result-actions{
+  display:flex !important;
+  flex-direction:row !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:14px !important;
+}
+#winPrompt .result-img-btn,
+#winPrompt .result-img-btn[data-action="win-menu"],
+#winPrompt .result-img-btn[data-action="win-losuj"]{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  width:min(210px,32vw) !important;
+  min-width:150px !important;
+  max-width:210px !important;
+  height:auto !important;
+  border:0 !important;
+  background:transparent !important;
+  padding:0 !important;
+  margin:0 !important;
+  box-shadow:none !important;
+  line-height:0 !important;
+  text-indent:0 !important;
+  overflow:visible !important;
+}
+#winPrompt .result-img-btn img,
+#winPrompt .result-img-btn[data-action="win-menu"] img,
+#winPrompt .result-img-btn[data-action="win-losuj"] img{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  object-fit:contain !important;
+}
+@media (orientation:portrait){
+  #winPrompt .result-img-btn,
+  #winPrompt .result-img-btn[data-action="win-menu"],
+  #winPrompt .result-img-btn[data-action="win-losuj"]{
+    width:min(185px,38vw) !important;
+    min-width:120px !important;
+  }
+}

@@ -1,9 +1,12 @@
-ZOMBIE HANGMAN WEB v1082 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1083 - pliki do podmiany
 
-Poprawki względem 1081:
-- przywrócony widoczny przycisk MENU w rozgrywce,
-- usunięty dolny przycisk „Nowe hasło”,
-- hasła losowane z assets/data/hasla.js; dodany bezpieczny fallback w app.js, żeby nie losowało ciągle tylko POLSKA,
-- poprawiony cache/service worker i numer kompilacji 1082.
+Podmień całą zawartość paczki na GitHubie.
 
-Nie zmieniano grafiki ani układu z 1079/1081 poza tymi poprawkami.
+Zmiany względem v1082:
+- przycisk MENU w oknie po odgadnięciu hasła wymuszony jako widoczny,
+- cache, index, app i service worker podniesione do wersji 1083,
+- uproszczony plik haseł: assets/data/hasla.js ma teraz prosty układ kategoriami.
+
+Dodawanie haseł:
+assets/data/hasla.js
+"KATEGORIA": ["HASŁO 1", "HASŁO 2"]
