@@ -3926,7 +3926,7 @@ body{
 }
 
 
-/* v1085 — bez zmian w grafice 1078/1084. Poprawka tylko telefonu: koła nie wchodzą w klawiaturę, przycisk Nowe hasło ukryty, GRAJ delikatnie szersze. */
+/* v1086 — bez zmian w grafice 1078/1084. Poprawka tylko telefonu: koła nie wchodzą w klawiaturę, przycisk Nowe hasło ukryty, GRAJ delikatnie szersze. */
 #screen-game .game-actions{
   display:none !important;
 }
@@ -4012,6 +4012,54 @@ body{
 @media (orientation: portrait){
   #screen-play-menu.play-menu-screen{
     background-size:auto 104% !important;
+    background-position:center center !important;
+  }
+}
+
+
+/* v1086 — poprawka dopasowania START i GRAJ bez zmian w mechanice/rozgrywce.
+   START: drogowskaz nie wychodzi poza ekran.
+   GRAJ: obraz nie jest za wąski, wypełnia ekran; hotspoty liczone są w app.js algorytmem cover. */
+@media (orientation: landscape) and (max-height: 820px){
+  #screen-menu .signpost-menu{
+    width:min(26vw, 55vh, 415px) !important;
+    left:clamp(10px, 2vw, 28px) !important;
+    bottom:clamp(0px, .6vh, 6px) !important;
+    max-height:96vh !important;
+  }
+}
+@media (orientation: landscape) and (min-height: 821px){
+  #screen-menu .signpost-menu{
+    width:clamp(390px, 28vw, 560px) !important;
+    left:clamp(18px, 2vw, 38px) !important;
+    bottom:clamp(0px, .8vh, 10px) !important;
+    max-height:96vh !important;
+  }
+}
+@media (orientation: portrait){
+  #screen-menu .signpost-menu{
+    width:min(44vw, 54vh, 390px) !important;
+    left:clamp(8px, 1.4vh, 20px) !important;
+    bottom:clamp(0px, .6vw, 6px) !important;
+    max-height:96vw !important;
+  }
+}
+
+#screen-play-menu.play-menu-screen{
+  background-size:cover !important;
+  background-position:center center !important;
+  background-color:#000 !important;
+}
+@media (orientation: landscape) and (max-height: 820px),
+       (orientation: landscape) and (max-width: 950px){
+  #screen-play-menu.play-menu-screen{
+    background-size:cover !important;
+    background-position:center center !important;
+  }
+}
+@media (orientation: portrait){
+  #screen-play-menu.play-menu-screen{
+    background-size:cover !important;
     background-position:center center !important;
   }
 }
