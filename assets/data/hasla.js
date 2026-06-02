@@ -15,6 +15,15 @@ window.ZH_HASLA = {
     "HISZPANIA",
     "NORWEGIA",
     "PORTUGALIA"
+    "KANADA"
+    "UKRAINA"
+    "BRAZYLIA"
+    "ARGENTYNA"
+    "BELGIA"
+    "HOLANDIA"
+    "EGIPT"
+    "TUNEZJA"
+    "SZWECJA"
   ],
 
   "ZWIERZĘTA": [
@@ -22,17 +31,41 @@ window.ZH_HASLA = {
     "ŻÓŁW",
     "NIETOPERZ",
     "KRUK"
+    "SARNA"
+    "GAZELA"
+    "WARAN"
+    "LENIWIEC"
+    "JELEŃ"
+    "SZYMPANS"
+    "HIPOPOTAM"
+    "LAMPART"
+    "GEPARD"
+    
   ],
 
   "KUCHNIA": [
     "PIEROGI",
     "ROSÓŁ",
     "ŻUREK"
+    "GROCHÓWKA"
+    "PATELNIA"
+    "CZAJNIK"
+    "FILIŻANKA"
+    "LODÓWKA"
+    "PIEKARNIK"
+    "TASAK"
+    "MAKARON"
+    "GALARETKA"
+    "KISIEL"
   ],
 
   "SPORT": [
     "PIŁKA NOŻNA",
     "KOSZYKÓWKA"
+    "SIATKÓWKA"
+    "TENIS STOŁOWY"
+    "RAKIETA TENISOWA"
+    "LEKKOATLETYKA"
   ],
 
   "KULTURA": [
