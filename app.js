@@ -1,13 +1,10 @@
-const VERSION = '1079';
+const VERSION = '1080';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
-const PHRASES = [
-  {cat:'PAŃSTWO', text:'POLSKA'}, {cat:'PAŃSTWO', text:'JAPONIA'}, {cat:'PAŃSTWO', text:'TAJLANDIA'},
-  {cat:'ZWIERZĘTA', text:'WILK'}, {cat:'ZWIERZĘTA', text:'ŻÓŁW'}, {cat:'ZWIERZĘTA', text:'NIETOPERZ'},
-  {cat:'KUCHNIA', text:'PIEROGI'}, {cat:'KUCHNIA', text:'ROSÓŁ'}, {cat:'KUCHNIA', text:'ŻUREK'},
-  {cat:'SPORT', text:'PIŁKA NOŻNA'}, {cat:'SPORT', text:'KOSZYKÓWKA'}, {cat:'KULTURA', text:'TEATR'},
-  {cat:'MUZYKA', text:'GITARA'}, {cat:'W DOMU', text:'LODÓWKA'}, {cat:'ROŚLINY', text:'RÓŻA'}
-];
+const PHRASES = Array.isArray(window.ZH_PHRASES) && window.ZH_PHRASES.length ? window.ZH_PHRASES : [{cat:'PAŃSTWO', text:'POLSKA'}];
+
+const START_LIFELINES = 2;
+const MAX_AD_LIFELINES_PER_ZOMBIE = 3;
 const ZOMBIES = ['Szmaciany','Pielęgniarka','Budowlaniec','Doktor','Klaun','Leśny'];
 const STORE_KEY = 'zombieHangmanWebV1041';
 let state = loadState();
@@ -15,7 +12,22 @@ let game = null;
 let menuScale = Number(localStorage.getItem('zhMenuScale') || '1');
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 function applyScale(){menuScale=clamp(menuScale,.72,1.18);document.documentElement.style.setProperty('--menu-scale', menuScale.toFixed(2));localStorage.setItem('zhMenuScale', String(menuScale));}
-function loadState(){const base={score:0,zombiePoints:0,wins:0,losses:0,played:0,unlocked:1,lifelines:3};try{return {...base,...JSON.parse(localStorage.getItem(STORE_KEY)||'{}')}}catch(e){return base}}
+function loadState(){
+  const base={score:0,zombiePoints:0,wins:0,losses:0,played:0,unlocked:1,lifelines:START_LIFELINES,adLifelinesUsed:0,z1080Migrated:false};
+  try{
+    const loaded={...base,...JSON.parse(localStorage.getItem(STORE_KEY)||'{}')};
+    // Migracja z wcześniejszych wersji: startujemy z 2 kołami i limitem 3 reklam na jednego zombiaka.
+    if(!loaded.z1080Migrated){
+      loaded.lifelines=Math.min(Number(loaded.lifelines||0),START_LIFELINES);
+      loaded.adLifelinesUsed=0;
+      loaded.z1080Migrated=true;
+      localStorage.setItem(STORE_KEY, JSON.stringify(loaded));
+    }
+    loaded.lifelines=clamp(Number(loaded.lifelines||0),0,START_LIFELINES);
+    loaded.adLifelinesUsed=clamp(Number(loaded.adLifelinesUsed||0),0,MAX_AD_LIFELINES_PER_ZOMBIE);
+    return loaded;
+  }catch(e){return base}
+}
 function save(){localStorage.setItem(STORE_KEY, JSON.stringify(state));}
 function $(id){return document.getElementById(id)}
 function show(name){
@@ -87,19 +99,29 @@ function renderGame(msg){
       return;
     }
 
+    // Normalnie w jednym zombiaku są tylko 2 koła ratunkowe.
     if(state.lifelines > 0){
+      if(idx >= START_LIFELINES){
+        btn.classList.add('life-hidden');
+        return;
+      }
       const active = idx < state.lifelines;
       btn.classList.toggle('life-used', !active);
       btn.disabled = !active;
       return;
     }
 
-    // Gdy wykorzystasz wszystkie 3 koła, zamiast nich pojawia się jedno koło z dużym plusem.
-    if(idx === 0){
-      btn.classList.add('life-add');
-      btn.dataset.action = 'add-lifeline';
-      btn.disabled = false;
-      btn.setAttribute('aria-label', 'Dodaj jedno koło ratunkowe za reklamę');
+    // Po wykorzystaniu kół można 3 razy dodać jedno koło za reklamę.
+    // Po trzeciej reklamie plus znika aż do nowego zombiaka.
+    if(state.adLifelinesUsed < MAX_AD_LIFELINES_PER_ZOMBIE){
+      if(idx === 0){
+        btn.classList.add('life-add');
+        btn.dataset.action = 'add-lifeline';
+        btn.disabled = false;
+        btn.setAttribute('aria-label', 'Dodaj jedno koło ratunkowe za reklamę');
+      }else{
+        btn.classList.add('life-hidden');
+      }
     }else{
       btn.classList.add('life-hidden');
     }
@@ -108,9 +130,9 @@ function renderGame(msg){
 function guess(ch){if(!game || game.finished || game.guessed.has(ch)) return;game.guessed.add(ch);if(game.phrase.includes(ch)){const count=[...game.phrase].filter(x=>x===ch).length; state.score += 10*count; state.zombiePoints += 10*count;checkZombieUnlock();if(isWin()) return finish(true);renderGame(`Dobrze! Litera ${ch} występuje ${count}x.`);} else {game.mistakes++;if(game.mistakes>=6) return finish(false);renderGame(`Nie ma litery ${ch}.`);}save();}
 function isWin(){return [...game.phrase].every(ch=>ch===' ' || game.guessed.has(ch));}
 function finish(win){game.finished=true; state.played++;if(win){state.wins++; state.score+=50; state.zombiePoints+=50; checkZombieUnlock(); renderGame(''); save(); setTimeout(showWinPrompt, 220);}else {state.losses++; renderGame(`PRZEGRANA. Hasło: ${game.phrase}. Kliknij „Nowe hasło”.`); save();}}
-function checkZombieUnlock(){while(state.zombiePoints>=300){state.zombiePoints-=300; state.unlocked=Math.min(ZOMBIES.length,state.unlocked+1); state.lifelines=3;}}
+function checkZombieUnlock(){while(state.zombiePoints>=300){state.zombiePoints-=300; state.unlocked=Math.min(ZOMBIES.length,state.unlocked+1); state.lifelines=START_LIFELINES; state.adLifelinesUsed=0;}}}
 function hint(){if(!game || game.finished) return;if(state.lifelines<=0){renderGame('Nie masz już kół ratunkowych.'); return;}const missing=[...new Set([...game.phrase].filter(ch=>ch!==' ' && !game.guessed.has(ch)))];if(!missing.length) return;const ch=missing[Math.floor(Math.random()*missing.length)];state.lifelines--; game.guessed.add(ch); state.score+=5; state.zombiePoints+=5; checkZombieUnlock();if(isWin()) finish(true); else renderGame(`Koło ratunkowe odkryło literę ${ch}.`);save();}
-function addLifelineByAd(){if(!game || game.finished) return;if(state.lifelines>0) return;alert('Tu będzie reklama. Po obejrzeniu dodano 1 koło ratunkowe.');state.lifelines=1;save();renderGame('Dodano 1 koło ratunkowe.');}
+function addLifelineByAd(){if(!game || game.finished) return;if(state.lifelines>0) return;if(state.adLifelinesUsed>=MAX_AD_LIFELINES_PER_ZOMBIE){renderGame('Limit reklam dla tego zombiaka został wykorzystany.'); return;}alert('Tu będzie reklama. Po obejrzeniu dodano 1 koło ratunkowe.');state.adLifelinesUsed++;state.lifelines=1;save();renderGame('Dodano 1 koło ratunkowe.');}
 function enterFullscreenByButton(){try{const el=document.documentElement;if(el.requestFullscreen) el.requestFullscreen();if(screen.orientation && screen.orientation.lock){screen.orientation.lock('landscape').catch(()=>{});}}catch(e){}}
 function showWinPrompt(){
   const p = $('winPrompt');
@@ -201,5 +223,5 @@ window.addEventListener('load', () => {
 
 document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1079').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1080').catch(()=>{}));}
 

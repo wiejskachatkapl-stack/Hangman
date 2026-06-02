@@ -3754,7 +3754,7 @@ body{
 }
 
 
-/* v1079: realna poprawka okna po odgadnięciu hasła - wąskie, przyciski obok siebie, te same grafiki */
+/* v1080: realna poprawka okna po odgadnięciu hasła - wąskie, przyciski obok siebie, te same grafiki */
 .game-result-prompt{
   background:rgba(0,0,0,.58) !important;
   padding:12px !important;
