@@ -3924,3 +3924,94 @@ body{
     min-width:120px !important;
   }
 }
+
+
+/* v1085 — bez zmian w grafice 1078/1084. Poprawka tylko telefonu: koła nie wchodzą w klawiaturę, przycisk Nowe hasło ukryty, GRAJ delikatnie szersze. */
+#screen-game .game-actions{
+  display:none !important;
+}
+#screen-game .old-style-lifelines .life{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  overflow:hidden !important;
+}
+#screen-game .old-style-lifelines .life img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  background:transparent !important;
+}
+
+@media (orientation: landscape) and (max-width: 950px), (max-height: 520px){
+  #screen-game .play-area{
+    top:50px !important;
+    width:66vw !important;
+    gap:4px !important;
+  }
+  #screen-game .word{
+    min-height:48px !important;
+    max-height:56px !important;
+    padding-top:4px !important;
+    padding-bottom:4px !important;
+  }
+  #screen-game .old-style-lifelines{
+    margin-top:4px !important;
+    margin-bottom:7px !important;
+    gap:7px !important;
+    min-height:38px !important;
+    align-items:center !important;
+    flex-wrap:nowrap !important;
+  }
+  #screen-game .lifelines-label{
+    font-size:clamp(18px,2.65vw,25px) !important;
+    line-height:1 !important;
+  }
+  #screen-game .old-style-lifelines .life{
+    width:36px !important;
+    height:36px !important;
+    min-width:36px !important;
+  }
+  #screen-game .keyboard{
+    width:64vw !important;
+    margin-top:8px !important;
+    gap:5px !important;
+    clear:both !important;
+  }
+  #screen-game .key{
+    height:30px !important;
+    font-size:23px !important;
+  }
+}
+
+@media (orientation: portrait){
+  #screen-game .old-style-lifelines{
+    margin-top:4px !important;
+    margin-bottom:8px !important;
+    min-height:38px !important;
+    flex-wrap:nowrap !important;
+  }
+  #screen-game .old-style-lifelines .life{
+    width:36px !important;
+    height:36px !important;
+    min-width:36px !important;
+  }
+  #screen-game .keyboard{
+    margin-top:8px !important;
+  }
+}
+
+/* Ekran GRAJ na telefonie: delikatnie szerzej niż contain, bez zmiany pozostałych ekranów. */
+@media (orientation: landscape) and (max-width: 950px), (max-height: 520px){
+  #screen-play-menu.play-menu-screen{
+    background-size:auto 104% !important;
+    background-position:center center !important;
+  }
+}
+@media (orientation: portrait){
+  #screen-play-menu.play-menu-screen{
+    background-size:auto 104% !important;
+    background-position:center center !important;
+  }
+}
