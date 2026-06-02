@@ -1,62 +1,54 @@
-window.ZH_PHRASES = [
-  {
-    "cat": "PAŃSTWO",
-    "text": "POLSKA"
-  },
-  {
-    "cat": "PAŃSTWO",
-    "text": "JAPONIA"
-  },
-  {
-    "cat": "PAŃSTWO",
-    "text": "TAJLANDIA"
-  },
-  {
-    "cat": "ZWIERZĘTA",
-    "text": "WILK"
-  },
-  {
-    "cat": "ZWIERZĘTA",
-    "text": "ŻÓŁW"
-  },
-  {
-    "cat": "ZWIERZĘTA",
-    "text": "NIETOPERZ"
-  },
-  {
-    "cat": "KUCHNIA",
-    "text": "PIEROGI"
-  },
-  {
-    "cat": "KUCHNIA",
-    "text": "ROSÓŁ"
-  },
-  {
-    "cat": "KUCHNIA",
-    "text": "ŻUREK"
-  },
-  {
-    "cat": "SPORT",
-    "text": "PIŁKA NOŻNA"
-  },
-  {
-    "cat": "SPORT",
-    "text": "KOSZYKÓWKA"
-  },
-  {
-    "cat": "KULTURA",
-    "text": "TEATR"
-  },
-  {
-    "cat": "MUZYKA",
-    "text": "GITARA"
-  },
-  {
-    "cat": "W DOMU",
-    "text": "LODÓWKA"
-  },
-  {
-    "cat": "ROŚLINY",
-    "text": "RÓŻA"
-  }
-];
+// ZOMBIE HANGMAN 1083
+// Prosty plik z hasłami.
+// Dodawanie nowego hasła:
+// 1) znajdź kategorię,
+// 2) dopisz nowy tekst w cudzysłowie,
+// 3) oddziel przecinkiem.
+// Możesz też dopisać nową kategorię według wzoru:
+// "NOWA KATEGORIA": ["HASŁO 1", "HASŁO 2"]
+
+window.ZH_HASLA = {
+  "PAŃSTWO": [
+    "POLSKA",
+    "JAPONIA",
+    "TAJLANDIA",
+    "HISZPANIA",
+    "NORWEGIA",
+    "PORTUGALIA"
+  ],
+
+  "ZWIERZĘTA": [
+    "WILK",
+    "ŻÓŁW",
+    "NIETOPERZ",
+    "KRUK"
+  ],
+
+  "KUCHNIA": [
+    "PIEROGI",
+    "ROSÓŁ",
+    "ŻUREK"
+  ],
+
+  "SPORT": [
+    "PIŁKA NOŻNA",
+    "KOSZYKÓWKA"
+  ],
+
+  "KULTURA": [
+    "TEATR"
+  ],
+
+  "MUZYKA": [
+    "GITARA"
+  ],
+
+  "W DOMU": [
+    "LODÓWKA"
+  ],
+
+  "ROŚLINY": [
+    "RÓŻA",
+    "KAKTUS"
+  ]
+};
