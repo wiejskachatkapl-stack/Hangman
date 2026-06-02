@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1078';
+const VERSION = 'WEB v1079';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const PHRASES = [
@@ -139,12 +139,12 @@ function renderStats(){$('statsBox').innerHTML=`<div>Wersja: <strong>${VERSION}<
 function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach((z,i)=>{const d=document.createElement('div'); d.className='zombie-card'; d.innerHTML=`${i<state.unlocked?'🧟':'🔒'}<span>${i<state.unlocked?z:'Zablokowany'}</span>`; g.appendChild(d);});}
 
 
-// v1051: pola kliknięć ustawione bezpośrednio na napisach/deskach z grafiki bg_graj_integrated.png.
+// v1079: pola kliknięć ustawione bezpośrednio na napisach/deskach z grafiki bg_graj_integrated.png.
 // Współrzędne są w pikselach oryginalnej grafiki 2048x1365, a funkcja niżej sama przelicza je
 // dla telefonu i komputera przy background-size: cover.
 const PLAY_BG_SIZE = { w: 2048, h: 1365 };
 const PLAY_HOTSPOTS = {
-  // v1055: współrzędne dopasowane do grafiki bg_graj_integrated.png.
+  // v1079: współrzędne dopasowane do grafiki bg_graj_integrated.png.
   // To są piksele ORYGINALNEJ grafiki 2048x1365.
   // Funkcja updatePlayHotspots() sama przelicza je na ekran telefonu/komputera.
   single: { x: 60,  y: 390, w: 780, h: 165 },  // GRA POJEDYNCZA
@@ -201,5 +201,5 @@ window.addEventListener('load', () => {
 
 document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1078').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1079').catch(()=>{}));}
 
