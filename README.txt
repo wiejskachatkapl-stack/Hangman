@@ -1,5 +1,9 @@
-ZOMBIE HANGMAN 1081 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1082 - pliki do podmiany
 
-Naprawa v1080: przyciski nie działały przez błąd składni w app.js.
-Dodano jawne ładowanie assets/data/hasla.js przed app.js.
-Bez zmian graficznych względem v1079/v1080.
+Poprawki względem 1081:
+- przywrócony widoczny przycisk MENU w rozgrywce,
+- usunięty dolny przycisk „Nowe hasło”,
+- hasła losowane z assets/data/hasla.js; dodany bezpieczny fallback w app.js, żeby nie losowało ciągle tylko POLSKA,
+- poprawiony cache/service worker i numer kompilacji 1082.
+
+Nie zmieniano grafiki ani układu z 1079/1081 poza tymi poprawkami.

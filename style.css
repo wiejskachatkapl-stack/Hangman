@@ -3809,3 +3809,71 @@ body{
   .game-result-actions{gap:10px !important}
   .game-result-actions .result-img-btn{width:min(185px,38vw) !important;min-width:120px !important}
 }
+
+
+/* v1082: naprawa po 1081 bez zmiany grafiki 1079/1078.
+   1) Przywraca widoczny przycisk MENU w rozgrywce.
+   2) Usuwa dolny przycisk NOWE HASŁO.
+   3) Zostawia koła ratunkowe i układ bez zmian. */
+#screen-game .game-top{
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+  z-index:9990 !important;
+}
+#screen-game .game-menu-btn,
+#screen-game .small-wood.game-menu-btn[data-action="menu"]{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  position:fixed !important;
+  right:clamp(10px,1.4vw,22px) !important;
+  top:clamp(8px,1.3vh,18px) !important;
+  width:clamp(112px,10vw,168px) !important;
+  height:clamp(44px,6.5vh,66px) !important;
+  min-width:112px !important;
+  min-height:44px !important;
+  z-index:9996 !important;
+  background:url('assets/img/btn_menu_v1067.png') center/100% 100% no-repeat !important;
+  background-color:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  color:transparent !important;
+  font-size:0 !important;
+  line-height:0 !important;
+  text-indent:-9999px !important;
+  overflow:hidden !important;
+  padding:0 !important;
+  margin:0 !important;
+  pointer-events:auto !important;
+}
+#screen-game .game-actions,
+#screen-game .game-actions .wood-btn,
+#screen-game .game-actions .wood-btn.small{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+@media (orientation:landscape) and (max-height:560px), (orientation:landscape) and (max-width:950px){
+  #screen-game .game-menu-btn,
+  #screen-game .small-wood.game-menu-btn[data-action="menu"]{
+    width:clamp(92px,13vw,124px) !important;
+    height:clamp(36px,8vh,50px) !important;
+    min-width:92px !important;
+    min-height:36px !important;
+    right:clamp(7px,1.4vw,14px) !important;
+    top:clamp(6px,1.4vh,10px) !important;
+  }
+}
+@media (orientation:portrait){
+  #screen-game .game-menu-btn,
+  #screen-game .small-wood.game-menu-btn[data-action="menu"]{
+    width:clamp(92px,13vh,124px) !important;
+    height:clamp(36px,8vw,50px) !important;
+    min-width:92px !important;
+    min-height:36px !important;
+    right:clamp(7px,1.4vh,14px) !important;
+    top:clamp(6px,1.4vw,10px) !important;
+  }
+}
