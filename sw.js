@@ -1,5 +1,51 @@
-const CACHE='zombie-hangman-web-v1083';
-const FILES=["./", "./sw.js", "./style.css", "./manifest.json", "./index.html", "./app.js", "./README.txt", "./assets/img/bg_game_single.png", "./assets/img/img_ratunek.png", "./assets/img/btn_menu_v1067.png", "./assets/img/btn_menu_zombie_board.png", "./assets/img/img_ratunek_v1079.png", "./assets/data/hasla.js"];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()));});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
-self.addEventListener('fetch',e=>{const req=e.request;const url=new URL(req.url);const fresh=url.pathname.endsWith('.html')||url.pathname.endsWith('.css')||url.pathname.endsWith('.js')||url.search.includes('v=1083');if(fresh){e.respondWith(fetch(req,{cache:'no-store'}).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put(req,copy));return res;}).catch(()=>caches.match(req)));return;}e.respondWith(caches.match(req).then(r=>r||fetch(req).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put(req,copy));return res;})));});
+const CACHE = 'zombie-hangman-web-v1084';
+const FILES = [
+  './', './index.html', './style.css', './app.js', './manifest.json', './README.txt',
+  './assets/data/hasla.js',
+  './assets/img/bg_game_single.png',
+  './assets/img/btn_menu_v1067.png',
+  './assets/img/btn_menu_zombie_board.png',
+  './assets/img/img_ratunek_v1084.png'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', event => {
+  const req = event.request;
+  const url = new URL(req.url);
+  const isHtml = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
+  const isFresh = isHtml || url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.search.includes('v=1084');
+
+  if (isFresh) {
+    event.respondWith(
+      fetch(req, { cache: 'no-store' })
+        .then(res => {
+          const copy = res.clone();
+          caches.open(CACHE).then(cache => cache.put(req, copy));
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(req).then(cached => cached || fetch(req).then(res => {
+      const copy = res.clone();
+      caches.open(CACHE).then(cache => cache.put(req, copy));
+      return res;
+    }))
+  );
+});

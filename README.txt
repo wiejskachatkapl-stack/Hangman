@@ -1,12 +1,10 @@
-ZOMBIE HANGMAN WEB v1083 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1084 - pliki do podmiany
 
-Podmień całą zawartość paczki na GitHubie.
+Zmiany:
+- naprawa po sytuacji, gdzie po uruchomieniu ładowała się sama grafika koła ratunkowego,
+- wymuszone czyszczenie starego cache zombie-hangman-web-* przy starcie,
+- service worker v1084 z bezpieczniejszym odświeżaniem index/style/app/hasla,
+- koło ratunkowe podmienione na wersję z przezroczystością jako assets/img/img_ratunek_v1084.png,
+- w index.html koła odwołują się do nowej nazwy, żeby przeglądarka nie trzymała starego pliku.
 
-Zmiany względem v1082:
-- przycisk MENU w oknie po odgadnięciu hasła wymuszony jako widoczny,
-- cache, index, app i service worker podniesione do wersji 1083,
-- uproszczony plik haseł: assets/data/hasla.js ma teraz prosty układ kategoriami.
-
-Dodawanie haseł:
-assets/data/hasla.js
-"KATEGORIA": ["HASŁO 1", "HASŁO 2"]
+Po wgraniu na GitHub Pages odśwież stronę Ctrl+F5. Jeśli nadal pokazuje sam obrazek, adres w pasku przeglądarki prowadzi do pliku PNG, a nie do index.html.
