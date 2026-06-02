@@ -1,4 +1,8 @@
-ZOMBIE HANGMAN WEB v1076 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1077 - pliki do podmiany
 
-Dodano okno po odgadnięciu hasła: „Hasło odgadnięte. Czy grasz dalej?” z przyciskami LOSUJ i MENU.
-LOSOWANIE KATEGORII i pozostały wygląd bez zmian względem v1075.
+Poprawka mechaniki po odgadnięciu hasła:
+- przycisk LOSUJ w oknie „Hasło odgadnięte” losuje od razu nowe hasło/kategorię,
+- nie przechodzi już do okna Losowanie kategorii,
+- MENU nadal wraca do pierwszej strony.
+
+Podmień całą zawartość paczki na GitHubie.
