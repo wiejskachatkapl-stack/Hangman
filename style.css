@@ -1676,7 +1676,7 @@ button[data-action="menu"]:active{
 #screen-game.game-screen{
   background:
     linear-gradient(rgba(2,3,5,.05),rgba(2,3,5,.12)),
-    url('assets/img/bg_game_single.png?v=1072') center center/cover no-repeat !important;
+    url('assets/img/bg_game_single.png?v=1063') center center/cover no-repeat !important;
 }
 
 #screen-game .game-top{
@@ -2641,7 +2641,7 @@ button[data-action="menu"]{
 }
 
 
-/* v1073: bez automatycznego pełnego ekranu, przycisk MENU większy w rozgrywce,
+/* v1069: bez automatycznego pełnego ekranu, przycisk MENU większy w rozgrywce,
    koła ratunkowe po wykorzystaniu zmieniają się w jedno koło z dużym plusem. */
 #screen-game .game-menu-btn,
 #screen-game .small-wood.game-menu-btn[data-action="menu"]{
@@ -2710,7 +2710,7 @@ button[data-action="menu"]{
 }
 
 
-/* v1073: naprawa responsywności rozgrywki + brak wymuszania pełnego ekranu.
+/* v1069: naprawa responsywności rozgrywki + brak wymuszania pełnego ekranu.
    Ekranu LOSOWANIE KATEGORII nie zmieniamy. */
 html, body, .app{
   min-width:0 !important;
@@ -3135,7 +3135,7 @@ html, body, .app{
 }
 
 
-/* v1073: ekran GRAJ ma zawsze mieścić całą grafikę w oknie.
+/* v1070: ekran GRAJ ma zawsze mieścić całą grafikę w oknie.
    Nie używamy cover, bo na telefonie i różnych proporcjach ucinał obraz albo wypychał go poza ekran.
    Hotspoty są liczone w app.js z tym samym algorytmem contain. */
 #screen-play-menu.play-menu-screen{
@@ -3165,7 +3165,7 @@ html, body, .app{
   pointer-events:auto !important;
 }
 
-/* v1073: wyłączamy obracanie całej aplikacji CSS-em.
+/* v1070: wyłączamy obracanie całej aplikacji CSS-em.
    Telefon ma sam skalować widok, a nie dostawać obrócony ekran, który robi czarne marginesy. */
 @media (orientation: portrait){
   body{position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; overflow:hidden !important;}
@@ -3183,7 +3183,7 @@ html, body, .app{
   }
 }
 
-/* v1073: w razie bardzo szerokiego lub bardzo niskiego ekranu nie przycinamy tła GRAJ. */
+/* v1070: w razie bardzo szerokiego lub bardzo niskiego ekranu nie przycinamy tła GRAJ. */
 @media (max-height:520px), (max-width:900px){
   #screen-play-menu.play-menu-screen{
     background-size:contain !important;
@@ -3191,10 +3191,55 @@ html, body, .app{
   }
 }
 
-/* v1073: powrót do stabilnego skalowania z v1070.
-   Ekran GRAJ zostaje dokładnie jak w v1070: contain, bez rozciągania 104%.
-   Pozostałe pełnoekranowe plansze dostają bezpieczne dopasowanie tła do okna,
-   bez przycinania obrazu i bez wymuszania pełnego ekranu. */
+/* =========================================================
+   v1074 — STABILNA RESPONSYWNOŚĆ GLOBALNA
+   Baza: v1070. Telefon zostaje bez obracania CSS, ekran GRAJ
+   używa contain, a rozgrywka skaluje się do dostępnego okna.
+   ========================================================= */
+html,body{
+  width:100% !important;
+  height:100% !important;
+  min-height:100% !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:#000 !important;
+}
+body{
+  position:fixed !important;
+  inset:0 !important;
+}
+.app{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  height:100dvh !important;
+  max-width:100vw !important;
+  max-height:100dvh !important;
+  transform:none !important;
+  overflow:hidden !important;
+  background:#000 !important;
+}
+.screen{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  overflow:hidden !important;
+}
+
+/* Wszystkie tła mają zachować proporcje i nie robić czarnego ekranu. */
+.menu-screen,
+.sub-screen,
+.draw-category-screen,
+.game-screen{
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+  background-size:cover !important;
+}
+
+/* Ekran GRAJ — działający system z v1070: cała grafika mieści się w ekranie. */
 #screen-play-menu.play-menu-screen{
   background-color:#000 !important;
   background-image:url('assets/img/bg_graj_integrated.png') !important;
@@ -3202,88 +3247,381 @@ html, body, .app{
   background-position:center center !important;
   background-size:contain !important;
 }
-
-#screen-menu.menu-screen,
-#screen-draw-category.draw-category-screen,
-#screen-game.game-screen,
-#screen-about,
-#screen-stats.sub-screen,
-#screen-gallery.sub-screen,
-#screen-settings.sub-screen{
-  background-repeat:no-repeat !important;
-  background-position:center center !important;
-  background-size:cover !important;
+#screen-play-menu .menu-overlay{display:none !important;}
+#screen-play-menu .play-start-wrap,
+#screen-play-menu .play-integrated-hotspots{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  transform:none !important;
+}
+#screen-play-menu .play-bg-hotspot{
+  position:absolute !important;
+  display:block !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  z-index:9999 !important;
+  pointer-events:auto !important;
 }
 
-/* Na nietypowych proporcjach nie ucinamy kluczowych teł — przechodzimy w contain. */
-@media (max-aspect-ratio: 13/9), (min-aspect-ratio: 21/9), (max-height:520px), (max-width:900px){
-  #screen-menu.menu-screen,
-  #screen-draw-category.draw-category-screen,
-  #screen-game.game-screen,
-  #screen-about,
-  #screen-stats.sub-screen,
-  #screen-gallery.sub-screen,
-  #screen-settings.sub-screen{
-    background-size:contain !important;
-    background-color:#000 !important;
-  }
-  #screen-play-menu.play-menu-screen{
-    background-size:contain !important;
-    background-position:center center !important;
-    background-color:#000 !important;
-  }
+/* ---------------------------------------------------------
+   ROZGRYWKA — układ jak zaakceptowany wzór: wszystko po lewej,
+   miejsce na wieszanie zombiaka po prawej, brak komunikatu
+   „Nowe hasło wylosowane...” i widoczna klawiatura.
+   --------------------------------------------------------- */
+#screen-game.game-screen{
+  background:
+    linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.12)),
+    url('assets/img/bg_game_single.png') center center/cover no-repeat !important;
 }
+#screen-game .game-layout,
+#screen-game .play-area,
+#screen-game .hang-area{
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+#screen-game .hang-area{display:none !important;}
 
-/* Brak automatycznego pełnego ekranu i brak obracania całej aplikacji CSS-em. */
-html, body, .app{
-  width:100vw !important;
-  height:100vh !important;
-  height:100dvh !important;
+#screen-game .game-top{
+  position:absolute !important;
+  left:1.5vw !important;
+  right:2.2vw !important;
+  top:1.6vh !important;
+  height:clamp(46px,7.2vh,82px) !important;
+  display:flex !important;
+  align-items:flex-start !important;
+  justify-content:space-between !important;
+  gap:clamp(8px,1vw,18px) !important;
+  z-index:70 !important;
+}
+#screen-game .hud-line{
+  flex:0 1 auto !important;
+  width:min(72vw, 1180px) !important;
+  max-width:calc(100vw - 210px) !important;
+  height:clamp(42px,6.6vh,74px) !important;
+  min-height:0 !important;
+  padding:0 clamp(18px,2.2vw,38px) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-around !important;
+  gap:clamp(14px,2vw,44px) !important;
+  background:linear-gradient(180deg,rgba(88,50,24,.96),rgba(37,18,8,.98)) !important;
+  border:2px solid rgba(118,76,38,.92) !important;
+  border-radius:6px !important;
+  box-shadow:inset 0 2px 0 rgba(255,232,180,.18),0 5px 14px rgba(0,0,0,.55) !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(22px,2.2vw,42px) !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  white-space:nowrap !important;
+  text-align:center !important;
+  text-shadow:0 3px 4px #000 !important;
+  color:#fff4d4 !important;
+}
+#screen-game .hud-score,
+#screen-game .hud-score strong{color:#58f04a !important;}
+#screen-game .hud-zombie,
+#screen-game .hud-zombie strong{color:#fff4d4 !important;}
+#screen-game .hud-mistakes,
+#screen-game .hud-mistakes strong{color:#ff4b4b !important;}
+#screen-game .game-menu-btn,
+#screen-game .small-wood.game-menu-btn[data-action="menu"]{
+  position:static !important;
+  flex:0 0 auto !important;
+  width:clamp(104px,10vw,178px) !important;
+  height:clamp(42px,6.7vh,74px) !important;
   min-width:0 !important;
   min-height:0 !important;
-  overflow:hidden !important;
+  margin:0 !important;
+  padding:0 !important;
+  z-index:71 !important;
 }
-.app{
-  position:fixed !important;
+
+#screen-game .game-layout{
+  position:absolute !important;
   inset:0 !important;
-  transform:none !important;
-  transform-origin:center center !important;
+  display:block !important;
+  z-index:10 !important;
 }
-@media (orientation: portrait){
-  body{position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; overflow:hidden !important;}
-  .app{position:fixed !important; inset:0 !important; width:100vw !important; height:100dvh !important; transform:none !important;}
+#screen-game .play-area{
+  position:absolute !important;
+  left:1.55vw !important;
+  top:clamp(82px,12.4vh,128px) !important;
+  width:min(61vw, 980px) !important;
+  height:auto !important;
+  min-height:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:clamp(8px,1.25vh,14px) !important;
+  overflow:visible !important;
+}
+#screen-game .game-category-line{
+  position:relative !important;
+  order:1 !important;
+  width:min(36vw, 560px) !important;
+  margin:0 !important;
+  padding:clamp(6px,.9vh,10px) clamp(12px,1.4vw,24px) !important;
+  min-height:0 !important;
+  border:2px solid rgba(105,93,78,.55) !important;
+  border-radius:4px !important;
+  background:rgba(0,0,0,.78) !important;
+  color:#fff4d4 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(21px,2vw,38px) !important;
+  font-weight:900 !important;
+  line-height:1.06 !important;
+  text-align:left !important;
+  text-shadow:0 3px 4px #000 !important;
+}
+#screen-game .game-category-line strong{color:#fff4d4 !important;}
+#screen-game .word{
+  position:relative !important;
+  order:2 !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  width:min(51vw, 820px) !important;
+  min-height:clamp(70px,12.5vh,130px) !important;
+  max-height:clamp(80px,14vh,145px) !important;
+  margin:0 !important;
+  padding:clamp(8px,2vh,20px) clamp(14px,2vw,30px) !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:clamp(7px,.9vw,16px) !important;
+  border:3px solid rgba(87,54,29,.88) !important;
+  border-radius:5px !important;
+  background:radial-gradient(circle at center,rgba(255,229,174,.96),rgba(196,142,75,.92)) !important;
+  box-shadow:inset 0 0 24px rgba(89,43,6,.42),0 8px 18px rgba(0,0,0,.46) !important;
+}
+#screen-game .letter-box{
+  min-width:clamp(20px,2.25vw,38px) !important;
+  height:clamp(30px,5vh,54px) !important;
+  line-height:clamp(30px,5vh,54px) !important;
+  padding:0 !important;
+  border:0 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(28px,3vw,52px) !important;
+  font-weight:900 !important;
+  text-align:center !important;
+  color:#111 !important;
+  text-shadow:0 1px 1px rgba(255,245,210,.68) !important;
+}
+#screen-game .letter-box:not(.space):empty::after{content:'—' !important;color:#080705 !important;}
+#screen-game .space{width:clamp(16px,1.5vw,28px) !important;}
+#screen-game .message{display:none !important;}
+
+#screen-game .old-style-lifelines{
+  position:relative !important;
+  order:3 !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  width:auto !important;
+  min-height:0 !important;
+  margin:clamp(4px,.6vh,8px) 0 0 !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:clamp(8px,1.1vw,18px) !important;
+  border:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  z-index:44 !important;
+}
+#screen-game .lifelines-label{
+  margin-right:clamp(4px,.7vw,10px) !important;
+  color:#fff4d4 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(22px,2.35vw,40px) !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  text-shadow:0 3px 4px #000 !important;
+}
+#screen-game .old-style-lifelines .life{
+  position:relative !important;
+  display:block !important;
+  width:clamp(44px,4.6vw,78px) !important;
+  height:clamp(44px,4.6vw,78px) !important;
+  min-width:clamp(44px,4.6vw,78px) !important;
+  min-height:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:50% !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  opacity:1 !important;
+  z-index:45 !important;
+  cursor:pointer !important;
+  overflow:visible !important;
+}
+#screen-game .old-style-lifelines .life img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  display:block !important;
+  filter:drop-shadow(0 5px 8px rgba(0,0,0,.72)) !important;
+  pointer-events:none !important;
+}
+#screen-game .old-style-lifelines .life.life-used,
+#screen-game .old-style-lifelines .life:disabled{
+  opacity:.28 !important;
+  filter:grayscale(1) brightness(.7) !important;
+}
+#screen-game .old-style-lifelines .life.life-hidden{display:none !important;}
+#screen-game .old-style-lifelines .life.life-add{
+  display:block !important;
+  opacity:1 !important;
+  filter:none !important;
+}
+#screen-game .old-style-lifelines .life.life-add img{opacity:.78 !important;filter:drop-shadow(0 5px 8px rgba(0,0,0,.72)) brightness(.9) !important;}
+#screen-game .old-style-lifelines .life.life-add::after{
+  content:'+';
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#70ff48;
+  font-family:Arial,sans-serif;
+  font-size:clamp(40px,5vw,86px);
+  line-height:1;
+  font-weight:900;
+  text-shadow:0 4px 4px #000,0 0 8px #000;
 }
 
-
-/* v1073: korekta TYLKO dla komputera.
-   Telefon zostaje z ustawieniami v1070/v1072, bo tam było dobrze.
-   Na desktopie delikatnie rozszerzamy pełnoekranowe tła w lewo i w prawo,
-   bez zmiany układu klawiatury ani ekranu rozgrywki. */
-@media (orientation: landscape) and (min-width: 901px) and (min-height: 521px) {
-  #screen-menu.menu-screen,
-  #screen-draw-category.draw-category-screen,
-  #screen-about,
-  #screen-stats.sub-screen,
-  #screen-gallery.sub-screen,
-  #screen-settings.sub-screen{
-    background-size:102% auto !important;
-    background-position:center center !important;
-    background-color:#000 !important;
-  }
-
-  /* Ekran GRAJ zostaje dopasowany jak w v1070, ale na komputerze lekko wypełnia boki. */
-  #screen-play-menu.play-menu-screen{
-    background-size:102% auto !important;
-    background-position:center center !important;
-    background-color:#000 !important;
-  }
+#screen-game .keyboard{
+  position:relative !important;
+  order:4 !important;
+  left:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  width:min(59vw, 950px) !important;
+  max-width:calc(100vw - 48px) !important;
+  margin:clamp(6px,1vh,12px) 0 0 !important;
+  padding:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:clamp(7px,1vh,12px) !important;
+  z-index:42 !important;
+}
+#screen-game .key-row{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:clamp(7px,.75vw,13px) !important;
+  width:auto !important;
+}
+#screen-game .key{
+  width:clamp(42px,4.2vw,74px) !important;
+  height:clamp(40px,5.7vh,66px) !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  padding:0 !important;
+  border:2px solid rgba(112,103,89,.66) !important;
+  border-radius:7px !important;
+  background:linear-gradient(180deg,rgba(54,54,50,.96),rgba(15,15,14,.98)) !important;
+  color:#ead8b6 !important;
+  font-family:Georgia,'Times New Roman',serif !important;
+  font-size:clamp(24px,2.55vw,44px) !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  text-shadow:0 2px 3px #000 !important;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.11),0 4px 0 rgba(0,0,0,.52),0 8px 13px rgba(0,0,0,.36) !important;
+}
+#screen-game .key.used{opacity:.42 !important;}
+#screen-game .key.good{background:linear-gradient(180deg,#356d3d,#143116) !important;color:#fff4d4 !important;}
+#screen-game .key.bad{background:linear-gradient(180deg,#713636,#2a0d0d) !important;color:#fff4d4 !important;}
+#screen-game .game-actions{
+  position:relative !important;
+  order:5 !important;
+  left:auto !important;
+  right:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  width:clamp(260px,31vw,520px) !important;
+  margin:clamp(8px,1.3vh,16px) 0 0 !important;
+  display:block !important;
+  z-index:43 !important;
+}
+#screen-game .game-actions .wood-btn{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:clamp(8px,1.4vh,16px) clamp(14px,1.8vw,28px) !important;
+  font-size:clamp(22px,2.45vw,42px) !important;
+  line-height:1.05 !important;
 }
 
-/* v1073: zachowujemy pełne dopasowanie na telefonach i małych ekranach. */
-@media (orientation: portrait), (max-width:900px), (max-height:520px){
-  #screen-play-menu.play-menu-screen{
-    background-size:contain !important;
-    background-position:center center !important;
-    background-color:#000 !important;
-  }
+/* Małe wysokości: typowy telefon poziomo / małe okno przeglądarki. */
+@media (max-height:520px), (max-width:950px) and (orientation:landscape){
+  #screen-game .game-top{left:1.5vw !important;right:2vw !important;top:1.2vh !important;height:38px !important;gap:8px !important;}
+  #screen-game .hud-line{width:64vw !important;max-width:calc(100vw - 128px) !important;height:36px !important;padding:0 12px !important;gap:10px !important;font-size:clamp(17px,2.45vw,26px) !important;border-width:2px !important;}
+  #screen-game .game-menu-btn,#screen-game .small-wood.game-menu-btn[data-action="menu"]{width:96px !important;height:36px !important;}
+  #screen-game .play-area{left:1.5vw !important;top:52px !important;width:64vw !important;gap:6px !important;}
+  #screen-game .game-category-line{width:29vw !important;font-size:clamp(18px,2.75vw,26px) !important;padding:5px 10px !important;}
+  #screen-game .word{width:50vw !important;min-height:50px !important;max-height:58px !important;padding:6px 14px !important;gap:5px !important;}
+  #screen-game .letter-box{min-width:18px !important;height:36px !important;line-height:36px !important;font-size:30px !important;}
+  #screen-game .lifelines-label{font-size:clamp(19px,2.8vw,28px) !important;}
+  #screen-game .old-style-lifelines{gap:7px !important;margin-top:2px !important;}
+  #screen-game .old-style-lifelines .life{width:42px !important;height:42px !important;min-width:42px !important;}
+  #screen-game .keyboard{width:63vw !important;gap:5px !important;margin-top:5px !important;}
+  #screen-game .key-row{gap:5px !important;}
+  #screen-game .key{width:clamp(32px,4.6vw,48px) !important;height:32px !important;font-size:24px !important;border-width:1.5px !important;border-radius:5px !important;}
+  #screen-game .game-actions{width:220px !important;margin-top:6px !important;}
+  #screen-game .game-actions .wood-btn{font-size:22px !important;padding:7px 12px !important;}
+}
+
+/* Telefon pionowo — nic nie obracamy, tylko mocniej kompresujemy do wysokości. */
+@media (orientation:portrait){
+  .app{width:100vw !important;height:100dvh !important;transform:none !important;}
+  #screen-game .game-top{left:2vw !important;right:2vw !important;top:1vh !important;height:42px !important;}
+  #screen-game .hud-line{width:calc(100vw - 118px) !important;max-width:calc(100vw - 118px) !important;height:40px !important;font-size:clamp(13px,3.55vw,20px) !important;padding:0 8px !important;gap:6px !important;}
+  #screen-game .game-menu-btn,#screen-game .small-wood.game-menu-btn[data-action="menu"]{width:94px !important;height:40px !important;}
+  #screen-game .play-area{left:2vw !important;top:52px !important;width:96vw !important;gap:6px !important;}
+  #screen-game .game-category-line{width:58vw !important;font-size:clamp(18px,5.2vw,25px) !important;padding:5px 10px !important;}
+  #screen-game .word{width:94vw !important;min-height:58px !important;max-height:74px !important;padding:6px 12px !important;gap:5px !important;}
+  #screen-game .letter-box{min-width:18px !important;height:38px !important;line-height:38px !important;font-size:clamp(25px,7vw,34px) !important;}
+  #screen-game .old-style-lifelines{gap:7px !important;margin-top:2px !important;}
+  #screen-game .lifelines-label{font-size:clamp(18px,5.2vw,26px) !important;}
+  #screen-game .old-style-lifelines .life{width:42px !important;height:42px !important;min-width:42px !important;}
+  #screen-game .keyboard{width:96vw !important;gap:5px !important;margin-top:5px !important;}
+  #screen-game .key-row{gap:5px !important;}
+  #screen-game .key{width:calc((96vw - 55px)/12) !important;height:34px !important;font-size:clamp(20px,6vw,28px) !important;border-width:1.5px !important;border-radius:5px !important;}
+  #screen-game .game-actions{width:56vw !important;margin-top:6px !important;}
+  #screen-game .game-actions .wood-btn{font-size:clamp(20px,5.5vw,27px) !important;padding:8px 10px !important;}
+}
+
+/* Bardzo mały telefon w pionie. */
+@media (orientation:portrait) and (max-height:720px){
+  #screen-game .game-top{height:36px !important;}
+  #screen-game .hud-line{height:34px !important;font-size:clamp(12px,3.3vw,17px) !important;}
+  #screen-game .game-menu-btn,#screen-game .small-wood.game-menu-btn[data-action="menu"]{width:82px !important;height:34px !important;}
+  #screen-game .play-area{top:43px !important;gap:4px !important;}
+  #screen-game .game-category-line{font-size:clamp(16px,4.8vw,21px) !important;padding:4px 8px !important;}
+  #screen-game .word{min-height:48px !important;max-height:58px !important;padding:4px 10px !important;}
+  #screen-game .letter-box{height:30px !important;line-height:30px !important;font-size:24px !important;}
+  #screen-game .lifelines-label{font-size:20px !important;}
+  #screen-game .old-style-lifelines .life{width:34px !important;height:34px !important;min-width:34px !important;}
+  #screen-game .key{height:28px !important;font-size:20px !important;}
+  #screen-game .game-actions .wood-btn{font-size:20px !important;padding:6px 10px !important;}
+}
+
+/* Plansze poboczne nie powinny wychodzić poza ekran. */
+.panel,.board-panel,.about-panel{
+  max-width:calc(100vw - 16px) !important;
+  max-height:calc(100dvh - 16px) !important;
+  overflow:auto !important;
 }
