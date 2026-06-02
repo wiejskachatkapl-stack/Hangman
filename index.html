@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#05070c" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman WEB v1074</title>
+  <title>Zombie Hangman WEB v1075</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=1074" />
+  <link rel="stylesheet" href="style.css?v=1075" />
 </head>
 <body>
   <div id="app" class="app">
@@ -117,20 +117,24 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>WEB v1074</strong></p>
-        <p>Skalowanie ekranu startowego:</p>
-        <div class="scale-row">
-          <button class="wood-btn small" data-action="scale-down">Pomniejsz</button>
-          <button class="wood-btn small" data-action="scale-reset">Dopasuj</button>
-          <button class="wood-btn small" data-action="scale-up">Powiększ</button>
-        </div>
-        <button class="wood-btn" data-action="fullscreen">Pełny ekran</button>
+        <p>Wersja: <strong>WEB v1075</strong></p>
         <button class="wood-btn" data-action="menu">Menu</button>
       </div>
     </section>
   </div>
 
+
+  <div id="fullscreenPrompt" class="fullscreen-prompt" aria-hidden="true">
+    <div class="fullscreen-box" role="dialog" aria-modal="true" aria-labelledby="fullscreenTitle">
+      <div id="fullscreenTitle" class="fullscreen-title">Czy chcesz grać na pełnym ekranie?</div>
+      <div class="fullscreen-actions">
+        <button class="wood-btn small" data-action="fullscreen-yes">TAK</button>
+        <button class="wood-btn small" data-action="fullscreen-no">NIE</button>
+      </div>
+    </div>
+  </div>
+  <div id="buildVersion" class="build-version">WEB v1075</div>
   <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
-  <script src="app.js?v=1074"></script>
+  <script src="app.js?v=1075"></script>
 </body>
 </html>
