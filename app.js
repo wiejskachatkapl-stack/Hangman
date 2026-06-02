@@ -1,4 +1,4 @@
-const VERSION = 'WEB v1079';
+const VERSION = '1079';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const PHRASES = [
@@ -139,12 +139,12 @@ function renderStats(){$('statsBox').innerHTML=`<div>Wersja: <strong>${VERSION}<
 function renderGallery(){const g=$('galleryBox'); g.innerHTML='';ZOMBIES.forEach((z,i)=>{const d=document.createElement('div'); d.className='zombie-card'; d.innerHTML=`${i<state.unlocked?'🧟':'🔒'}<span>${i<state.unlocked?z:'Zablokowany'}</span>`; g.appendChild(d);});}
 
 
-// v1079: pola kliknięć ustawione bezpośrednio na napisach/deskach z grafiki bg_graj_integrated.png.
+// v1051: pola kliknięć ustawione bezpośrednio na napisach/deskach z grafiki bg_graj_integrated.png.
 // Współrzędne są w pikselach oryginalnej grafiki 2048x1365, a funkcja niżej sama przelicza je
 // dla telefonu i komputera przy background-size: cover.
 const PLAY_BG_SIZE = { w: 2048, h: 1365 };
 const PLAY_HOTSPOTS = {
-  // v1079: współrzędne dopasowane do grafiki bg_graj_integrated.png.
+  // v1055: współrzędne dopasowane do grafiki bg_graj_integrated.png.
   // To są piksele ORYGINALNEJ grafiki 2048x1365.
   // Funkcja updatePlayHotspots() sama przelicza je na ekran telefonu/komputera.
   single: { x: 60,  y: 390, w: 780, h: 165 },  // GRA POJEDYNCZA
