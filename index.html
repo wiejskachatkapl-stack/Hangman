@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#05070c" />
+  <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Zombie Hangman 1085</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="style.css?v=1085" />
+</head>
+<body>
+  <div id="app" class="app">
+    <section id="screen-menu" class="screen active menu-screen" aria-label="Menu główne">
+      <div class="menu-overlay"></div>
+      <div class="menu-wrap">
+        <aside class="signpost-menu" aria-label="Menu gry">
+          <img class="signpost-image" src="assets/img/menu_signpost_active_transparent.png" alt="Drogowskaz menu" />
+          <button class="menu-hotspot hotspot-about" data-action="about" aria-label="O grze"></button>
+          <button class="menu-hotspot hotspot-play" data-action="play-menu" aria-label="Graj"></button>
+          <button class="menu-hotspot hotspot-stats" data-action="stats" aria-label="Statystyki"></button>
+          <button class="menu-hotspot hotspot-gallery" data-action="gallery" aria-label="Galeria zombie"></button>
+          <button class="menu-hotspot hotspot-exit" data-action="exit" aria-label="Wyjście"></button>
+        </aside>
+      </div>
+
+      <button class="gear" data-action="settings" aria-label="Ustawienia">⚙</button>
+      <div class="copyright"></div>
+    </section>
+
+    <section id="screen-play-menu" class="screen play-menu-screen" aria-label="Menu gry">
+      <div class="menu-overlay"></div>
+      <div class="play-start-wrap">
+        <div class="play-integrated-hotspots" aria-label="Wybór trybu gry">
+          <button class="play-bg-hotspot play-bg-hotspot-single" data-action="new-single" aria-label="Gra pojedyncza"></button>
+          <button class="play-bg-hotspot play-bg-hotspot-multi" data-action="dual-info" aria-label="Multiplayer"></button>
+          <button class="play-bg-hotspot play-bg-hotspot-back" data-action="play-back" aria-label="Cofnij"></button>
+        </div>
+      </div>
+      <button class="gear" data-action="settings" aria-label="Ustawienia">⚙</button>
+    </section>
+
+    <section id="screen-draw-category" class="screen draw-category-screen" aria-label="Losowanie kategorii">
+      <div class="draw-card">
+        <h1>LOSOWANIE KATEGORII</h1>
+        <button class="image-btn draw-img-btn" data-action="draw-category" aria-label="Losuj kategorię">
+          <img src="assets/img/btn_losuj.png" alt="Losuj" />
+        </button>
+        <button class="image-btn draw-img-btn draw-back-img-btn" data-action="play-menu" aria-label="Cofnij">
+          <img src="assets/img/btn_cofnij_draw.png" alt="Cofnij" />
+        </button>
+      </div>
+    </section>
+
+    <section id="screen-game" class="screen game-screen">
+      <div class="game-top">
+        <div class="hud-line"><span class="hud-score">Punkty: <strong id="score">0</strong></span><span class="hud-zombie">Zombiak: <strong id="zombieMeter">0/300</strong></span><span class="hud-mistakes">Błędy: <strong id="mistakes">0/6</strong></span></div>
+        <button class="small-wood game-menu-btn" data-action="menu">MENU</button>
+      </div>
+
+      <div class="game-layout">
+        <div class="hang-area">
+          <div class="gallows"><div id="body" class="body-stage stage-0">☠</div></div>
+          <div class="lifelines hang-lifelines-hidden"></div>
+        </div>
+        <div class="play-area">
+          <div id="word" class="word"></div>
+          <div class="game-category-line">Kategoria: <strong id="category">---</strong></div>
+          <div class="lifelines old-style-lifelines">
+            <span class="lifelines-label">Pomoc: <strong id="lifelinesLeft">2</strong>/2</span>
+            <button class="life" data-action="hint" aria-label="Koło ratunkowe 1"><img src="assets/img/img_ratunek_v1085.png" alt="" /></button>
+            <button class="life" data-action="hint" aria-label="Koło ratunkowe 2"><img src="assets/img/img_ratunek_v1085.png" alt="" /></button>
+            <button class="life" data-action="hint" aria-label="Koło ratunkowe 3"><img src="assets/img/img_ratunek_v1085.png" alt="" /></button>
+          </div>
+          <div id="message" class="message">Wylosuj hasło i zgaduj litery.</div>
+          <div id="keyboard" class="keyboard"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-about" class="screen sub-screen">
+      <div class="panel board-panel about-panel">
+        <h1>O GRZE</h1>
+        <div class="about-copy">
+          <p class="about-lead">Zombie Hangman to mroczna, odwrócona o 180 stopni wersja klasycznej gry słownej <span>Wisielec</span>.</p>
+          <p>Wisielec (szubienica) to klasyczna gra słowna dla dwóch lub więcej osób. Jej celem jest odgadnięcie ukrytego hasła litera po literze, zanim przeciwnik ukończy rysunek wiszącego ludzika.</p>
+          <p>W grze Hangman, tak jak i w pierwowzorze, mamy odgadywać hasła, lecz tutaj naszym zadaniem nie jest ratować, a <strong>wieszać zombiaka</strong>. Po odgadnięciu hasła jedna część postaci jest dokładana, aż do momentu powieszenia całej postaci.</p>
+          <p>W grze do dyspozycji mamy na każdą postać <strong>trzy podpowiedzi liter</strong>. Oczywiście możemy grać pojedynczo, jak i w dwie osoby.</p>
+          <p>Mamy również do dyspozycji <strong>pokoje</strong>, w których możemy rywalizować ze znajomymi i piąć się w <strong>rankingach</strong>, przechodząc kolejne poziomy.</p>
+          <p class="about-finale">Myślę, że gra przypadnie do gustu i wciągnie w świat zombie w tradycyjnej grze wisielec, lecz odwróconej o 180 stopni.</p>
+        </div>
+        <button class="wood-btn" data-action="menu">Menu</button>
+      </div>
+    </section>
+
+    <section id="screen-stats" class="screen sub-screen">
+      <div class="panel board-panel">
+        <h1>STATYSTYKA</h1>
+        <div id="statsBox" class="stats-box"></div>
+        <button class="wood-btn" data-action="reset-stats">Reset statystyk</button>
+        <button class="wood-btn" data-action="menu">Menu</button>
+      </div>
+    </section>
+
+    <section id="screen-gallery" class="screen sub-screen">
+      <div class="panel board-panel">
+        <h1>GALERIA ZOMBIE</h1>
+        <div id="galleryBox" class="gallery"></div>
+        <button class="wood-btn" data-action="menu">Menu</button>
+      </div>
+    </section>
+
+    <section id="screen-settings" class="screen sub-screen">
+      <div class="panel board-panel">
+        <h1>USTAWIENIA</h1>
+        <p>Wersja: <strong>1085</strong></p>
+        <button class="wood-btn" data-action="menu">Menu</button>
+      </div>
+    </section>
+  </div>
+
+
+  <div id="fullscreenPrompt" class="fullscreen-prompt" aria-hidden="true">
+    <div class="fullscreen-box" role="dialog" aria-modal="true" aria-labelledby="fullscreenTitle">
+      <div id="fullscreenTitle" class="fullscreen-title">Czy chcesz grać na pełnym ekranie?</div>
+      <div class="fullscreen-actions">
+        <button class="wood-btn small" data-action="fullscreen-yes">TAK</button>
+        <button class="wood-btn small" data-action="fullscreen-no">NIE</button>
+      </div>
+    </div>
+  </div>
+  <div id="buildVersion" class="build-version">1085</div>
+  <div id="winPrompt" class="game-result-prompt" aria-hidden="true">
+    <div class="game-result-card">
+      <h2>Hasło odgadnięte</h2>
+      <p>Czy grasz dalej?</p>
+      <div class="game-result-actions">
+        <button class="image-btn result-img-btn" data-action="win-losuj" aria-label="Losuj nową kategorię">
+          <img src="assets/img/btn_losuj.png" alt="Losuj" />
+        </button>
+        <button class="image-btn result-img-btn" data-action="win-menu" aria-label="Menu główne">
+          <img src="assets/img/btn_menu_v1067.png" alt="Menu" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
+
+  <script>
+    window.ZH_BUILD = '1085';
+    if ('caches' in window) {
+      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1085').map(k => caches.delete(k)))).catch(()=>{});
+    }
+  </script>
+  <script src="assets/data/hasla.js?v=1085"></script>
+  <script src="app.js?v=1085"></script>
+</body>
+</html>
