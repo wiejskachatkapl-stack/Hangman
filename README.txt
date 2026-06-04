@@ -1,3 +1,4 @@
-ZOMBIE HANGMAN WEB 1091 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1092 - pliki do podmiany
 
-Poprawiony cache/numer kompilacji na 1091. Koła ratunkowe i mechanika z 1090 bez zmian.
+Baza: sprawdzona wersja v1092.
+Poprawiono tylko okno po odgadnięciu hasła, cache/numer kompilacji oraz ukrycie dolnego przycisku Nowe hasło.
