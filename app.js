@@ -1,4 +1,4 @@
-const VERSION = '1089';
+const VERSION = '1091';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -143,7 +143,7 @@ function renderGame(msg){
   document.querySelectorAll('.old-style-lifelines .life').forEach((btn, idx)=>{
     btn.classList.remove('life-used','life-hidden','life-add');
     const img = btn.querySelector('img');
-    if(img){ img.src='assets/img/img_ratunek_v1089.png?v=1089'; img.alt='Koło ratunkowe'; }
+    if(img){ img.src='assets/img/img_ratunek_v1091.png?v=1091'; img.alt='Koło ratunkowe'; }
     btn.disabled = true;
     btn.dataset.action = 'hint';
     btn.setAttribute('aria-label', `Koło ratunkowe ${idx+1}`);
@@ -181,7 +181,7 @@ function renderGame(msg){
     }
   });
 }
-function guess(ch){if(!game || game.finished || game.guessed.has(ch)) return;game.guessed.add(ch);if(game.phrase.includes(ch)){const count=[...game.phrase].filter(x=>x===ch).length; state.score += 10*count; state.zombiePoints += 10*count;checkZombieUnlock();if(isWin()){ finish(true); return; }renderGame(`Dobrze! Litera ${ch} występuje ${count}x.`);} else {game.mistakes++;if(game.mistakes>=6) return finish(false);renderGame(`Nie ma litery ${ch}.`);}save();}
+function guess(ch){if(!game || game.finished || game.guessed.has(ch)) return;game.guessed.add(ch);if(game.phrase.includes(ch)){const count=[...game.phrase].filter(x=>x===ch).length; state.score += 10*count; state.zombiePoints += 10*count;checkZombieUnlock();if(isWin()){ finish(true); setTimeout(verifyWinPrompt, 80); return; }renderGame(`Dobrze! Litera ${ch} występuje ${count}x.`);} else {game.mistakes++;if(game.mistakes>=6) return finish(false);renderGame(`Nie ma litery ${ch}.`);}save();}
 function isWin(){return [...game.phrase].every(ch=>ch===' ' || game.guessed.has(ch));}
 function finish(win){
   if(!game || game.finished) return;
@@ -200,6 +200,8 @@ function finish(win){
     requestAnimationFrame(showWinPrompt);
     setTimeout(showWinPrompt, 120);
     setTimeout(showWinPrompt, 350);
+    setTimeout(verifyWinPrompt, 700);
+    setTimeout(verifyWinPrompt, 1200);
   }else{
     state.losses++;
     renderGame(`PRZEGRANA. Hasło: ${game.phrase}.`);
@@ -217,7 +219,7 @@ function ensureWinPrompt(){
     p.id='winPrompt';
     p.className='game-result-prompt';
     p.setAttribute('aria-hidden','true');
-    p.innerHTML=`<div class="game-result-card"><h2>Hasło odgadnięte.</h2><p>Czy grasz dalej?</p><div class="game-result-actions"><button class="image-btn result-img-btn result-text-btn" data-action="win-losuj" aria-label="Losuj"><span>LOSUJ</span></button><button class="image-btn result-img-btn" data-action="win-menu" aria-label="Menu"><img src="assets/img/btn_menu_v1067.png?v=1089" alt="Menu"></button></div></div>`;
+    p.innerHTML=`<div class="game-result-card"><h2>Hasło odgadnięte.</h2><p>Czy grasz dalej?</p><div class="game-result-actions"><button class="image-btn result-img-btn result-text-btn" data-action="win-losuj" aria-label="Losuj"><span>LOSUJ</span></button><button class="image-btn result-img-btn" data-action="win-menu" aria-label="Menu"><img src="assets/img/btn_menu_v1067.png?v=1091" alt="Menu"></button></div></div>`;
     document.body.appendChild(p);
   }
   return p;
@@ -225,12 +227,19 @@ function ensureWinPrompt(){
 function showWinPrompt(){
   const p = ensureWinPrompt();
   if(!p) return;
+  // v1091: maksymalnie mocne pokazanie okna, niezależnie od wcześniejszych reguł CSS.
   p.classList.add('show');
   p.setAttribute('aria-hidden','false');
   p.style.setProperty('display','flex','important');
+  p.style.setProperty('position','fixed','important');
+  p.style.setProperty('inset','0','important');
+  p.style.setProperty('z-index','2147483647','important');
   p.style.setProperty('opacity','1','important');
   p.style.setProperty('visibility','visible','important');
   p.style.setProperty('pointer-events','auto','important');
+  p.style.setProperty('align-items','center','important');
+  p.style.setProperty('justify-content','center','important');
+  p.style.setProperty('background','rgba(0,0,0,.62)','important');
 }
 function hideWinPrompt(){
   const p = $('winPrompt');
@@ -250,6 +259,12 @@ function continueAfterWin(){
 function backToMenuAfterWin(){
   hideWinPrompt();
   show('menu');
+}
+
+function verifyWinPrompt(){
+  if(!game || !game.finished) return;
+  const won = [...game.phrase].every(ch=>ch===' ' || game.guessed.has(ch));
+  if(won) showWinPrompt();
 }
 
 function renderStats(){$('statsBox').innerHTML=`<div>Wersja: <strong>${VERSION}</strong></div><div>Rozegrane partie: <strong>${state.played}</strong></div><div>Wygrane: <strong>${state.wins}</strong></div><div>Przegrane: <strong>${state.losses}</strong></div><div>Punkty: <strong>${state.score}</strong></div><div>Postęp zombie: <strong>${state.zombiePoints}/300</strong></div><div>Odblokowane zombie: <strong>${state.unlocked}/${ZOMBIES.length}</strong></div>`;}
@@ -318,5 +333,5 @@ window.addEventListener('load', () => {
 
 document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1089').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1091').catch(()=>{}));}
 

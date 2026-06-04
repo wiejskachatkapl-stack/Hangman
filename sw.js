@@ -1,11 +1,11 @@
-const CACHE = 'zombie-hangman-web-v1089';
+const CACHE = 'zombie-hangman-web-v1091';
 const FILES = [
   './', './index.html', './style.css', './app.js', './manifest.json', './README.txt',
   './assets/data/hasla.js',
   './assets/img/bg_game_single.png',
   './assets/img/btn_menu_v1067.png',
   './assets/img/btn_menu_zombie_board.png',
-  './assets/img/img_ratunek_v1089.png'
+  './assets/img/img_ratunek_v1091.png'
 ];
 
 self.addEventListener('install', event => {
@@ -26,11 +26,11 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   const url = new URL(req.url);
   const isHtml = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
-  const isFresh = isHtml || url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.search.includes('v=1089');
+  const isFresh = isHtml || url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.pathname.endsWith('.json') || url.pathname.endsWith('.png') || url.search.includes('v=1091');
 
   if (isFresh) {
     event.respondWith(
-      fetch(req, { cache: 'no-store' })
+      fetch(req, { cache: 'reload' })
         .then(res => {
           const copy = res.clone();
           caches.open(CACHE).then(cache => cache.put(req, copy));
