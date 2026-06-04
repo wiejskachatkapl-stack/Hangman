@@ -3926,7 +3926,7 @@ body{
 }
 
 
-/* v1092 — bez zmian w grafice 1078/1084. Poprawka tylko telefonu: koła nie wchodzą w klawiaturę, przycisk Nowe hasło ukryty, GRAJ delikatnie szersze. */
+/* v1086 — bez zmian w grafice 1078/1084. Poprawka tylko telefonu: koła nie wchodzą w klawiaturę, przycisk Nowe hasło ukryty, GRAJ delikatnie szersze. */
 #screen-game .game-actions{
   display:none !important;
 }
@@ -4017,7 +4017,7 @@ body{
 }
 
 
-/* v1092 — poprawka dopasowania START i GRAJ bez zmian w mechanice/rozgrywce.
+/* v1086 — poprawka dopasowania START i GRAJ bez zmian w mechanice/rozgrywce.
    START: drogowskaz nie wychodzi poza ekran.
    GRAJ: obraz nie jest za wąski, wypełnia ekran; hotspoty liczone są w app.js algorytmem cover. */
 @media (orientation: landscape) and (max-height: 820px){
@@ -4062,33 +4062,4 @@ body{
     background-size:cover !important;
     background-position:center center !important;
   }
-}
-
-
-/* v1092: stabilne okno po odgadnięciu hasła + nie ruszamy układu gry */
-#winPrompt.game-result-prompt.show{
-  display:flex !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-  position:fixed !important;
-  inset:0 !important;
-  z-index:2147483647 !important;
-}
-#winPrompt .game-result-actions{
-  display:flex !important;
-  flex-direction:row !important;
-  justify-content:center !important;
-  align-items:center !important;
-  gap:clamp(8px,1.2vw,16px) !important;
-}
-#winPrompt .result-img-btn{
-  width:clamp(150px,18vw,260px) !important;
-  max-width:42vw !important;
-}
-#screen-game .game-actions{
-  display:none !important;
-}
-#screen-game .old-style-lifelines .life img{
-  background:transparent !important;
 }

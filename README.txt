@@ -1,4 +1,3 @@
-ZOMBIE HANGMAN WEB v1092 - pliki do podmiany
+ZOMBIE HANGMAN WEB 1086 - pliki do podmiany
 
-Baza: sprawdzona wersja v1092.
-Poprawiono tylko okno po odgadnięciu hasła, cache/numer kompilacji oraz ukrycie dolnego przycisku Nowe hasło.
+Zmiany: dopasowanie ekranu START i GRAJ. START nie wychodzi poza ekran, GRAJ nie jest za wąski. Bez zmian w rozgrywce.
