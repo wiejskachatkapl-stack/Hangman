@@ -4080,3 +4080,62 @@ body{
 #winPrompt.game-result-prompt:not(.show){
   display:none;
 }
+
+
+
+/* v1088: naprawa kół ratunkowych i okna po odgadnięciu hasła bez zmiany grafiki 1078 */
+#screen-game .old-style-lifelines .life{
+  background:transparent !important;
+  background-color:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+}
+#screen-game .old-style-lifelines .life img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  border:0 !important;
+  opacity:1;
+  visibility:visible;
+}
+#screen-game .old-style-lifelines .life.life-used img{
+  opacity:.28 !important;
+  filter:grayscale(1) brightness(.65) !important;
+}
+.game-result-prompt{
+  position:fixed !important;
+  inset:0 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  z-index:2147483000 !important;
+  background:rgba(0,0,0,.58) !important;
+  padding:12px !important;
+  visibility:hidden;
+  pointer-events:none;
+}
+.game-result-prompt.show{
+  display:flex !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+.game-result-card{
+  width:min(560px,82vw) !important;
+}
+.game-result-actions{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:14px !important;
+}
+.game-result-actions .result-img-btn{
+  width:clamp(145px,18vw,230px) !important;
+  max-width:46% !important;
+  margin:0 !important;
+}
