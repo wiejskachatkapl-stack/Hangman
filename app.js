@@ -1,4 +1,4 @@
-const VERSION = '1095';
+const VERSION = '1096';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -53,14 +53,14 @@ let menuScale = Number(localStorage.getItem('zhMenuScale') || '1');
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 function applyScale(){menuScale=clamp(menuScale,.72,1.18);document.documentElement.style.setProperty('--menu-scale', menuScale.toFixed(2));localStorage.setItem('zhMenuScale', String(menuScale));}
 function loadState(){
-  const base={score:0,zombiePoints:0,wins:0,losses:0,played:0,unlocked:1,lifelines:START_LIFELINES,adLifelinesUsed:0,z1095Migrated:false};
+  const base={score:0,zombiePoints:0,wins:0,losses:0,played:0,unlocked:1,lifelines:START_LIFELINES,adLifelinesUsed:0,z1096Migrated:false};
   try{
     const loaded={...base,...JSON.parse(localStorage.getItem(STORE_KEY)||'{}')};
     // Migracja z wcześniejszych wersji: startujemy z 2 kołami i limitem 3 reklam na jednego zombiaka.
-    if(!loaded.z1095Migrated){
+    if(!loaded.z1096Migrated){
       loaded.lifelines=Math.min(Number(loaded.lifelines||0),START_LIFELINES);
       loaded.adLifelinesUsed=0;
-      loaded.z1095Migrated=true;
+      loaded.z1096Migrated=true;
       localStorage.setItem(STORE_KEY, JSON.stringify(loaded));
     }
     loaded.lifelines=clamp(Number(loaded.lifelines||0),0,START_LIFELINES);
@@ -181,30 +181,43 @@ function renderGame(msg){
 }
 function guess(ch){if(!game || game.finished || game.guessed.has(ch)) return;game.guessed.add(ch);if(game.phrase.includes(ch)){const count=[...game.phrase].filter(x=>x===ch).length; state.score += 10*count; state.zombiePoints += 10*count;checkZombieUnlock();if(isWin()) return finish(true);renderGame(`Dobrze! Litera ${ch} występuje ${count}x.`);} else {game.mistakes++;if(game.mistakes>=6) return finish(false);renderGame(`Nie ma litery ${ch}.`);}save();}
 function isWin(){return [...game.phrase].every(ch=>ch===' ' || game.guessed.has(ch));}
-function finish(win){game.finished=true; state.played++;if(win){state.wins++; state.score+=50; state.zombiePoints+=50; checkZombieUnlock(); renderGame(''); save(); setTimeout(showWinPrompt, 250);}else {state.losses++; renderGame(`PRZEGRANA. Hasło: ${game.phrase}. Kliknij „Nowe hasło”.`); save();}}
+function finish(win){game.finished=true; state.played++;if(win){state.wins++; state.score+=50; state.zombiePoints+=50; checkZombieUnlock(); renderGame(''); save(); setTimeout(showWinPrompt, 180);}else {state.losses++; renderGame(`PRZEGRANA. Hasło: ${game.phrase}. Kliknij „Nowe hasło”.`); save();}}
 function checkZombieUnlock(){while(state.zombiePoints>=300){state.zombiePoints-=300; state.unlocked=Math.min(ZOMBIES.length,state.unlocked+1); state.lifelines=START_LIFELINES; state.adLifelinesUsed=0;}}
 function hint(){if(!game || game.finished) return;if(state.lifelines<=0){renderGame('Nie masz już kół ratunkowych.'); return;}const missing=[...new Set([...game.phrase].filter(ch=>ch!==' ' && !game.guessed.has(ch)))];if(!missing.length) return;const ch=missing[Math.floor(Math.random()*missing.length)];state.lifelines--; game.guessed.add(ch); state.score+=5; state.zombiePoints+=5; checkZombieUnlock();if(isWin()) finish(true); else renderGame(`Koło ratunkowe odkryło literę ${ch}.`);save();}
 function addLifelineByAd(){if(!game || game.finished) return;if(state.lifelines>0) return;if(state.adLifelinesUsed>=MAX_AD_LIFELINES_PER_ZOMBIE){renderGame('Limit reklam dla tego zombiaka został wykorzystany.'); return;}alert('Tu będzie reklama. Po obejrzeniu dodano 1 koło ratunkowe.');state.adLifelinesUsed++;state.lifelines=1;save();renderGame('Dodano 1 koło ratunkowe.');}
 function enterFullscreenByButton(){try{const el=document.documentElement;if(el.requestFullscreen) el.requestFullscreen();if(screen.orientation && screen.orientation.lock){screen.orientation.lock('landscape').catch(()=>{});}}catch(e){}}
 function showWinPrompt(){
   const p = $('winPrompt');
-  if(!p){
-    alert('Hasło odgadnięte. Czy grasz dalej?');
-    return;
+  if(!p) return;
+  const card = p.querySelector('.game-result-card');
+  const actions = p.querySelector('.game-result-actions');
+  const buttons = p.querySelectorAll('.result-img-btn');
+  const losujBtn = p.querySelector('[data-action="win-losuj"]');
+  const menuBtn = p.querySelector('[data-action="win-menu"]');
+
+  // Wymuszone style tylko dla tego okna, niezależnie od starszych reguł CSS/cache.
+  p.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.58);z-index:2147483000;padding:12px;';
+  if(card){
+    card.style.cssText = 'width:min(520px,76vw);max-width:520px;padding:24px 28px 26px;border:3px solid rgba(126,73,32,.98);border-radius:18px;background:linear-gradient(180deg,rgba(37,22,12,.97),rgba(10,7,5,.97));box-shadow:0 18px 45px rgba(0,0,0,.82),inset 0 0 30px rgba(137,77,27,.22);text-align:center;color:#fff4d4;';
   }
+  if(actions){
+    actions.style.cssText = 'display:flex;flex-direction:row;align-items:center;justify-content:center;gap:14px;width:100%;';
+  }
+  buttons.forEach(btn=>{
+    btn.style.cssText = 'display:block;visibility:visible;opacity:1;width:min(210px,32vw);min-width:130px;max-width:210px;height:auto;border:0;background:transparent;padding:0;margin:0;box-shadow:none;line-height:0;text-indent:0;overflow:visible;cursor:pointer;';
+    const img = btn.querySelector('img');
+    if(img){img.style.cssText = 'display:block;width:100%;height:auto;opacity:1;visibility:visible;object-fit:contain;';}
+  });
+
+  if(losujBtn){
+    losujBtn.onclick = ev => { ev.preventDefault(); ev.stopPropagation(); continueAfterWin(); };
+  }
+  if(menuBtn){
+    menuBtn.onclick = ev => { ev.preventDefault(); ev.stopPropagation(); backToMenuAfterWin(); };
+  }
+
   p.classList.add('show');
   p.setAttribute('aria-hidden','false');
-  p.style.display='flex';
-  p.style.visibility='visible';
-  p.style.opacity='1';
-  p.style.pointerEvents='auto';
-  p.style.zIndex='99999';
-  p.querySelectorAll('button').forEach(btn=>{
-    btn.style.display='block';
-    btn.style.visibility='visible';
-    btn.style.opacity='1';
-    btn.disabled=false;
-  });
 }
 function hideWinPrompt(){
   const p = $('winPrompt');
@@ -212,13 +225,11 @@ function hideWinPrompt(){
   p.classList.remove('show');
   p.setAttribute('aria-hidden','true');
   p.style.display='none';
-  p.style.pointerEvents='none';
 }
 function continueAfterWin(){
-  // Po odgadnięciu hasła przycisk LOSUJ losuje od razu nowe hasło/kategorię,
-  // bez przechodzenia do ekranu Losowanie kategorii.
+  // Po odgadnięciu hasła przycisk LOSUJ przechodzi do ekranu losowania kategorii.
   hideWinPrompt();
-  newGame();
+  show('draw-category');
 }
 function backToMenuAfterWin(){
   hideWinPrompt();
@@ -291,5 +302,5 @@ window.addEventListener('load', () => {
 
 document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1095').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1096').catch(()=>{}));}
 

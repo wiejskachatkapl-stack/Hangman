@@ -1,5 +1,12 @@
-ZOMBIE HANGMAN WEB 1095 - pliki do podmiany
+ZOMBIE HANGMAN WEB v1096 - pliki do podmiany
 
-Baza: stabilna wersja 1085.
-Zmiana: naprawione okno po odgadnięciu hasła.
-Podmień całą zawartość paczki na GitHubie.
+Baza: stabilna kompilacja 1085.
+
+Zmienione tylko:
+- numer kompilacji/cache na 1096,
+- okno po odgadnięciu hasła: „Hasło odgadnięte. Czy grasz dalej?”,
+- przyciski LOSUJ i MENU w oknie po wygranej,
+- LOSUJ przechodzi do ekranu losowania kategorii,
+- MENU wraca do strony głównej.
+
+Nie ruszano grafiki, responsywności ani układu z 1085.

@@ -3926,7 +3926,7 @@ body{
 }
 
 
-/* v1095 — bez zmian w grafice 1078/1084. Poprawka tylko telefonu: koła nie wchodzą w klawiaturę, przycisk Nowe hasło ukryty, GRAJ delikatnie szersze. */
+/* v1085 — bez zmian w grafice 1078/1084. Poprawka tylko telefonu: koła nie wchodzą w klawiaturę, przycisk Nowe hasło ukryty, GRAJ delikatnie szersze. */
 #screen-game .game-actions{
   display:none !important;
 }
@@ -4017,87 +4017,11 @@ body{
 }
 
 
-/* v1095 — naprawa wyłącznie okna po odgadnięciu hasła. Nie zmienia grafiki rozgrywki z 1085/1078. */
-#winPrompt.game-result-prompt{
-  position:fixed !important;
-  inset:0 !important;
-  display:none !important;
-  align-items:center !important;
-  justify-content:center !important;
-  background:rgba(0,0,0,.58) !important;
-  z-index:99999 !important;
-  pointer-events:none !important;
-}
-#winPrompt.game-result-prompt.show{
-  display:flex !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:auto !important;
-}
-#winPrompt .game-result-card{
-  width:min(520px,82vw) !important;
-  min-height:0 !important;
-  padding:28px 30px 26px !important;
-  border:3px solid rgba(143,78,25,.98) !important;
-  border-radius:14px !important;
-  background:linear-gradient(180deg,rgba(48,26,11,.96),rgba(10,6,4,.97)) !important;
-  box-shadow:0 18px 55px rgba(0,0,0,.85), inset 0 0 28px rgba(0,0,0,.45) !important;
-  text-align:center !important;
-}
-#winPrompt .game-result-card h2{
-  margin:0 0 6px !important;
-  color:#fff0bd !important;
-  font-size:clamp(26px,3vw,42px) !important;
-  line-height:1.08 !important;
-  text-shadow:0 3px 4px #000 !important;
-}
-#winPrompt .game-result-card p{
-  margin:0 0 18px !important;
-  color:#fff0bd !important;
-  font-size:clamp(18px,2.2vw,28px) !important;
-  font-weight:900 !important;
-  text-shadow:0 3px 4px #000 !important;
-}
-#winPrompt .game-result-actions{
-  display:flex !important;
-  flex-direction:row !important;
-  justify-content:center !important;
-  align-items:center !important;
-  gap:12px !important;
-  flex-wrap:nowrap !important;
-}
-#winPrompt .result-img-btn,
-#winPrompt .result-img-btn[data-action="win-losuj"],
-#winPrompt .result-img-btn[data-action="win-menu"]{
-  display:block !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  width:min(190px,36vw) !important;
-  max-width:190px !important;
-  min-width:120px !important;
-  height:auto !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-  background:transparent !important;
-  box-shadow:none !important;
-  line-height:0 !important;
-  overflow:visible !important;
-  text-indent:0 !important;
-  cursor:pointer !important;
-}
-#winPrompt .result-img-btn img{
-  display:block !important;
-  width:100% !important;
-  height:auto !important;
-  object-fit:contain !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  pointer-events:none !important;
-  filter:drop-shadow(0 7px 10px rgba(0,0,0,.75)) !important;
-}
-@media (orientation:landscape) and (max-height:560px), (orientation:landscape) and (max-width:950px){
-  #winPrompt .game-result-card{width:min(430px,62vw) !important;padding:20px 22px 20px !important;}
-  #winPrompt .result-img-btn{width:min(150px,26vw) !important;min-width:105px !important;}
-  #winPrompt .game-result-actions{gap:10px !important;}
-}
+/* v1096 — tylko naprawa okna po odgadnięciu hasła na stabilnej bazie 1085. */
+#screen-game .game-actions,
+#screen-game .game-actions .wood-btn,
+#screen-game .game-actions .wood-btn.small{display:none!important;visibility:hidden!important;pointer-events:none!important;}
+#winPrompt.game-result-prompt.show{display:flex!important;align-items:center!important;justify-content:center!important;z-index:2147483000!important;}
+#winPrompt .game-result-actions{display:flex!important;flex-direction:row!important;justify-content:center!important;align-items:center!important;gap:14px!important;}
+#winPrompt .result-img-btn{display:block!important;visibility:visible!important;opacity:1!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;text-indent:0!important;overflow:visible!important;}
+#winPrompt .result-img-btn img{display:block!important;width:100%!important;height:auto!important;visibility:visible!important;opacity:1!important;object-fit:contain!important;}
