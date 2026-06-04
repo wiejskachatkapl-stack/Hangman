@@ -4017,11 +4017,22 @@ body{
 }
 
 
-/* v1096 — tylko naprawa okna po odgadnięciu hasła na stabilnej bazie 1085. */
-#screen-game .game-actions,
-#screen-game .game-actions .wood-btn,
-#screen-game .game-actions .wood-btn.small{display:none!important;visibility:hidden!important;pointer-events:none!important;}
-#winPrompt.game-result-prompt.show{display:flex!important;align-items:center!important;justify-content:center!important;z-index:2147483000!important;}
-#winPrompt .game-result-actions{display:flex!important;flex-direction:row!important;justify-content:center!important;align-items:center!important;gap:14px!important;}
-#winPrompt .result-img-btn{display:block!important;visibility:visible!important;opacity:1!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;text-indent:0!important;overflow:visible!important;}
-#winPrompt .result-img-btn img{display:block!important;width:100%!important;height:auto!important;visibility:visible!important;opacity:1!important;object-fit:contain!important;}
+/* v1097: jedno, niezależne okno po odgadnięciu hasła — wewnątrz planszy gry */
+#screen-game #winPrompt.game-result-prompt{
+  position:absolute !important; inset:0 !important; z-index:2147483647 !important;
+  display:none; align-items:center !important; justify-content:center !important;
+  visibility:hidden; opacity:0; pointer-events:none;
+  background:rgba(0,0,0,.62) !important; padding:12px !important;
+}
+#screen-game #winPrompt.game-result-prompt.show{
+  display:flex !important; visibility:visible !important; opacity:1 !important; pointer-events:auto !important;
+}
+#screen-game #winPrompt .game-result-card{
+  width:min(520px,82vw) !important; max-width:520px !important;
+  padding:22px 26px 24px !important; border:3px solid rgba(126,73,32,.98) !important;
+  border-radius:18px !important; background:linear-gradient(180deg,rgba(37,22,12,.98),rgba(10,7,5,.98)) !important;
+  box-shadow:0 18px 45px rgba(0,0,0,.85),inset 0 0 30px rgba(137,77,27,.22) !important; text-align:center !important;
+}
+#screen-game #winPrompt .game-result-actions{display:flex !important;flex-direction:row !important;justify-content:center !important;align-items:center !important;gap:12px !important}
+#screen-game #winPrompt .result-img-btn{display:block !important;visibility:visible !important;opacity:1 !important;width:min(205px,34vw) !important;min-width:120px !important;max-width:205px !important;background:transparent !important;border:0 !important;padding:0 !important;margin:0 !important}
+#screen-game #winPrompt .result-img-btn img{display:block !important;width:100% !important;height:auto !important;visibility:visible !important;opacity:1 !important}
