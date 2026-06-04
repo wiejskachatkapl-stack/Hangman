@@ -1,3 +1,4 @@
-ZOMBIE HANGMAN WEB 1086 - pliki do podmiany
+ZOMBIE HANGMAN WEB 1087 - pliki do podmiany
 
-Zmiany: dopasowanie ekranu START i GRAJ. START nie wychodzi poza ekran, GRAJ nie jest za wąski. Bez zmian w rozgrywce.
+Poprawiono tylko okno po odgadnięciu hasła: ma pojawiać się zawsze po wygranej.
+Grafiki i układ z 1086/1078 bez zmian.

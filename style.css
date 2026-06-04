@@ -4063,3 +4063,20 @@ body{
     background-position:center center !important;
   }
 }
+
+
+/* v1087: naprawa okna po odgadnięciu hasła bez zmiany grafiki gry. */
+#winPrompt.game-result-prompt{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:2147483000 !important;
+}
+#winPrompt.game-result-prompt.show{
+  display:flex !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+#winPrompt.game-result-prompt:not(.show){
+  display:none;
+}
