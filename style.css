@@ -4139,3 +4139,83 @@ body{
   max-width:46% !important;
   margin:0 !important;
 }
+
+
+/* v1089: tylko naprawa okna po odgadnięciu i widoczności kół ratunkowych */
+#screen-game .old-style-lifelines .life,
+#screen-game .old-style-lifelines .life:not(.life-add){
+  background:transparent !important;
+  background-color:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+#screen-game .old-style-lifelines .life.life-hidden{display:none !important;}
+#screen-game .old-style-lifelines .life img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  background:transparent !important;
+  background-color:transparent !important;
+  border:0 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+#screen-game .old-style-lifelines .life.life-used img,
+#screen-game .old-style-lifelines .life:disabled img{
+  opacity:.30 !important;
+  filter:grayscale(1) brightness(.65) !important;
+}
+#screen-game .old-style-lifelines .life.life-add::after{
+  content:'+' !important;
+  position:absolute !important;
+  inset:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  color:#fff4c8 !important;
+  font-size:clamp(34px,5vw,58px) !important;
+  font-weight:900 !important;
+  text-shadow:0 3px 5px #000 !important;
+}
+.game-result-prompt,
+#winPrompt.game-result-prompt{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:2147483640 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:rgba(0,0,0,.62) !important;
+  padding:12px !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+.game-result-prompt.show,
+#winPrompt.game-result-prompt.show{
+  display:flex !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+.game-result-card{
+  width:min(560px,82vw) !important;
+  padding:28px 34px 26px !important;
+  border:3px solid rgba(130,72,31,.96) !important;
+  border-radius:18px !important;
+  background:linear-gradient(180deg,rgba(46,25,12,.96),rgba(13,8,5,.97)) !important;
+  box-shadow:0 16px 42px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,220,160,.16) !important;
+  text-align:center !important;
+}
+.game-result-card h2{margin:0 0 8px !important;font-size:clamp(30px,4vw,48px) !important;color:#fff0bf !important;text-shadow:0 3px 5px #000 !important;}
+.game-result-card p{margin:0 0 22px !important;font-size:clamp(22px,2.8vw,34px) !important;color:#fff0bf !important;text-shadow:0 3px 5px #000 !important;}
+.game-result-actions{display:flex !important;flex-direction:row !important;justify-content:center !important;align-items:center !important;gap:14px !important;}
+.game-result-actions .result-img-btn{display:inline-flex !important;align-items:center !important;justify-content:center !important;width:clamp(145px,18vw,220px) !important;max-width:46% !important;height:auto !important;margin:0 !important;padding:0 !important;border:0 !important;background:transparent !important;box-shadow:none !important;line-height:0 !important;}
+.game-result-actions .result-img-btn img{display:block !important;width:100% !important;height:auto !important;object-fit:contain !important;}
+.game-result-actions .result-text-btn{height:clamp(50px,5.6vw,72px) !important;line-height:1 !important;border:2px solid #7b4b25 !important;border-radius:10px !important;background:linear-gradient(180deg,#8a5127,#3b1a0b) !important;box-shadow:inset 0 2px 0 rgba(255,220,160,.18),0 5px 12px rgba(0,0,0,.65) !important;color:#fff0bf !important;font-size:clamp(23px,2.4vw,34px) !important;font-weight:900 !important;text-shadow:0 3px 4px #000 !important;}
+.game-result-actions .result-text-btn span{display:block !important;}

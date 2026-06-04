@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#05070c" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman 1088</title>
+  <title>Zombie Hangman 1089</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=1088" />
+  <link rel="stylesheet" href="style.css?v=1089" />
 </head>
 <body>
   <div id="app" class="app">
@@ -71,9 +71,9 @@
           <div class="game-category-line">Kategoria: <strong id="category">---</strong></div>
           <div class="lifelines old-style-lifelines">
             <span class="lifelines-label">Pomoc: <strong id="lifelinesLeft">2</strong>/2</span>
-            <button class="life" data-action="hint" aria-label="Koło ratunkowe 1"><img src="assets/img/img_ratunek_v1088.png" alt="" /></button>
-            <button class="life" data-action="hint" aria-label="Koło ratunkowe 2"><img src="assets/img/img_ratunek_v1088.png" alt="" /></button>
-            <button class="life" data-action="hint" aria-label="Koło ratunkowe 3"><img src="assets/img/img_ratunek_v1088.png" alt="" /></button>
+            <button class="life" data-action="hint" aria-label="Koło ratunkowe 1"><img src="assets/img/img_ratunek_v1089.png?v=1089" alt="" /></button>
+            <button class="life" data-action="hint" aria-label="Koło ratunkowe 2"><img src="assets/img/img_ratunek_v1089.png?v=1089" alt="" /></button>
+            <button class="life" data-action="hint" aria-label="Koło ratunkowe 3"><img src="assets/img/img_ratunek_v1089.png?v=1089" alt="" /></button>
           </div>
           <div id="message" class="message">Wylosuj hasło i zgaduj litery.</div>
           <div id="keyboard" class="keyboard"></div>
@@ -116,7 +116,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>1087</strong></p>
+        <p>Wersja: <strong>1089</strong></p>
         <button class="wood-btn" data-action="menu">Menu</button>
       </div>
     </section>
@@ -132,15 +132,13 @@
       </div>
     </div>
   </div>
-  <div id="buildVersion" class="build-version">1088</div>
+  <div id="buildVersion" class="build-version">1089</div>
   <div id="winPrompt" class="game-result-prompt" aria-hidden="true">
     <div class="game-result-card">
       <h2>Hasło odgadnięte</h2>
       <p>Czy grasz dalej?</p>
       <div class="game-result-actions">
-        <button class="image-btn result-img-btn" data-action="win-losuj" aria-label="Losuj nową kategorię">
-          <img src="assets/img/btn_losuj.png" alt="Losuj" />
-        </button>
+        <button class="image-btn result-img-btn result-text-btn" data-action="win-losuj" aria-label="Losuj nową kategorię"><span>LOSUJ</span></button>
         <button class="image-btn result-img-btn" data-action="win-menu" aria-label="Menu główne">
           <img src="assets/img/btn_menu_v1067.png" alt="Menu" />
         </button>
@@ -151,12 +149,12 @@
   <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
 
   <script>
-    window.ZH_BUILD = '1088';
+    window.ZH_BUILD = '1089';
     if ('caches' in window) {
-      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1088').map(k => caches.delete(k)))).catch(()=>{});
+      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1089').map(k => caches.delete(k)))).catch(()=>{});
     }
   </script>
-  <script src="assets/data/hasla.js?v=1088"></script>
-  <script src="app.js?v=1088"></script>
+  <script src="assets/data/hasla.js?v=1089"></script>
+  <script src="app.js?v=1089"></script>
 </body>
 </html>
