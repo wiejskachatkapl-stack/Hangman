@@ -1,11 +1,10 @@
-ZOMBIE HANGMAN WEB 1104 - pliki do podmiany
+ZOMBIE HANGMAN WEB 1105 - pliki do podmiany
 
 Zmiany:
-- dodany pierwszy ekran Multiplayer po kliknięciu MULTIPLAYER,
-- grafika multiplayer_room.png po lewej,
-- panel Nick / Utwórz pokój / Kod pokoju / Dołącz do pokoju po prawej,
-- ekran dopasowuje się automatycznie do okna komputera i telefonu,
-- przycisk MENU wraca do ekranu wyboru trybu gry,
-- pozostałe ekrany i mechanika gry nie zostały zmienione.
-
-Zmiana 1104: przycisk MENU na ekranie Multiplayer wraca bezpośrednio do pierwszej strony gry.
+- po utworzeniu pokoju lub dołączeniu do pokoju gra przechodzi do wnętrza pokoju Multiplayer,
+- dodany ekran pokoju z kodem, hostem, statusem i listą graczy,
+- gospodarz ma aktywny przycisk ROZPOCZNIJ GRĘ,
+- gracz dołączający widzi OCZEKIWANIE NA HOSTA,
+- OPUŚĆ POKÓJ wraca do pierwszego panelu Multiplayer,
+- ekran pokoju jest responsywny na komputerze i telefonie,
+- na tym ekranie będziemy dalej dopracowywać mechanikę rozgrywki Multiplayer.

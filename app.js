@@ -1,4 +1,4 @@
-const VERSION = '1104';
+const VERSION = '1105';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -50,6 +50,7 @@ const STORE_KEY = 'zombieHangmanWebV1041';
 let state = loadState();
 let game = null;
 let menuScale = Number(localStorage.getItem('zhMenuScale') || '1');
+let multiplayerRoom = null;
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 function applyScale(){menuScale=clamp(menuScale,.72,1.18);document.documentElement.style.setProperty('--menu-scale', menuScale.toFixed(2));localStorage.setItem('zhMenuScale', String(menuScale));}
 function loadState(){
@@ -77,6 +78,7 @@ function show(name){
   if(name==='gallery') renderGallery();
   if(name==='play-menu') requestAnimationFrame(updatePlayHotspots);
   if(name==='multiplayer') requestAnimationFrame(prepareMultiplayerScreen);
+  if(name==='multiplayer-room') requestAnimationFrame(renderMultiplayerRoom);
 }
 function newGame(){
   if(!PHRASES.length) return;
@@ -267,14 +269,39 @@ function setMultiplayerStatus(text, type='info'){
   box.textContent=text;
   box.dataset.type=type;
 }
+function makeRoomCode(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code='';
+  for(let i=0;i<6;i++) code+=chars[Math.floor(Math.random()*chars.length)];
+  return code;
+}
+function saveMultiplayerRoom(){
+  if(multiplayerRoom) localStorage.setItem('zhCurrentMultiplayerRoom', JSON.stringify(multiplayerRoom));
+  else localStorage.removeItem('zhCurrentMultiplayerRoom');
+}
+function loadMultiplayerRoom(){
+  try{return JSON.parse(localStorage.getItem('zhCurrentMultiplayerRoom')||'null')}catch(e){return null}
+}
+function enterMultiplayerRoom(room){
+  multiplayerRoom=room;
+  saveMultiplayerRoom();
+  show('multiplayer-room');
+}
 function createMultiplayerRoom(){
   const nick=getMultiplayerNick();
   if(!nick){setMultiplayerStatus('Wpisz nick, aby utworzyć pokój.','error');return;}
   localStorage.setItem('zhMultiplayerNick',nick);
-  const code=Math.random().toString(36).slice(2,8).toUpperCase();
+  const code=makeRoomCode();
   const input=document.getElementById('multiplayerRoomCode');
   if(input) input.value=code;
-  setMultiplayerStatus(`Pokój utworzony. Kod: ${code}`,'ok');
+  enterMultiplayerRoom({
+    code,
+    host:nick,
+    me:nick,
+    isHost:true,
+    players:[{nick,role:'HOST'}],
+    status:'Oczekiwanie na graczy'
+  });
 }
 function joinMultiplayerRoom(){
   const nick=getMultiplayerNick();
@@ -282,12 +309,60 @@ function joinMultiplayerRoom(){
   if(!nick){setMultiplayerStatus('Wpisz nick, aby dołączyć do pokoju.','error');return;}
   if(code.length<4){setMultiplayerStatus('Wpisz prawidłowy kod pokoju.','error');return;}
   localStorage.setItem('zhMultiplayerNick',nick);
-  setMultiplayerStatus(`Dołączanie do pokoju ${code} będzie podłączone w następnym etapie.`,'ok');
+  enterMultiplayerRoom({
+    code,
+    host:'Gospodarz pokoju',
+    me:nick,
+    isHost:false,
+    players:[{nick,role:'GRACZ'}],
+    status:'Dołączono do pokoju'
+  });
 }
 function prepareMultiplayerScreen(){
   const nick=document.getElementById('multiplayerNick');
   if(nick && !nick.value) nick.value=localStorage.getItem('zhMultiplayerNick') || '';
   setMultiplayerStatus('');
+}
+function renderMultiplayerRoom(){
+  if(!multiplayerRoom) multiplayerRoom=loadMultiplayerRoom();
+  if(!multiplayerRoom){show('multiplayer');return;}
+  const code=document.getElementById('mpRoomCodeView');
+  const title=document.getElementById('mpRoomTitle');
+  const host=document.getElementById('mpHostName');
+  const status=document.getElementById('mpRoomStatusText');
+  const list=document.getElementById('mpPlayersList');
+  if(code) code.textContent=multiplayerRoom.code || '------';
+  if(title) title.textContent=multiplayerRoom.isHost ? 'Twój pokój' : 'Pokój gracza';
+  if(host) host.textContent=multiplayerRoom.host || '---';
+  if(status) status.textContent=multiplayerRoom.status || 'Oczekiwanie na graczy';
+  if(list){
+    list.innerHTML='';
+    (multiplayerRoom.players||[]).forEach((player,index)=>{
+      const row=document.createElement('div');
+      row.className='mp-player-row';
+      row.innerHTML=`<span class="mp-player-number">${index+1}</span><strong>${player.nick}</strong><span class="mp-player-role">${player.role||'GRACZ'}</span><span class="mp-player-online" title="Online"></span>`;
+      list.appendChild(row);
+    });
+  }
+  const startBtn=document.querySelector('[data-action="mp-start-game"]');
+  if(startBtn){
+    startBtn.disabled=!multiplayerRoom.isHost;
+    startBtn.classList.toggle('locked',!multiplayerRoom.isHost);
+    startBtn.textContent=multiplayerRoom.isHost?'ROZPOCZNIJ GRĘ':'OCZEKIWANIE NA HOSTA';
+  }
+}
+function leaveMultiplayerRoom(){
+  multiplayerRoom=null;
+  saveMultiplayerRoom();
+  show('multiplayer');
+  setMultiplayerStatus('Opuszczono pokój.','ok');
+}
+function startMultiplayerGame(){
+  if(!multiplayerRoom || !multiplayerRoom.isHost) return;
+  multiplayerRoom.status='Przygotowanie rozgrywki';
+  saveMultiplayerRoom();
+  renderMultiplayerRoom();
+  alert('Pokój jest gotowy. W następnym kroku podłączymy właściwą mechanikę rozgrywki Multiplayer.');
 }
 
 function showFullscreenPrompt(){
@@ -317,7 +392,7 @@ window.addEventListener('load', () => {
   setTimeout(showFullscreenPrompt, 450);
 });
 
-document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') show('multiplayer');if(action==='multiplayer-back') show('menu');if(action==='create-room') createMultiplayerRoom();if(action==='join-room') joinMultiplayerRoom();if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
+document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') show('multiplayer');if(action==='multiplayer-back') show('menu');if(action==='create-room') createMultiplayerRoom();if(action==='join-room') joinMultiplayerRoom();if(action==='mp-leave-room') leaveMultiplayerRoom();if(action==='mp-start-game') startMultiplayerGame();if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1104').catch(()=>{}));}
 

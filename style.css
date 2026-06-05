@@ -4299,3 +4299,115 @@ body{
   #screen-multiplayer .multiplayer-shell{grid-template-columns:minmax(0,.82fr) minmax(280px,1.18fr)}
   #screen-multiplayer .multiplayer-art-frame img{object-fit:cover}
 }
+
+
+/* v1105 — ekran utworzonego/dołączonego pokoju Multiplayer. */
+#screen-multiplayer-room.multiplayer-room-screen{
+  background:
+    linear-gradient(rgba(2,4,8,.18),rgba(2,4,8,.34)),
+    url('assets/img/bg_game_single.png') center center/cover no-repeat !important;
+  overflow:hidden !important;
+}
+#screen-multiplayer-room .mp-room-shell{
+  position:absolute;
+  inset:clamp(8px,1.6vh,20px) clamp(8px,1.5vw,26px);
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  gap:clamp(8px,1.5vh,18px);
+  min-width:0;
+  min-height:0;
+}
+#screen-multiplayer-room .mp-room-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:clamp(10px,1.5vh,18px) clamp(14px,2vw,28px);
+  border:2px solid rgba(113,72,36,.88);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(60,34,17,.92),rgba(14,8,5,.92));
+  box-shadow:0 10px 28px rgba(0,0,0,.50),inset 0 2px 0 rgba(255,230,170,.11);
+}
+#screen-multiplayer-room .mp-room-kicker{
+  font:700 clamp(12px,1vw,17px)/1 Arial,sans-serif;
+  letter-spacing:1.8px;
+  color:#c9ad76;
+}
+#screen-multiplayer-room .mp-room-header h1{
+  margin:4px 0 0;
+  text-align:left;
+  font-size:clamp(24px,2.8vw,46px);
+}
+#screen-multiplayer-room .mp-room-code-box{
+  flex:0 0 auto;
+  min-width:clamp(170px,20vw,300px);
+  padding:8px 18px;
+  text-align:center;
+  border:2px solid rgba(206,171,101,.50);
+  border-radius:10px;
+  background:rgba(0,0,0,.38);
+}
+#screen-multiplayer-room .mp-room-code-box span{display:block;font:700 clamp(11px,.9vw,15px)/1.2 Arial,sans-serif;color:#cbb88e}
+#screen-multiplayer-room .mp-room-code-box strong{display:block;margin-top:4px;font:900 clamp(24px,2.5vw,42px)/1 Arial,sans-serif;letter-spacing:4px;color:#ffe09a;text-shadow:0 3px 5px #000}
+#screen-multiplayer-room .mp-room-main{
+  display:grid;
+  grid-template-columns:minmax(260px,.72fr) minmax(0,1.28fr);
+  gap:clamp(10px,1.8vw,26px);
+  min-width:0;
+  min-height:0;
+}
+#screen-multiplayer-room .mp-room-players-card,
+#screen-multiplayer-room .mp-room-game-card{
+  min-width:0;
+  min-height:0;
+  padding:clamp(12px,2vh,24px);
+  border:2px solid rgba(92,62,37,.82);
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(9,13,20,.82),rgba(4,7,12,.72));
+  box-shadow:0 14px 36px rgba(0,0,0,.42),inset 0 0 34px rgba(0,0,0,.23);
+  overflow:hidden;
+}
+#screen-multiplayer-room h2{
+  margin:0 0 clamp(10px,1.6vh,18px);
+  font-size:clamp(18px,2vw,32px);
+  text-align:left;
+  color:#f4d490;
+}
+#screen-multiplayer-room .mp-players-list{display:flex;flex-direction:column;gap:8px;max-height:100%;overflow:auto;padding-right:4px}
+#screen-multiplayer-room .mp-player-row{
+  display:grid;
+  grid-template-columns:38px minmax(0,1fr) auto 14px;
+  gap:10px;
+  align-items:center;
+  padding:10px 12px;
+  border:1px solid rgba(201,169,107,.22);
+  border-radius:10px;
+  background:rgba(0,0,0,.36);
+  font-family:Arial,sans-serif;
+}
+#screen-multiplayer-room .mp-player-number{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#4f311b;color:#ffe3aa;font-weight:900}
+#screen-multiplayer-room .mp-player-row strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:clamp(16px,1.55vw,25px);color:#fff1ce}
+#screen-multiplayer-room .mp-player-role{font-size:clamp(10px,.9vw,14px);font-weight:900;color:#d2b678}
+#screen-multiplayer-room .mp-player-online{width:11px;height:11px;border-radius:50%;background:#62db76;box-shadow:0 0 8px #62db76}
+#screen-multiplayer-room .mp-room-info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#screen-multiplayer-room .mp-room-info-grid div{padding:12px;border:1px solid rgba(201,169,107,.20);border-radius:10px;background:rgba(0,0,0,.30)}
+#screen-multiplayer-room .mp-room-info-grid span{display:block;font:700 clamp(11px,.95vw,15px)/1.2 Arial,sans-serif;color:#bca67c}
+#screen-multiplayer-room .mp-room-info-grid strong{display:block;margin-top:4px;font:800 clamp(14px,1.35vw,22px)/1.2 Arial,sans-serif;color:#fff0cc}
+#screen-multiplayer-room .mp-room-placeholder{display:grid;place-items:center;min-height:48%;margin-top:clamp(12px,2vh,24px);padding:20px;border:2px dashed rgba(196,160,91,.28);border-radius:14px;text-align:center;font:700 clamp(16px,1.6vw,26px)/1.35 Arial,sans-serif;color:#c9b994;background:rgba(0,0,0,.18)}
+#screen-multiplayer-room .mp-room-actions{display:flex;justify-content:center;gap:clamp(10px,1.5vw,22px)}
+#screen-multiplayer-room .mp-room-action{width:min(360px,30vw);margin:0;padding:10px 18px;font-size:clamp(17px,1.8vw,28px)}
+@media (max-height:650px),(max-width:900px){
+  #screen-multiplayer-room .mp-room-shell{inset:6px 8px;gap:7px}
+  #screen-multiplayer-room .mp-room-header{padding:7px 12px;border-radius:10px}
+  #screen-multiplayer-room .mp-room-header h1{font-size:clamp(18px,3vw,29px)}
+  #screen-multiplayer-room .mp-room-code-box{min-width:145px;padding:5px 10px}
+  #screen-multiplayer-room .mp-room-code-box strong{font-size:clamp(20px,3vw,30px)}
+  #screen-multiplayer-room .mp-room-main{grid-template-columns:minmax(210px,.72fr) minmax(0,1.28fr);gap:7px}
+  #screen-multiplayer-room .mp-room-players-card,#screen-multiplayer-room .mp-room-game-card{padding:9px;border-radius:10px}
+  #screen-multiplayer-room h2{font-size:clamp(15px,2.3vw,23px);margin-bottom:7px}
+  #screen-multiplayer-room .mp-player-row{padding:6px 8px;grid-template-columns:30px minmax(0,1fr) auto 12px}
+  #screen-multiplayer-room .mp-player-number{width:24px;height:24px;font-size:12px}
+  #screen-multiplayer-room .mp-room-info-grid div{padding:7px}
+  #screen-multiplayer-room .mp-room-placeholder{margin-top:7px;padding:10px;min-height:35%;font-size:clamp(12px,1.8vw,18px)}
+  #screen-multiplayer-room .mp-room-action{width:min(250px,32vw);padding:6px 12px;font-size:clamp(14px,2vw,21px);box-shadow:inset 0 2px 0 rgba(255,255,255,.15),0 4px 0 #120905,0 7px 12px #000}
+}
