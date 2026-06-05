@@ -1,12 +1,10 @@
-ZOMBIE HANGMAN 1109 - pliki do podmiany
+ZOMBIE HANGMAN 1110 - pliki do podmiany
 
 Podmień całą zawartość paczki na GitHubie.
 
-Zmiany w Multiplayer:
-- przycisk ROZPOCZNIJ GRĘ przechodzi do ekranu losowania kategorii,
-- LOSUJ uruchamia właściwą planszę odgadywania w trybie Multiplayer,
-- przycisk MENU w rozgrywce Multiplayer wraca do pokoju,
-- COFNIJ z losowania Multiplayer wraca do pokoju,
-- status pokoju jest aktualizowany podczas losowania i gry.
+Zmiana względem wersji 1109:
+- w środkowej części pokoju Multiplayer dodano drugi kontener podzielony na dwie równe części,
+- każda część pokazuje login, punkty gracza, punkty zombie oraz błędy rywalizującego gracza,
+- loginy są pobierane z listy graczy pokoju; drugi panel oczekuje na drugiego gracza.
 
-Pozostałych ekranów nie zmieniano.
+Poza wskazanym kontenerem niczego nie zmieniano.

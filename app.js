@@ -1,4 +1,4 @@
-const VERSION = '1109';
+const VERSION = '1110';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -336,7 +336,7 @@ function createMultiplayerRoom(){
     host:nick,
     me:nick,
     isHost:true,
-    players:[{nick,role:'HOST'}],
+    players:[{nick,role:'HOST',playerPoints:0,zombiePoints:0,errors:0}],
     status:'Oczekiwanie na graczy'
   });
 }
@@ -351,7 +351,7 @@ function joinMultiplayerRoom(){
     host:'Gospodarz pokoju',
     me:nick,
     isHost:false,
-    players:[{nick,role:'GRACZ'}],
+    players:[{nick,role:'GRACZ',playerPoints:0,zombiePoints:0,errors:0}],
     status:'Dołączono do pokoju'
   });
 }
@@ -388,6 +388,19 @@ function renderMultiplayerRoom(){
       list.appendChild(row);
     });
   }
+  const duelPlayers=(multiplayerRoom.players||[]).slice(0,2);
+  [0,1].forEach(index=>{
+    const player=duelPlayers[index];
+    const number=index+1;
+    const name=document.getElementById(`mpDuelPlayer${number}Name`);
+    const points=document.getElementById(`mpDuelPlayer${number}Points`);
+    const zombiePoints=document.getElementById(`mpDuelPlayer${number}ZombiePoints`);
+    const errors=document.getElementById(`mpDuelPlayer${number}Errors`);
+    if(name) name.textContent=player?.nick || (index===0 ? 'GRACZ 1' : 'OCZEKIWANIE NA GRACZA 2');
+    if(points) points.textContent=String(player?.playerPoints ?? 0);
+    if(zombiePoints) zombiePoints.textContent=String(player?.zombiePoints ?? 0);
+    if(errors) errors.textContent=String(player?.errors ?? 0);
+  });
   const startBtn=document.querySelector('[data-action="mp-start-game"]');
   if(startBtn){
     startBtn.disabled=!multiplayerRoom.isHost;
@@ -484,5 +497,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1109').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1110').catch(()=>{}));}
 

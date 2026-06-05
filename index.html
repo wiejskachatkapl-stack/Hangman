@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#05070c" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman 1109</title>
+  <title>Zombie Hangman 1110</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=1109" />
+  <link rel="stylesheet" href="style.css?v=1110" />
 </head>
 <body>
   <div id="app" class="app">
@@ -106,7 +106,8 @@
               <div id="mpRoomGameInfo" class="mp-room-placeholder">Host rozpoczyna grę, następnie losuje kategorię i wszyscy przechodzą do planszy odgadywania.</div>
             </div>
 
-            <div class="mp-preview-panel">
+            <div class="mp-room-center-layout">
+              <div class="mp-preview-panel">
               <div class="mp-preview-word-wrap">
                 <div class="mp-preview-category">KATEGORIA: <span>---</span></div>
                 <div class="mp-preview-word-box">_ _ _ _ _ _ _ _</div>
@@ -131,6 +132,27 @@
                   <span>Ś</span><span>T</span><span>U</span><span>V</span><span>W</span><span>X</span><span>Y</span><span>Z</span><span>Ź</span><span>Ż</span>
                 </div>
               </div>
+              </div>
+
+              <aside class="mp-versus-panel" aria-label="Gracze rywalizujący w odgadywanie hasła">
+                <article class="mp-duel-player">
+                  <div class="mp-duel-login"><span>LOGIN</span><strong id="mpDuelPlayer1Name">GRACZ 1</strong></div>
+                  <div class="mp-duel-stats">
+                    <div><span>PUNKTY GRACZA</span><strong id="mpDuelPlayer1Points">0</strong></div>
+                    <div><span>PUNKTY ZOMBIE</span><strong id="mpDuelPlayer1ZombiePoints">0</strong></div>
+                    <div><span>BŁĘDY</span><strong id="mpDuelPlayer1Errors">0</strong></div>
+                  </div>
+                </article>
+
+                <article class="mp-duel-player">
+                  <div class="mp-duel-login"><span>LOGIN</span><strong id="mpDuelPlayer2Name">OCZEKIWANIE NA GRACZA 2</strong></div>
+                  <div class="mp-duel-stats">
+                    <div><span>PUNKTY GRACZA</span><strong id="mpDuelPlayer2Points">0</strong></div>
+                    <div><span>PUNKTY ZOMBIE</span><strong id="mpDuelPlayer2ZombiePoints">0</strong></div>
+                    <div><span>BŁĘDY</span><strong id="mpDuelPlayer2Errors">0</strong></div>
+                  </div>
+                </article>
+              </aside>
             </div>
           </section>
 
@@ -219,7 +241,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>1109</strong></p>
+        <p>Wersja: <strong>1110</strong></p>
         <button class="wood-btn" data-action="menu">Menu</button>
       </div>
     </section>
@@ -235,7 +257,7 @@
       </div>
     </div>
   </div>
-  <div id="buildVersion" class="build-version">1109</div>
+  <div id="buildVersion" class="build-version">1110</div>
   <div id="winPrompt" class="game-result-prompt" aria-hidden="true">
     <div class="game-result-card">
       <h2>Hasło odgadnięte</h2>
@@ -254,12 +276,12 @@
   <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
 
   <script>
-    window.ZH_BUILD = '1109';
+    window.ZH_BUILD = '1110';
     if ('caches' in window) {
-      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1109').map(k => caches.delete(k)))).catch(()=>{});
+      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1110').map(k => caches.delete(k)))).catch(()=>{});
     }
   </script>
-  <script src="assets/data/hasla.js?v=1109"></script>
-  <script src="app.js?v=1109"></script>
+  <script src="assets/data/hasla.js?v=1110"></script>
+  <script src="app.js?v=1110"></script>
 </body>
 </html>
