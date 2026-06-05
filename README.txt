@@ -1,4 +1,4 @@
-ZOMBIE HANGMAN 1106 - pliki do podmiany
+ZOMBIE HANGMAN 1107 - pliki do podmiany
 
 Podmień całą zawartość paczki na GitHubie.
 

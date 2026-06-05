@@ -4320,8 +4320,8 @@ body{
 #screen-multiplayer-room .mp-room-header{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:20px;
+  justify-content:flex-start;
+  gap:clamp(18px,3vw,54px);
   padding:clamp(10px,1.5vh,18px) clamp(14px,2vw,28px);
   border:2px solid rgba(113,72,36,.88);
   border-radius:14px;
@@ -4341,6 +4341,7 @@ body{
 #screen-multiplayer-room .mp-room-code-box{
   flex:0 0 auto;
   min-width:clamp(170px,20vw,300px);
+  margin-left:clamp(10px,2vw,28px);
   padding:8px 18px;
   text-align:center;
   border:2px solid rgba(206,171,101,.50);
@@ -4351,7 +4352,7 @@ body{
 #screen-multiplayer-room .mp-room-code-box strong{display:block;margin-top:4px;font:900 clamp(24px,2.5vw,42px)/1 Arial,sans-serif;letter-spacing:4px;color:#ffe09a;text-shadow:0 3px 5px #000}
 #screen-multiplayer-room .mp-room-main{
   display:grid;
-  grid-template-columns:minmax(260px,.72fr) minmax(0,1.28fr);
+  grid-template-columns:minmax(220px,.56fr) minmax(0,1.44fr);
   gap:clamp(10px,1.8vw,26px);
   min-width:0;
   min-height:0;
@@ -4393,8 +4394,10 @@ body{
 #screen-multiplayer-room .mp-room-info-grid div{padding:12px;border:1px solid rgba(201,169,107,.20);border-radius:10px;background:rgba(0,0,0,.30)}
 #screen-multiplayer-room .mp-room-info-grid span{display:block;font:700 clamp(11px,.95vw,15px)/1.2 Arial,sans-serif;color:#bca67c}
 #screen-multiplayer-room .mp-room-info-grid strong{display:block;margin-top:4px;font:800 clamp(14px,1.35vw,22px)/1.2 Arial,sans-serif;color:#fff0cc}
-#screen-multiplayer-room .mp-room-placeholder{display:grid;place-items:center;min-height:48%;margin-top:clamp(12px,2vh,24px);padding:20px;border:2px dashed rgba(196,160,91,.28);border-radius:14px;text-align:center;font:700 clamp(16px,1.6vw,26px)/1.35 Arial,sans-serif;color:#c9b994;background:rgba(0,0,0,.18)}
-#screen-multiplayer-room .mp-room-actions{display:flex;justify-content:center;gap:clamp(10px,1.5vw,22px)}
+#screen-multiplayer-room .mp-room-game-card h2,
+#screen-multiplayer-room .mp-room-info-grid{display:none !important}
+#screen-multiplayer-room .mp-room-placeholder{display:grid;place-items:center;min-height:100%;margin-top:0;padding:20px;border:2px dashed rgba(196,160,91,.28);border-radius:14px;text-align:center;font:700 clamp(16px,1.6vw,26px)/1.35 Arial,sans-serif;color:#c9b994;background:rgba(0,0,0,.18)}
+#screen-multiplayer-room .mp-room-actions{display:flex;justify-content:flex-start;gap:clamp(10px,1.5vw,22px);padding-left:clamp(4px,1vw,14px)}
 #screen-multiplayer-room .mp-room-action{width:min(360px,30vw);margin:0;padding:10px 18px;font-size:clamp(17px,1.8vw,28px)}
 @media (max-height:650px),(max-width:900px){
   #screen-multiplayer-room .mp-room-shell{inset:6px 8px;gap:7px}
@@ -4402,12 +4405,14 @@ body{
   #screen-multiplayer-room .mp-room-header h1{font-size:clamp(18px,3vw,29px)}
   #screen-multiplayer-room .mp-room-code-box{min-width:145px;padding:5px 10px}
   #screen-multiplayer-room .mp-room-code-box strong{font-size:clamp(20px,3vw,30px)}
-  #screen-multiplayer-room .mp-room-main{grid-template-columns:minmax(210px,.72fr) minmax(0,1.28fr);gap:7px}
+  #screen-multiplayer-room .mp-room-main{grid-template-columns:minmax(185px,.52fr) minmax(0,1.48fr);gap:7px}
   #screen-multiplayer-room .mp-room-players-card,#screen-multiplayer-room .mp-room-game-card{padding:9px;border-radius:10px}
   #screen-multiplayer-room h2{font-size:clamp(15px,2.3vw,23px);margin-bottom:7px}
+  #screen-multiplayer-room .mp-room-header{justify-content:flex-start;gap:12px}
   #screen-multiplayer-room .mp-player-row{padding:6px 8px;grid-template-columns:30px minmax(0,1fr) auto 12px}
   #screen-multiplayer-room .mp-player-number{width:24px;height:24px;font-size:12px}
   #screen-multiplayer-room .mp-room-info-grid div{padding:7px}
-  #screen-multiplayer-room .mp-room-placeholder{margin-top:7px;padding:10px;min-height:35%;font-size:clamp(12px,1.8vw,18px)}
+  #screen-multiplayer-room .mp-room-placeholder{margin-top:0;padding:10px;min-height:100%;font-size:clamp(12px,1.8vw,18px)}
   #screen-multiplayer-room .mp-room-action{width:min(250px,32vw);padding:6px 12px;font-size:clamp(14px,2vw,21px);box-shadow:inset 0 2px 0 rgba(255,255,255,.15),0 4px 0 #120905,0 7px 12px #000}
+  #screen-multiplayer-room .mp-room-actions{justify-content:flex-start;padding-left:2px}
 }
