@@ -1,4 +1,4 @@
-const VERSION = '1110';
+const VERSION = '1111';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -398,8 +398,8 @@ function renderMultiplayerRoom(){
     const errors=document.getElementById(`mpDuelPlayer${number}Errors`);
     if(name) name.textContent=player?.nick || (index===0 ? 'GRACZ 1' : 'OCZEKIWANIE NA GRACZA 2');
     if(points) points.textContent=String(player?.playerPoints ?? 0);
-    if(zombiePoints) zombiePoints.textContent=String(player?.zombiePoints ?? 0);
-    if(errors) errors.textContent=String(player?.errors ?? 0);
+    if(zombiePoints) zombiePoints.textContent=`${player?.zombiePoints ?? 0}/300`;
+    if(errors) errors.textContent=`${player?.errors ?? 0}/6`;
   });
   const startBtn=document.querySelector('[data-action="mp-start-game"]');
   if(startBtn){
@@ -497,5 +497,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1110').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1111').catch(()=>{}));}
 

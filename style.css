@@ -4442,7 +4442,7 @@ body{
 }
 
 
-/* v1110 — drugi kontener graczy rywalizujących w pokoju Multiplayer. */
+/* v1111 — wygląd pokoju Multiplayer: tło zombie chibi i kolorowe statystyki graczy. */
 #screen-multiplayer-room .mp-room-center-layout{
   display:grid;
   grid-template-columns:minmax(0,1.48fr) minmax(250px,1fr);
@@ -4529,4 +4529,128 @@ body{
   #screen-multiplayer-room .mp-duel-stats div{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;padding:4px 6px;text-align:left}
   #screen-multiplayer-room .mp-duel-stats span{min-height:0;font-size:clamp(7px,1vw,10px)}
   #screen-multiplayer-room .mp-duel-stats strong{margin-top:0;font-size:clamp(13px,1.7vw,19px)}
+}
+
+
+/* v1111 — wyłącznie wygląd pokoju Multiplayer. */
+#screen-multiplayer-room .mp-room-main{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-radius:16px;
+}
+#screen-multiplayer-room .mp-room-main::before{
+  content:'';
+  position:absolute;
+  inset:-8px;
+  z-index:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(3,7,12,.32),rgba(3,7,12,.58)),
+    url('assets/img/mp_room_chibi_background.png') center center/cover no-repeat;
+  opacity:.78;
+  filter:blur(1.2px) brightness(.92) saturate(.92);
+  transform:scale(1.025);
+}
+#screen-multiplayer-room .mp-room-main > *{
+  position:relative;
+  z-index:1;
+}
+#screen-multiplayer-room .mp-room-players-card,
+#screen-multiplayer-room .mp-room-center-card{
+  background:linear-gradient(180deg,rgba(8,13,20,.55),rgba(3,7,12,.62));
+  backdrop-filter:blur(.5px);
+}
+#screen-multiplayer-room .mp-room-gallows-card{
+  background:linear-gradient(180deg,rgba(9,13,20,.94),rgba(4,7,12,.94));
+}
+#screen-multiplayer-room .mp-player-row{
+  background:linear-gradient(180deg,rgba(7,12,18,.82),rgba(2,5,9,.88));
+  box-shadow:0 5px 14px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,225,160,.05);
+}
+#screen-multiplayer-room .mp-preview-word-wrap,
+#screen-multiplayer-room .mp-preview-keyboard{
+  background:rgba(0,0,0,.32);
+  backdrop-filter:blur(1px);
+}
+#screen-multiplayer-room .mp-versus-panel{
+  background:linear-gradient(180deg,rgba(7,12,18,.76),rgba(2,5,9,.82));
+  backdrop-filter:blur(1px);
+}
+#screen-multiplayer-room .mp-duel-player{
+  justify-content:flex-start;
+  gap:clamp(8px,1.1vh,14px);
+}
+#screen-multiplayer-room .mp-duel-login{
+  padding:clamp(10px,1.2vh,16px) clamp(8px,1vw,14px);
+  border:1px solid rgba(170,112,51,.58);
+  border-radius:11px;
+  background:linear-gradient(180deg,rgba(49,22,8,.88),rgba(12,7,4,.86));
+  box-shadow:inset 0 1px 0 rgba(255,218,142,.08),0 5px 12px rgba(0,0,0,.22);
+  text-align:center;
+}
+#screen-multiplayer-room .mp-duel-login span{
+  display:inline;
+  margin-right:6px;
+  color:#d1b47e;
+}
+#screen-multiplayer-room .mp-duel-login strong{
+  display:inline;
+  margin-top:0;
+  font-family:Georgia,'Times New Roman',serif;
+  color:#ffe7b5;
+}
+#screen-multiplayer-room .mp-duel-stats{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;
+  border:1px solid rgba(170,112,51,.54);
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 5px 12px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,218,142,.06);
+}
+#screen-multiplayer-room .mp-duel-stats div{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  min-width:0;
+  padding:clamp(9px,1.1vh,14px) 6px;
+  border:0;
+  border-right:1px solid rgba(170,112,51,.48);
+  border-radius:0;
+  background:linear-gradient(180deg,rgba(48,21,7,.88),rgba(13,8,5,.86));
+  text-align:center;
+}
+#screen-multiplayer-room .mp-duel-stats div:last-child{border-right:0}
+#screen-multiplayer-room .mp-duel-stats span,
+#screen-multiplayer-room .mp-duel-stats strong{
+  display:inline;
+  min-height:0;
+  margin:0;
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(12px,1.05vw,18px);
+  line-height:1;
+  white-space:nowrap;
+  text-shadow:0 3px 5px #000;
+}
+#screen-multiplayer-room .mp-stat-player span,
+#screen-multiplayer-room .mp-stat-player strong{
+  color:#55ff55;
+}
+#screen-multiplayer-room .mp-stat-zombie span,
+#screen-multiplayer-room .mp-stat-zombie strong{
+  color:#ffe7b5;
+}
+#screen-multiplayer-room .mp-stat-errors span,
+#screen-multiplayer-room .mp-stat-errors strong{
+  color:#ff554d;
+}
+@media (max-height:650px),(max-width:900px){
+  #screen-multiplayer-room .mp-duel-player{padding:7px;gap:6px}
+  #screen-multiplayer-room .mp-duel-login{padding:6px 5px}
+  #screen-multiplayer-room .mp-duel-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+  #screen-multiplayer-room .mp-duel-stats div{display:flex;grid-template-columns:none;gap:3px;padding:6px 3px;text-align:center}
+  #screen-multiplayer-room .mp-duel-stats span,
+  #screen-multiplayer-room .mp-duel-stats strong{font-size:clamp(8px,1.15vw,13px)}
 }
