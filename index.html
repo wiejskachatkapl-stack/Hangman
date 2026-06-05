@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#05070c" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman 1116</title>
+  <title>Zombie Hangman 1117</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=1116" />
+  <link rel="stylesheet" href="style.css?v=1117" />
 </head>
 <body>
   <div id="app" class="app">
@@ -261,7 +261,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>1116</strong></p>
+        <p>Wersja: <strong>1117</strong></p>
         <button class="wood-btn" data-action="menu">Menu</button>
       </div>
     </section>
@@ -277,7 +277,7 @@
       </div>
     </div>
   </div>
-  <div id="buildVersion" class="build-version">1116</div>
+  <div id="buildVersion" class="build-version">1117</div>
   <div id="winPrompt" class="game-result-prompt" aria-hidden="true">
     <div class="game-result-card">
       <h2>Hasło odgadnięte</h2>
@@ -296,12 +296,26 @@
   <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
 
   <script>
-    window.ZH_BUILD = '1116';
+    window.ZH_BUILD = '1117';
     if ('caches' in window) {
-      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1116').map(k => caches.delete(k)))).catch(()=>{});
+      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1117').map(k => caches.delete(k)))).catch(()=>{});
     }
   </script>
-  <script src="assets/data/hasla.js?v=1116"></script>
-  <script src="app.js?v=1116"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-database-compat.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: "AIzaSyAS2J2tNzi0iGvJz5hAjsBOhUDf0A0wU2o",
+      authDomain: "wisielec-3b28b.firebaseapp.com",
+      databaseURL: "https://wisielec-3b28b-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "wisielec-3b28b",
+      storageBucket: "wisielec-3b28b.firebasestorage.app",
+      messagingSenderId: "349690866134",
+      appId: "1:349690866134:web:25fde5d924edd3973b5c77",
+      measurementId: "G-49ZVCHNCPX"
+    });
+  </script>
+  <script src="assets/data/hasla.js?v=1117"></script>
+  <script src="app.js?v=1117"></script>
 </body>
 </html>
