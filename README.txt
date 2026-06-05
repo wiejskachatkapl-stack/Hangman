@@ -1,13 +1,8 @@
-ZOMBIE HANGMAN 1114 - pliki do podmiany
+ZOMBIE HANGMAN 1115 - pliki do podmiany
 
 Podmień całą zawartość paczki na GitHubie.
 
-Zmiany względem wersji 1113:
-- usunięto napis „LOGIN” przy obu graczach,
-- zielone punkty gracza przeniesiono obok jego nazwy,
-- niższy pasek statystyk podzielono na dwa pola: punkty zombie oraz błędy,
-- licznik czasu przeniesiono do największego prostokąta pod statystykami,
-- licznik pokazuje wyłącznie zieloną liczbę od 10 do 0, bez napisu „SEK.”,
-- przy błędnej literze lub upływie czasu w dużym polu nadal pojawia się czerwony kwadrat.
-
-Poza wskazanym układem niczego więcej nie zmieniano względem wersji 1113.
+Zmiana względem wersji 1114:
+- naprawiono niewidoczne koła ratunkowe w pokoju Multiplayer,
+- dodano brakujący plik assets/img/img_ratunek_v1098.png używany przez index.html i service worker,
+- niczego więcej nie zmieniano względem wersji 1114.
