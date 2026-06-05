@@ -4352,13 +4352,15 @@ body{
 #screen-multiplayer-room .mp-room-code-box strong{display:block;margin-top:4px;font:900 clamp(20px,2vw,34px)/1 Arial,sans-serif;letter-spacing:3px;color:#ffe09a;text-shadow:0 3px 5px #000}
 #screen-multiplayer-room .mp-room-main{
   display:grid;
-  grid-template-columns:minmax(185px,.42fr) minmax(0,1.58fr);
-  gap:clamp(8px,1.2vw,16px);
+  grid-template-columns:minmax(180px,.34fr) minmax(0,1.18fr) minmax(170px,.30fr);
+  gap:clamp(8px,1.2vw,14px);
+  align-items:stretch;
   min-width:0;
   min-height:0;
 }
 #screen-multiplayer-room .mp-room-players-card,
-#screen-multiplayer-room .mp-room-game-card{
+#screen-multiplayer-room .mp-room-game-card,
+#screen-multiplayer-room .mp-room-gallows-card{
   min-width:0;
   min-height:0;
   padding:clamp(10px,1.2vh,16px);
@@ -4396,8 +4398,24 @@ body{
 #screen-multiplayer-room .mp-room-info-grid strong{display:block;margin-top:4px;font:800 clamp(14px,1.35vw,22px)/1.2 Arial,sans-serif;color:#fff0cc}
 #screen-multiplayer-room .mp-room-game-card h2,
 #screen-multiplayer-room .mp-room-info-grid{display:none !important}
-#screen-multiplayer-room .mp-room-game-card{display:flex;flex-direction:column}
-#screen-multiplayer-room .mp-room-placeholder{display:grid;place-items:center;flex:1 1 auto;min-height:100%;height:100%;margin-top:0;padding:20px;border:2px dashed rgba(196,160,91,.28);border-radius:14px;text-align:center;font:700 clamp(16px,1.6vw,26px)/1.35 Arial,sans-serif;color:#c9b994;background:rgba(0,0,0,.18)}
+#screen-multiplayer-room .mp-room-hidden-meta{display:none !important}
+#screen-multiplayer-room .mp-room-center-card,
+#screen-multiplayer-room .mp-room-gallows-card{display:flex;flex-direction:column}
+#screen-multiplayer-room .mp-preview-panel{display:flex;flex-direction:column;gap:clamp(12px,1.8vh,22px);height:100%;min-height:0}
+#screen-multiplayer-room .mp-preview-word-wrap{padding:clamp(10px,1.4vh,16px);border:1px solid rgba(201,169,107,.24);border-radius:14px;background:rgba(0,0,0,.26);box-shadow:inset 0 0 20px rgba(0,0,0,.18)}
+#screen-multiplayer-room .mp-preview-category{font:800 clamp(16px,1.45vw,24px)/1.2 Arial,sans-serif;color:#f4d490;text-transform:uppercase;letter-spacing:.5px}
+#screen-multiplayer-room .mp-preview-category span{color:#fff0cc}
+#screen-multiplayer-room .mp-preview-word-box{margin-top:10px;padding:clamp(18px,2.2vh,28px) clamp(12px,1.6vw,20px);border:2px solid rgba(123,79,38,.88);border-radius:12px;background:linear-gradient(180deg,#e5bf7a,#d9aa61);text-align:center;font:900 clamp(24px,2.4vw,38px)/1.1 Georgia,serif;letter-spacing:10px;color:#1c1207;box-shadow:inset 0 2px 8px rgba(255,255,255,.28),0 8px 16px rgba(0,0,0,.18)}
+#screen-multiplayer-room .mp-preview-help-row{display:flex;align-items:center;gap:clamp(12px,1.2vw,18px);flex-wrap:wrap}
+#screen-multiplayer-room .mp-preview-help-label{font:900 clamp(20px,2vw,32px)/1 Arial,sans-serif;color:#ffe6b2;text-shadow:0 3px 6px #000}
+#screen-multiplayer-room .mp-preview-help-icons{display:flex;gap:14px;align-items:center}
+#screen-multiplayer-room .mp-preview-life{width:56px;height:56px;border:none;background:transparent;padding:0;display:grid;place-items:center;cursor:default}
+#screen-multiplayer-room .mp-preview-life img{width:56px;height:56px;display:block;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.45))}
+#screen-multiplayer-room .mp-preview-keyboard{display:flex;flex-direction:column;gap:10px;padding:clamp(10px,1.2vh,14px);border:1px solid rgba(201,169,107,.18);border-radius:14px;background:rgba(0,0,0,.18);flex:1 1 auto;justify-content:center}
+#screen-multiplayer-room .mp-preview-key-row{display:flex;flex-wrap:wrap;gap:8px}
+#screen-multiplayer-room .mp-preview-key-row span{min-width:42px;height:42px;padding:0 8px;border:2px solid rgba(116,91,55,.9);border-radius:9px;display:grid;place-items:center;background:linear-gradient(180deg,rgba(49,44,37,.96),rgba(17,15,14,.96));box-shadow:inset 0 2px 0 rgba(255,255,255,.08),0 4px 9px rgba(0,0,0,.35);font:900 clamp(18px,1.45vw,26px)/1 Georgia,serif;color:#f4dfb0}
+#screen-multiplayer-room .mp-room-gallows-card{padding:clamp(8px,1vh,12px);justify-content:center;align-items:center}
+#screen-multiplayer-room .mp-room-gallows-card img{width:100%;height:100%;display:block;object-fit:contain;object-position:center center;filter:drop-shadow(0 8px 14px rgba(0,0,0,.45))}
 #screen-multiplayer-room .mp-room-actions{display:flex;justify-content:flex-start;gap:clamp(10px,1vw,16px);padding-left:0}
 #screen-multiplayer-room .mp-room-action{width:min(300px,24vw);margin:0;padding:8px 14px;font-size:clamp(16px,1.55vw,24px)}
 @media (max-height:650px),(max-width:900px){
@@ -4406,14 +4424,19 @@ body{
   #screen-multiplayer-room .mp-room-header h1{font-size:clamp(18px,3vw,29px)}
   #screen-multiplayer-room .mp-room-code-box{min-width:132px;padding:4px 8px}
   #screen-multiplayer-room .mp-room-code-box strong{font-size:clamp(20px,3vw,30px)}
-  #screen-multiplayer-room .mp-room-main{grid-template-columns:minmax(165px,.40fr) minmax(0,1.60fr);gap:6px}
-  #screen-multiplayer-room .mp-room-players-card,#screen-multiplayer-room .mp-room-game-card{padding:8px;border-radius:10px}
+  #screen-multiplayer-room .mp-room-main{grid-template-columns:minmax(150px,.30fr) minmax(0,1.10fr) minmax(140px,.28fr);gap:6px}
+  #screen-multiplayer-room .mp-room-players-card,#screen-multiplayer-room .mp-room-game-card,#screen-multiplayer-room .mp-room-gallows-card{padding:8px;border-radius:10px}
   #screen-multiplayer-room h2{font-size:clamp(15px,2.3vw,23px);margin-bottom:7px}
   #screen-multiplayer-room .mp-room-header{justify-content:flex-start;gap:12px}
   #screen-multiplayer-room .mp-player-row{padding:6px 8px;grid-template-columns:30px minmax(0,1fr) auto 12px}
   #screen-multiplayer-room .mp-player-number{width:24px;height:24px;font-size:12px}
   #screen-multiplayer-room .mp-room-info-grid div{padding:7px}
-  #screen-multiplayer-room .mp-room-placeholder{margin-top:0;padding:10px;min-height:100%;font-size:clamp(12px,1.8vw,18px)}
+  #screen-multiplayer-room .mp-preview-word-box{letter-spacing:6px;font-size:clamp(18px,2vw,28px);padding:14px 10px}
+  #screen-multiplayer-room .mp-preview-help-label{font-size:clamp(16px,2vw,24px)}
+  #screen-multiplayer-room .mp-preview-life,#screen-multiplayer-room .mp-preview-life img{width:42px;height:42px}
+  #screen-multiplayer-room .mp-preview-keyboard{gap:8px;padding:8px}
+  #screen-multiplayer-room .mp-preview-key-row{gap:6px}
+  #screen-multiplayer-room .mp-preview-key-row span{min-width:32px;height:32px;font-size:clamp(13px,1.8vw,18px);border-radius:8px}
   #screen-multiplayer-room .mp-room-action{width:min(220px,28vw);padding:6px 10px;font-size:clamp(13px,1.8vw,19px);box-shadow:inset 0 2px 0 rgba(255,255,255,.15),0 4px 0 #120905,0 7px 12px #000}
   #screen-multiplayer-room .mp-room-actions{justify-content:flex-start;padding-left:2px}
 }

@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#05070c" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman 1108</title>
+  <title>Zombie Hangman 1109</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=1108" />
+  <link rel="stylesheet" href="style.css?v=1109" />
 </head>
 <body>
   <div id="app" class="app">
@@ -95,16 +95,47 @@
             <div id="mpPlayersList" class="mp-players-list"></div>
           </section>
 
-          <section class="mp-room-game-card">
-            <h2>USTAWIENIA ROZGRYWKI</h2>
-            <div class="mp-room-info-grid">
-              <div><span>Tryb</span><strong>Wspólne odgadywanie</strong></div>
-              <div><span>Host</span><strong id="mpHostName">---</strong></div>
-              <div><span>Status</span><strong id="mpRoomStatusText">Oczekiwanie na graczy</strong></div>
+          <section class="mp-room-game-card mp-room-center-card">
+            <div class="mp-room-hidden-meta" aria-hidden="true">
+              <h2>USTAWIENIA ROZGRYWKI</h2>
+              <div class="mp-room-info-grid">
+                <div><span>Tryb</span><strong>Wspólne odgadywanie</strong></div>
+                <div><span>Host</span><strong id="mpHostName">---</strong></div>
+                <div><span>Status</span><strong id="mpRoomStatusText">Oczekiwanie na graczy</strong></div>
+              </div>
+              <div id="mpRoomGameInfo" class="mp-room-placeholder">Host rozpoczyna grę, następnie losuje kategorię i wszyscy przechodzą do planszy odgadywania.</div>
             </div>
-            <div id="mpRoomGameInfo" class="mp-room-placeholder">
-              Host rozpoczyna grę, następnie losuje kategorię i wszyscy przechodzą do planszy odgadywania.
+
+            <div class="mp-preview-panel">
+              <div class="mp-preview-word-wrap">
+                <div class="mp-preview-category">KATEGORIA: <span>---</span></div>
+                <div class="mp-preview-word-box">_ _ _ _ _ _ _ _</div>
+              </div>
+
+              <div class="mp-preview-help-row">
+                <div class="mp-preview-help-label">POMOC: 2/2</div>
+                <div class="mp-preview-help-icons" aria-label="Koła ratunkowe">
+                  <button class="mp-preview-life" type="button" aria-label="Koło ratunkowe 1"><img src="assets/img/img_ratunek_v1098.png" alt="" /></button>
+                  <button class="mp-preview-life" type="button" aria-label="Koło ratunkowe 2"><img src="assets/img/img_ratunek_v1098.png" alt="" /></button>
+                </div>
+              </div>
+
+              <div class="mp-preview-keyboard" aria-label="Podgląd klawiatury">
+                <div class="mp-preview-key-row">
+                  <span>A</span><span>Ą</span><span>B</span><span>C</span><span>Ć</span><span>D</span><span>E</span><span>Ę</span><span>F</span><span>G</span><span>H</span><span>I</span>
+                </div>
+                <div class="mp-preview-key-row">
+                  <span>J</span><span>K</span><span>L</span><span>Ł</span><span>M</span><span>N</span><span>Ń</span><span>O</span><span>Ó</span><span>P</span><span>Q</span><span>R</span><span>S</span>
+                </div>
+                <div class="mp-preview-key-row">
+                  <span>Ś</span><span>T</span><span>U</span><span>V</span><span>W</span><span>X</span><span>Y</span><span>Z</span><span>Ź</span><span>Ż</span>
+                </div>
+              </div>
             </div>
+          </section>
+
+          <section class="mp-room-game-card mp-room-gallows-card" aria-label="Szubienica">
+            <img src="assets/img/multiplayer_gallows.png" alt="Szubienica" />
           </section>
         </main>
 
@@ -188,7 +219,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>1108</strong></p>
+        <p>Wersja: <strong>1109</strong></p>
         <button class="wood-btn" data-action="menu">Menu</button>
       </div>
     </section>
@@ -204,7 +235,7 @@
       </div>
     </div>
   </div>
-  <div id="buildVersion" class="build-version">1108</div>
+  <div id="buildVersion" class="build-version">1109</div>
   <div id="winPrompt" class="game-result-prompt" aria-hidden="true">
     <div class="game-result-card">
       <h2>Hasło odgadnięte</h2>
@@ -223,12 +254,12 @@
   <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
 
   <script>
-    window.ZH_BUILD = '1108';
+    window.ZH_BUILD = '1109';
     if ('caches' in window) {
-      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1108').map(k => caches.delete(k)))).catch(()=>{});
+      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1109').map(k => caches.delete(k)))).catch(()=>{});
     }
   </script>
-  <script src="assets/data/hasla.js?v=1108"></script>
-  <script src="app.js?v=1108"></script>
+  <script src="assets/data/hasla.js?v=1109"></script>
+  <script src="app.js?v=1109"></script>
 </body>
 </html>
