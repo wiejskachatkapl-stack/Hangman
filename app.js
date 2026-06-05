@@ -1,4 +1,4 @@
-const VERSION = '1118';
+const VERSION = '1119';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const MP_ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPQRS'.split(''), 'ŚTUVWXYZŹŻ'.split('')];
@@ -733,7 +733,7 @@ function renderMultiplayerRoom(){
   const list=document.getElementById('mpPlayersList');
   const gameInfo=document.getElementById('mpRoomGameInfo');
   if(code) code.textContent=multiplayerRoom.code || '------';
-  if(title) title.textContent=multiplayerRoom.isHost ? 'Twój pokój' : 'Pokój gracza';
+  if(title) title.textContent=multiplayerRoom.code || '------';
   if(host) host.textContent=multiplayerRoom.host || '---';
   if(status) status.textContent=multiplayerRoom.status || 'Oczekiwanie na graczy';
   if(gameInfo){
@@ -760,7 +760,7 @@ function renderMultiplayerRoom(){
     const points=document.getElementById(`mpDuelPlayer${number}Points`);
     const zombiePoints=document.getElementById(`mpDuelPlayer${number}ZombiePoints`);
     const errors=document.getElementById(`mpDuelPlayer${number}Errors`);
-    if(name) name.textContent=player?.nick || (index===0 ? 'GRACZ 1' : 'OCZEKIWANIE NA GRACZA 2');
+    if(name) name.textContent=player?.nick || (index===0 ? 'GRACZ 1' : 'OCZEKIWANIE NA GRACZA');
     if(points) points.textContent=String(player?.playerPoints ?? 0);
     if(zombiePoints) zombiePoints.textContent=`${player?.zombiePoints ?? 0}/300`;
     if(errors) errors.textContent=`${player?.errors ?? 0}/6`;
@@ -871,5 +871,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1118').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1119').catch(()=>{}));}
 

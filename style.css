@@ -4974,3 +4974,126 @@ body:not([data-game-mode="multiplayer"]) .mp-game-turn-panel{display:none !impor
     font-size:clamp(9px,2.4vw,13px) !important;
   }
 }
+
+
+/* v1119 — przeniesienie paneli graczy do górnego pasa oraz kod pokoju do prawego dolnego rogu. */
+#screen-multiplayer-room .mp-room-header{
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+#screen-multiplayer-room .mp-versus-panel-top{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:minmax(0,1fr);
+  gap:clamp(8px,1vw,14px);
+  width:100%;
+  min-width:0;
+  min-height:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  overflow:visible;
+}
+#screen-multiplayer-room .mp-versus-panel-top .mp-duel-player{
+  padding:clamp(8px,1vh,12px) !important;
+  border:2px solid rgba(113,72,36,.78);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(8,13,20,.30),rgba(3,7,12,.20)) !important;
+  box-shadow:0 10px 22px rgba(0,0,0,.26), inset 0 0 18px rgba(0,0,0,.18);
+  min-height:0;
+}
+#screen-multiplayer-room .mp-versus-panel-top .mp-duel-player + .mp-duel-player{border-top:0}
+#screen-multiplayer-room .mp-versus-panel-top .mp-duel-head{
+  grid-template-columns:minmax(0,1.65fr) minmax(112px,.7fr);
+}
+#screen-multiplayer-room .mp-versus-panel-top .mp-duel-name{
+  font-size:clamp(18px,1.45vw,28px);
+}
+#screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player span,
+#screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player strong,
+#screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats span,
+#screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats strong{
+  font-size:clamp(12px,.92vw,17px);
+}
+#screen-multiplayer-room .mp-versus-panel-top .mp-duel-turn{
+  min-height:clamp(70px,8.8vh,110px);
+}
+#screen-multiplayer-room .mp-versus-panel-top .mp-turn-seconds{
+  font-size:clamp(38px,3.6vw,62px);
+}
+#screen-multiplayer-room .mp-room-main{
+  grid-template-columns:minmax(240px,.44fr) minmax(0,1.6fr) minmax(180px,.32fr) !important;
+}
+#screen-multiplayer-room .mp-room-players-card{padding-right:clamp(12px,1.3vw,18px)}
+#screen-multiplayer-room .mp-players-list{padding-right:0}
+#screen-multiplayer-room .mp-player-row{
+  grid-template-columns:34px minmax(0,1fr) auto 12px;
+  gap:8px;
+}
+#screen-multiplayer-room .mp-player-row strong{font-size:clamp(17px,1.35vw,22px)}
+#screen-multiplayer-room .mp-player-role{font-size:clamp(9px,.78vw,12px)}
+#screen-multiplayer-room .mp-room-center-layout{
+  grid-template-columns:minmax(0,1fr) !important;
+}
+#screen-multiplayer-room .mp-room-actions{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  gap:clamp(10px,1vw,16px);
+}
+#screen-multiplayer-room .mp-room-action-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:clamp(10px,1vw,16px);
+  align-items:flex-end;
+}
+#screen-multiplayer-room .mp-room-code-badge{
+  min-width:clamp(180px,16vw,250px);
+  padding:clamp(8px,1vh,12px) clamp(12px,1vw,16px);
+  justify-self:end;
+  text-align:center;
+  border:2px solid rgba(206,171,101,.50);
+  border-radius:12px;
+  background:linear-gradient(180deg,rgba(60,34,17,.88),rgba(14,8,5,.92));
+  box-shadow:0 10px 24px rgba(0,0,0,.34),inset 0 2px 0 rgba(255,230,170,.11);
+}
+#screen-multiplayer-room .mp-room-code-badge-label{
+  display:block;
+  font:700 clamp(10px,.85vw,14px)/1.15 Arial,sans-serif;
+  letter-spacing:1.4px;
+  color:#c9ad76;
+}
+#screen-multiplayer-room .mp-room-code-badge strong{
+  display:block;
+  margin-top:5px;
+  font:900 clamp(26px,2vw,36px)/1 Arial,sans-serif;
+  letter-spacing:3px;
+  color:#ffe09a;
+  text-shadow:0 3px 5px #000;
+}
+@media (max-height:700px),(max-width:1000px){
+  #screen-multiplayer-room .mp-versus-panel-top{gap:6px}
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-player{padding:6px !important}
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head{grid-template-columns:minmax(0,1.45fr) minmax(82px,.65fr)}
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-name{font-size:clamp(12px,1.55vw,18px)}
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player span,
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player strong,
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats span,
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats strong{font-size:clamp(8px,1.08vw,12px)}
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-turn{min-height:48px}
+  #screen-multiplayer-room .mp-versus-panel-top .mp-turn-seconds{font-size:clamp(24px,3vw,38px)}
+  #screen-multiplayer-room .mp-room-main{grid-template-columns:minmax(180px,.42fr) minmax(0,1.45fr) minmax(140px,.3fr) !important}
+  #screen-multiplayer-room .mp-player-row strong{font-size:clamp(13px,1.55vw,17px)}
+  #screen-multiplayer-room .mp-room-actions{grid-template-columns:minmax(0,1fr) auto;align-items:center}
+  #screen-multiplayer-room .mp-room-action-buttons{gap:8px}
+  #screen-multiplayer-room .mp-room-action{width:min(210px,27vw)}
+  #screen-multiplayer-room .mp-room-code-badge{min-width:140px;padding:6px 8px}
+  #screen-multiplayer-room .mp-room-code-badge strong{font-size:clamp(18px,2.6vw,28px);letter-spacing:2px}
+}
