@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#05070c" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman 1112</title>
+  <title>Zombie Hangman 1113</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=1112" />
+  <link rel="stylesheet" href="style.css?v=1113" />
 </head>
 <body>
   <div id="app" class="app">
@@ -135,8 +135,12 @@
               </div>
 
               <aside class="mp-versus-panel" aria-label="Gracze rywalizujący w odgadywanie hasła">
-                <article class="mp-duel-player">
+                <article id="mpDuelPlayer1Card" class="mp-duel-player">
                   <div class="mp-duel-login"><span>LOGIN</span><strong id="mpDuelPlayer1Name">GRACZ 1</strong></div>
+                  <div class="mp-duel-turn" aria-label="Czas gracza 1 na podanie litery">
+                    <span id="mpDuelPlayer1Timer" class="mp-turn-seconds">10 SEK.</span>
+                    <span id="mpDuelPlayer1Fail" class="mp-turn-fail" aria-label="Nieprawidłowa litera lub brak odpowiedzi" aria-hidden="true"></span>
+                  </div>
                   <div class="mp-duel-stats">
                     <div class="mp-stat-player"><span>PUNKTY:</span><strong id="mpDuelPlayer1Points">0</strong></div>
                     <div class="mp-stat-zombie"><span>ZOMBIAK:</span><strong id="mpDuelPlayer1ZombiePoints">0/300</strong></div>
@@ -144,8 +148,12 @@
                   </div>
                 </article>
 
-                <article class="mp-duel-player">
+                <article id="mpDuelPlayer2Card" class="mp-duel-player">
                   <div class="mp-duel-login"><span>LOGIN</span><strong id="mpDuelPlayer2Name">OCZEKIWANIE NA GRACZA 2</strong></div>
+                  <div class="mp-duel-turn" aria-label="Czas gracza 2 na podanie litery">
+                    <span id="mpDuelPlayer2Timer" class="mp-turn-seconds">10 SEK.</span>
+                    <span id="mpDuelPlayer2Fail" class="mp-turn-fail" aria-label="Nieprawidłowa litera lub brak odpowiedzi" aria-hidden="true"></span>
+                  </div>
                   <div class="mp-duel-stats">
                     <div class="mp-stat-player"><span>PUNKTY:</span><strong id="mpDuelPlayer2Points">0</strong></div>
                     <div class="mp-stat-zombie"><span>ZOMBIAK:</span><strong id="mpDuelPlayer2ZombiePoints">0/300</strong></div>
@@ -185,6 +193,23 @@
         <div class="hud-line"><span class="hud-score">Punkty: <strong id="score">0</strong></span><span class="hud-zombie">Zombiak: <strong id="zombieMeter">0/300</strong></span><span class="hud-mistakes">Błędy: <strong id="mistakes">0/6</strong></span></div>
         <button class="small-wood game-menu-btn" data-action="menu">MENU</button>
       </div>
+
+      <aside id="mpGameTurnPanel" class="mp-game-turn-panel" aria-label="Kolej graczy Multiplayer">
+        <article id="mpGamePlayer1Card" class="mp-game-turn-player">
+          <div class="mp-game-turn-login">LOGIN: <strong id="mpGamePlayer1Name">GRACZ 1</strong></div>
+          <div class="mp-game-turn-state">
+            <span id="mpGamePlayer1Timer" class="mp-turn-seconds">10 SEK.</span>
+            <span id="mpGamePlayer1Fail" class="mp-turn-fail" aria-label="Nieprawidłowa litera lub brak odpowiedzi" aria-hidden="true"></span>
+          </div>
+        </article>
+        <article id="mpGamePlayer2Card" class="mp-game-turn-player">
+          <div class="mp-game-turn-login">LOGIN: <strong id="mpGamePlayer2Name">GRACZ 2</strong></div>
+          <div class="mp-game-turn-state">
+            <span id="mpGamePlayer2Timer" class="mp-turn-seconds">10 SEK.</span>
+            <span id="mpGamePlayer2Fail" class="mp-turn-fail" aria-label="Nieprawidłowa litera lub brak odpowiedzi" aria-hidden="true"></span>
+          </div>
+        </article>
+      </aside>
 
       <div class="game-layout">
         <div class="hang-area">
@@ -241,7 +266,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>1112</strong></p>
+        <p>Wersja: <strong>1113</strong></p>
         <button class="wood-btn" data-action="menu">Menu</button>
       </div>
     </section>
@@ -257,7 +282,7 @@
       </div>
     </div>
   </div>
-  <div id="buildVersion" class="build-version">1112</div>
+  <div id="buildVersion" class="build-version">1113</div>
   <div id="winPrompt" class="game-result-prompt" aria-hidden="true">
     <div class="game-result-card">
       <h2>Hasło odgadnięte</h2>
@@ -276,12 +301,12 @@
   <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
 
   <script>
-    window.ZH_BUILD = '1112';
+    window.ZH_BUILD = '1113';
     if ('caches' in window) {
-      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1112').map(k => caches.delete(k)))).catch(()=>{});
+      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1113').map(k => caches.delete(k)))).catch(()=>{});
     }
   </script>
-  <script src="assets/data/hasla.js?v=1112"></script>
-  <script src="app.js?v=1112"></script>
+  <script src="assets/data/hasla.js?v=1113"></script>
+  <script src="app.js?v=1113"></script>
 </body>
 </html>

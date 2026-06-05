@@ -4656,7 +4656,7 @@ body{
 }
 
 
-/* v1112 — przezroczyste kontenery pokoju Multiplayer, bez zmian układu. */
+/* v1113 — przezroczyste kontenery pokoju Multiplayer, bez zmian układu. */
 #screen-multiplayer-room .mp-room-players-card,
 #screen-multiplayer-room .mp-room-center-card{
   background:rgba(3,7,12,.14) !important;
@@ -4682,4 +4682,93 @@ body{
 }
 #screen-multiplayer-room .mp-duel-stats div{
   background:rgba(28,12,4,.18) !important;
+}
+
+
+/* v1113 — 10-sekundowa kolej gracza w Multiplayer. */
+#screen-multiplayer-room .mp-duel-turn{
+  min-height:clamp(48px,6.2vh,72px);
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(120,211,104,.34);
+  border-radius:10px;
+  background:rgba(1,8,5,.14);
+  box-shadow:inset 0 0 18px rgba(0,0,0,.20);
+}
+.mp-turn-seconds{
+  display:block;
+  color:#55ff55;
+  font:900 clamp(27px,2.15vw,40px)/1 Georgia,'Times New Roman',serif;
+  letter-spacing:1px;
+  text-shadow:0 0 13px rgba(85,255,85,.30),0 3px 5px #000;
+  white-space:nowrap;
+}
+.mp-turn-fail{
+  display:block;
+  width:clamp(34px,3vw,52px);
+  aspect-ratio:1;
+  border:2px solid #ff837e;
+  border-radius:5px;
+  background:linear-gradient(180deg,#ff4540,#b90e0a);
+  box-shadow:0 0 16px rgba(255,38,31,.55),inset 0 2px 0 rgba(255,255,255,.18),0 4px 8px rgba(0,0,0,.45);
+}
+.mp-turn-fail[hidden],.mp-turn-seconds[hidden]{display:none !important}
+#screen-multiplayer-room .mp-duel-player.mp-turn-active{
+  border-radius:12px;
+  box-shadow:inset 0 0 0 2px rgba(85,255,85,.64),0 0 18px rgba(85,255,85,.16);
+}
+#screen-multiplayer-room .mp-duel-player.mp-turn-failed{
+  box-shadow:inset 0 0 0 2px rgba(255,70,64,.68),0 0 18px rgba(255,70,64,.18);
+}
+
+body:not([data-game-mode="multiplayer"]) .mp-game-turn-panel{display:none !important}
+#screen-game .mp-game-turn-panel{
+  position:absolute;
+  right:1.5vw;
+  top:13vh;
+  width:clamp(245px,22vw,380px);
+  display:grid;
+  gap:clamp(8px,1.2vh,14px);
+  z-index:75;
+  pointer-events:none;
+}
+#screen-game .mp-game-turn-player{
+  padding:clamp(9px,1.1vh,14px);
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:10px;
+  border:2px solid rgba(133,88,42,.78);
+  border-radius:12px;
+  background:rgba(13,8,5,.22);
+  box-shadow:0 7px 15px rgba(0,0,0,.30),inset 0 0 18px rgba(0,0,0,.16);
+}
+#screen-game .mp-game-turn-player.mp-turn-active{
+  border-color:rgba(85,255,85,.72);
+  box-shadow:0 0 18px rgba(85,255,85,.17),inset 0 0 18px rgba(0,0,0,.18);
+}
+#screen-game .mp-game-turn-player.mp-turn-failed{border-color:rgba(255,70,64,.78)}
+#screen-game .mp-game-turn-login{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#d5b982;
+  font:800 clamp(12px,1vw,17px)/1.15 Georgia,'Times New Roman',serif;
+  text-shadow:0 3px 5px #000;
+}
+#screen-game .mp-game-turn-login strong{color:#ffe7b5}
+#screen-game .mp-game-turn-state{min-width:88px;display:grid;place-items:center}
+#screen-game .mp-game-turn-state .mp-turn-seconds{font-size:clamp(20px,1.65vw,30px)}
+#screen-game .mp-game-turn-state .mp-turn-fail{width:clamp(30px,2.3vw,42px)}
+@media (max-height:650px),(max-width:900px){
+  #screen-multiplayer-room .mp-duel-turn{min-height:34px}
+  #screen-multiplayer-room .mp-turn-seconds{font-size:clamp(17px,2.1vw,24px)}
+  #screen-multiplayer-room .mp-turn-fail{width:28px}
+  #screen-game .mp-game-turn-panel{right:1vw;top:12vh;width:clamp(200px,24vw,280px);gap:5px}
+  #screen-game .mp-game-turn-player{padding:6px 7px;gap:6px}
+  #screen-game .mp-game-turn-login{font-size:clamp(10px,1.4vw,14px)}
+  #screen-game .mp-game-turn-state{min-width:64px}
+  #screen-game .mp-game-turn-state .mp-turn-seconds{font-size:clamp(15px,1.8vw,21px)}
+  #screen-game .mp-game-turn-state .mp-turn-fail{width:24px}
 }
