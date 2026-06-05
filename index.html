@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#05070c" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman 1115</title>
+  <title>Zombie Hangman 1116</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=1115" />
+  <link rel="stylesheet" href="style.css?v=1116" />
 </head>
 <body>
   <div id="app" class="app">
@@ -109,29 +109,20 @@
             <div class="mp-room-center-layout">
               <div class="mp-preview-panel">
               <div class="mp-preview-word-wrap">
-                <div class="mp-preview-category">KATEGORIA: <span>---</span></div>
-                <div class="mp-preview-word-box">_ _ _ _ _ _ _ _</div>
+                <div class="mp-preview-category">KATEGORIA: <span id="mpGameCategory">---</span></div>
+                <div id="mpGameWord" class="mp-preview-word-box">_ _ _ _ _ _ _ _</div>
               </div>
 
               <div class="mp-preview-help-row">
-                <div class="mp-preview-help-label">POMOC: 2/2</div>
+                <div class="mp-preview-help-label">POMOC: <strong id="mpLifelinesLeft">2</strong>/2</div>
                 <div class="mp-preview-help-icons" aria-label="Koła ratunkowe">
-                  <button class="mp-preview-life" type="button" aria-label="Koło ratunkowe 1"><img src="assets/img/img_ratunek_v1098.png" alt="" /></button>
-                  <button class="mp-preview-life" type="button" aria-label="Koło ratunkowe 2"><img src="assets/img/img_ratunek_v1098.png" alt="" /></button>
+                  <button class="mp-preview-life" type="button" data-action="mp-hint" aria-label="Koło ratunkowe 1"><img src="assets/img/img_ratunek_v1098.png" alt="" /></button>
+                  <button class="mp-preview-life" type="button" data-action="mp-hint" aria-label="Koło ratunkowe 2"><img src="assets/img/img_ratunek_v1098.png" alt="" /></button>
                 </div>
               </div>
 
-              <div class="mp-preview-keyboard" aria-label="Podgląd klawiatury">
-                <div class="mp-preview-key-row">
-                  <span>A</span><span>Ą</span><span>B</span><span>C</span><span>Ć</span><span>D</span><span>E</span><span>Ę</span><span>F</span><span>G</span><span>H</span><span>I</span>
-                </div>
-                <div class="mp-preview-key-row">
-                  <span>J</span><span>K</span><span>L</span><span>Ł</span><span>M</span><span>N</span><span>Ń</span><span>O</span><span>Ó</span><span>P</span><span>Q</span><span>R</span><span>S</span>
-                </div>
-                <div class="mp-preview-key-row">
-                  <span>Ś</span><span>T</span><span>U</span><span>V</span><span>W</span><span>X</span><span>Y</span><span>Z</span><span>Ź</span><span>Ż</span>
-                </div>
-              </div>
+              <div id="mpRoomKeyboard" class="mp-preview-keyboard" aria-label="Klawiatura Multiplayer"></div>
+              <div id="mpRoomMessage" class="mp-room-message" aria-live="polite"></div>
               </div>
 
               <aside class="mp-versus-panel" aria-label="Gracze rywalizujący w odgadywanie hasła">
@@ -270,7 +261,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>1115</strong></p>
+        <p>Wersja: <strong>1116</strong></p>
         <button class="wood-btn" data-action="menu">Menu</button>
       </div>
     </section>
@@ -286,7 +277,7 @@
       </div>
     </div>
   </div>
-  <div id="buildVersion" class="build-version">1115</div>
+  <div id="buildVersion" class="build-version">1116</div>
   <div id="winPrompt" class="game-result-prompt" aria-hidden="true">
     <div class="game-result-card">
       <h2>Hasło odgadnięte</h2>
@@ -305,12 +296,12 @@
   <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
 
   <script>
-    window.ZH_BUILD = '1115';
+    window.ZH_BUILD = '1116';
     if ('caches' in window) {
-      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1115').map(k => caches.delete(k)))).catch(()=>{});
+      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1116').map(k => caches.delete(k)))).catch(()=>{});
     }
   </script>
-  <script src="assets/data/hasla.js?v=1115"></script>
-  <script src="app.js?v=1115"></script>
+  <script src="assets/data/hasla.js?v=1116"></script>
+  <script src="app.js?v=1116"></script>
 </body>
 </html>

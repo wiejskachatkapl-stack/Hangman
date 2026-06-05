@@ -1,6 +1,7 @@
-const VERSION = '1115';
+const VERSION = '1116';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
+const MP_ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPQRS'.split(''), 'ŚTUVWXYZŹŻ'.split('')];
 const FALLBACK_PHRASES = [
   {cat:'PAŃSTWO', text:'POLSKA'},
   {cat:'PAŃSTWO', text:'JAPONIA'},
@@ -77,7 +78,8 @@ function loadState(){
 function save(){localStorage.setItem(STORE_KEY, JSON.stringify(state));}
 function $(id){return document.getElementById(id)}
 function show(name){
-  if(name!=='game') stopMultiplayerTurnTimer();
+  const keepMultiplayerTimer=name==='multiplayer-room' && gameMode==='multiplayer' && game && !game.finished;
+  if(name!=='game' && !keepMultiplayerTimer) stopMultiplayerTurnTimer();
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   $('screen-'+name).classList.add('active');
   if(name==='stats') renderStats();
@@ -109,12 +111,22 @@ function newGame(){
   if(gameMode==='multiplayer' && multiplayerRoom){
     multiplayerRoom.status='Rozgrywka trwa';
     multiplayerRoom.round={category:item.cat, phrase:item.text.toUpperCase(), startedAt:Date.now()};
+    (multiplayerRoom.players||[]).slice(0,2).forEach(player=>{
+      player.errors=0;
+      if(typeof player.playerPoints!=='number') player.playerPoints=0;
+      if(typeof player.zombiePoints!=='number') player.zombiePoints=0;
+    });
+    state.lifelines=START_LIFELINES;
+    state.adLifelinesUsed=0;
     saveMultiplayerRoom();
+    show('multiplayer-room');
+    renderMultiplayerRoom();
+    startMultiplayerTurnTimer(true);
+    return;
   }
   show('game');
   renderKeyboard();
   renderGame('');
-  if(gameMode==='multiplayer') startMultiplayerTurnTimer(true);
 }
 function renderKeyboard(){
   const box=$('keyboard');
@@ -132,8 +144,63 @@ function renderKeyboard(){
     box.appendChild(rowEl);
   });
 }
+function renderMultiplayerRoomKeyboard(){
+  const box=$('mpRoomKeyboard');
+  if(!box) return;
+  box.innerHTML='';
+  MP_ALPHABET_ROWS.forEach(row=>{
+    const rowEl=document.createElement('div');
+    rowEl.className='mp-preview-key-row';
+    row.forEach(ch=>{
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='mp-preview-key';
+      b.textContent=ch;
+      b.disabled=!game || game.finished || game.turnLocked;
+      if(game?.guessed?.has(ch)){
+        b.classList.add('used');
+        b.classList.add(game.phrase.includes(ch)?'good':'bad');
+        b.disabled=true;
+      }
+      b.addEventListener('click',()=>guess(ch));
+      rowEl.appendChild(b);
+    });
+    box.appendChild(rowEl);
+  });
+}
+function renderMultiplayerRoomGame(msg=''){
+  const category=$('mpGameCategory');
+  const word=$('mpGameWord');
+  const help=$('mpLifelinesLeft');
+  const message=$('mpRoomMessage');
+  const playing=gameMode==='multiplayer' && game;
+  document.querySelector('#screen-multiplayer-room')?.classList.toggle('mp-round-active',Boolean(playing && !game.finished));
+  if(category) category.textContent=playing ? game.cat : '---';
+  if(help) help.textContent=String(state.lifelines);
+  if(message) message.textContent=msg || (playing ? (game.finished?'Runda zakończona.':'Wybierz literę.') : 'Kliknij „ROZPOCZNIJ GRĘ”, a następnie wylosuj kategorię.');
+  if(word){
+    if(!playing){
+      word.textContent='_ _ _ _ _ _ _ _';
+    }else{
+      word.innerHTML='';
+      [...game.phrase].forEach(ch=>{
+        const d=document.createElement('span');
+        d.className=ch===' ' ? 'mp-room-letter space' : 'mp-room-letter';
+        d.textContent=ch===' ' ? '' : (game.guessed.has(ch) || game.finished ? ch : '—');
+        word.appendChild(d);
+      });
+    }
+  }
+  document.querySelectorAll('#screen-multiplayer-room .mp-preview-life').forEach((btn,index)=>{
+    btn.disabled=!playing || game.finished || state.lifelines<=index;
+    btn.classList.toggle('life-used',!playing || state.lifelines<=index || game.finished);
+  });
+  renderMultiplayerRoomKeyboard();
+  updateMultiplayerTurnUi();
+}
 function renderGame(msg){
   if(!game) return;
+  if(gameMode==='multiplayer'){renderMultiplayerRoomGame(msg);return;}
   $('category').textContent=game.cat;
   $('score').textContent=state.score;
   $('zombieMeter').textContent=`${state.zombiePoints}/300`;
@@ -340,14 +407,38 @@ function finish(win){
     saveMultiplayerRoom();
   }
   if(win){
-    state.wins++; state.score+=50; state.zombiePoints+=50; checkZombieUnlock(); renderGame(''); save(); setTimeout(showWinPrompt, 220);
+    state.wins++; state.score+=50; state.zombiePoints+=50; checkZombieUnlock();
+    if(gameMode==='multiplayer'){
+      const player=getMultiplayerTurnPlayer(game.turnIndex);
+      if(player){player.playerPoints=Number(player.playerPoints||0)+50;player.zombiePoints=Number(player.zombiePoints||0)+50;}
+      saveMultiplayerRoom();
+    }
+    renderGame('Hasło odgadnięte!'); save(); setTimeout(showWinPrompt, 220);
   }else{
     state.losses++; renderGame(`PRZEGRANA. Hasło: ${game.phrase}.`); save();
-    if(gameMode==='multiplayer') setTimeout(()=>show('multiplayer-room'),900);
   }
 }
 function checkZombieUnlock(){while(state.zombiePoints>=300){state.zombiePoints-=300; state.unlocked=Math.min(ZOMBIES.length,state.unlocked+1); state.lifelines=START_LIFELINES; state.adLifelinesUsed=0;}}
-function hint(){if(!game || game.finished) return;if(state.lifelines<=0){renderGame('Nie masz już kół ratunkowych.'); return;}const missing=[...new Set([...game.phrase].filter(ch=>ch!==' ' && !game.guessed.has(ch)))];if(!missing.length) return;const ch=missing[Math.floor(Math.random()*missing.length)];state.lifelines--; game.guessed.add(ch); state.score+=5; state.zombiePoints+=5; checkZombieUnlock();if(isWin()) finish(true); else renderGame(`Koło ratunkowe odkryło literę ${ch}.`);save();}
+function hint(){
+  if(!game || game.finished) return;
+  if(state.lifelines<=0){renderGame('Nie masz już kół ratunkowych.');return;}
+  const missing=[...new Set([...game.phrase].filter(ch=>ch!==' ' && !game.guessed.has(ch)))];
+  if(!missing.length) return;
+  const ch=missing[Math.floor(Math.random()*missing.length)];
+  state.lifelines--;
+  game.guessed.add(ch);
+  state.score+=5;
+  state.zombiePoints+=5;
+  checkZombieUnlock();
+  if(gameMode==='multiplayer'){
+    const player=getMultiplayerTurnPlayer(game.turnIndex);
+    if(player){player.playerPoints=Number(player.playerPoints||0)+5;player.zombiePoints=Number(player.zombiePoints||0)+5;}
+    saveMultiplayerRoom();
+    startMultiplayerTurnTimer(true);
+  }
+  if(isWin()) finish(true); else renderGame(`Koło ratunkowe odkryło literę ${ch}.`);
+  save();
+}
 function addLifelineByAd(){if(!game || game.finished) return;if(state.lifelines>0) return;if(state.adLifelinesUsed>=MAX_AD_LIFELINES_PER_ZOMBIE){renderGame('Limit reklam dla tego zombiaka został wykorzystany.'); return;}alert('Tu będzie reklama. Po obejrzeniu dodano 1 koło ratunkowe.');state.adLifelinesUsed++;state.lifelines=1;save();renderGame('Dodano 1 koło ratunkowe.');}
 function enterFullscreenByButton(){try{const el=document.documentElement;if(el.requestFullscreen) el.requestFullscreen();if(screen.orientation && screen.orientation.lock){screen.orientation.lock('landscape').catch(()=>{});}}catch(e){}}
 function showWinPrompt(){
@@ -533,11 +624,12 @@ function renderMultiplayerRoom(){
   });
   const startBtn=document.querySelector('[data-action="mp-start-game"]');
   if(startBtn){
-    startBtn.disabled=!multiplayerRoom.isHost;
-    startBtn.classList.toggle('locked',!multiplayerRoom.isHost);
-    startBtn.textContent=multiplayerRoom.isHost?'ROZPOCZNIJ GRĘ':'OCZEKIWANIE NA HOSTA';
+    const roundActive=gameMode==='multiplayer' && game && !game.finished;
+    startBtn.disabled=!multiplayerRoom.isHost || roundActive;
+    startBtn.classList.toggle('locked',!multiplayerRoom.isHost || roundActive);
+    startBtn.textContent=roundActive?'GRA TRWA':(multiplayerRoom.isHost?'ROZPOCZNIJ GRĘ':'OCZEKIWANIE NA HOSTA');
   }
-  updateMultiplayerTurnUi();
+  renderMultiplayerRoomGame();
 }
 function leaveMultiplayerRoom(){
   setGameMode('single');
@@ -549,6 +641,7 @@ function leaveMultiplayerRoom(){
 function startMultiplayerGame(){
   if(!multiplayerRoom || !multiplayerRoom.isHost) return;
   setGameMode('multiplayer');
+  game=null;
   multiplayerRoom.status='Losowanie kategorii';
   saveMultiplayerRoom();
   show('draw-category');
@@ -606,6 +699,7 @@ document.addEventListener('click', e=>{
   if(action==='draw-category') newGame();
   if(action==='draw-back') drawBack();
   if(action==='hint') hint();
+  if(action==='mp-hint') hint();
   if(action==='add-lifeline') addLifelineByAd();
   if(action==='fullscreen') enterFullscreenByButton();
   if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}
@@ -628,5 +722,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1115').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1116').catch(()=>{}));}
 

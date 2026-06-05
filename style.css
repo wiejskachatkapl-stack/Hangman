@@ -4852,3 +4852,61 @@ body:not([data-game-mode="multiplayer"]) .mp-game-turn-panel{display:none !impor
   #screen-multiplayer-room .mp-turn-seconds{font-size:clamp(28px,3.8vw,48px)}
   #screen-multiplayer-room .mp-turn-fail{width:36px}
 }
+
+
+/* v1116 — pełna mechanika Multiplayer działa bezpośrednio w widoku pokoju. */
+#screen-multiplayer-room .mp-preview-key-row button.mp-preview-key{
+  min-width:42px;
+  height:42px;
+  padding:0 8px;
+  border:2px solid rgba(116,91,55,.9);
+  border-radius:9px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(180deg,rgba(49,44,37,.96),rgba(17,15,14,.96));
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.08),0 4px 9px rgba(0,0,0,.35);
+  font:900 clamp(18px,1.45vw,26px)/1 Georgia,serif;
+  color:#f4dfb0;
+  cursor:pointer;
+}
+#screen-multiplayer-room .mp-preview-key-row button.mp-preview-key:hover:not(:disabled){filter:brightness(1.18)}
+#screen-multiplayer-room .mp-preview-key-row button.mp-preview-key.used{opacity:.55;cursor:default}
+#screen-multiplayer-room .mp-preview-key-row button.mp-preview-key.good{border-color:rgba(82,255,86,.78);color:#72ff76}
+#screen-multiplayer-room .mp-preview-key-row button.mp-preview-key.bad{border-color:rgba(255,87,79,.78);color:#ff756f}
+#screen-multiplayer-room .mp-preview-key-row button.mp-preview-key:disabled{cursor:default}
+#screen-multiplayer-room .mp-preview-word-box{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:clamp(6px,.75vw,13px);
+  letter-spacing:0;
+}
+#screen-multiplayer-room .mp-room-letter{
+  min-width:clamp(22px,1.8vw,38px);
+  min-height:clamp(30px,4vh,48px);
+  display:grid;
+  place-items:center;
+  font:900 clamp(22px,2.1vw,36px)/1 Georgia,serif;
+  color:#171007;
+}
+#screen-multiplayer-room .mp-room-letter.space{min-width:clamp(14px,1.1vw,24px)}
+#screen-multiplayer-room .mp-room-message{
+  min-height:clamp(24px,3.3vh,38px);
+  padding:4px 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#ffe2a9;
+  font:800 clamp(11px,1vw,16px)/1.2 Arial,sans-serif;
+  text-align:center;
+  text-shadow:0 2px 4px #000;
+}
+#screen-multiplayer-room .mp-preview-life{cursor:pointer}
+#screen-multiplayer-room .mp-preview-life.life-used{opacity:.25;filter:grayscale(1)}
+#screen-multiplayer-room .mp-preview-life:disabled{cursor:default}
+#screen-multiplayer-room:not(.mp-round-active) .mp-preview-keyboard{opacity:.62}
+@media (max-height:650px),(max-width:900px){
+  #screen-multiplayer-room .mp-preview-key-row button.mp-preview-key{min-width:32px;height:32px;font-size:clamp(13px,1.8vw,18px);border-radius:8px;padding:0 5px}
+  #screen-multiplayer-room .mp-room-message{font-size:clamp(9px,1.2vw,13px);min-height:20px}
+}
