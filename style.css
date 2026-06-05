@@ -4123,7 +4123,7 @@ body{
 }
 
 
-/* v1103 — pierwszy ekran MULTIPLAYER. Układ zawsze dopasowany do widocznego okna. */
+/* v1104 — pierwszy ekran MULTIPLAYER. Układ zawsze dopasowany do widocznego okna. */
 #screen-multiplayer.multiplayer-screen{
   background:
     linear-gradient(rgba(2,4,8,.14),rgba(2,4,8,.28)),
