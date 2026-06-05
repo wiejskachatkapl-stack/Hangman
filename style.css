@@ -4656,7 +4656,7 @@ body{
 }
 
 
-/* v1113 — przezroczyste kontenery pokoju Multiplayer, bez zmian układu. */
+/* v1114 — przezroczyste kontenery pokoju Multiplayer, bez zmian układu. */
 #screen-multiplayer-room .mp-room-players-card,
 #screen-multiplayer-room .mp-room-center-card{
   background:rgba(3,7,12,.14) !important;
@@ -4685,7 +4685,7 @@ body{
 }
 
 
-/* v1113 — 10-sekundowa kolej gracza w Multiplayer. */
+/* v1114 — 10-sekundowa kolej gracza w Multiplayer. */
 #screen-multiplayer-room .mp-duel-turn{
   min-height:clamp(48px,6.2vh,72px);
   display:grid;
@@ -4771,4 +4771,84 @@ body:not([data-game-mode="multiplayer"]) .mp-game-turn-panel{display:none !impor
   #screen-game .mp-game-turn-state{min-width:64px}
   #screen-game .mp-game-turn-state .mp-turn-seconds{font-size:clamp(15px,1.8vw,21px)}
   #screen-game .mp-game-turn-state .mp-turn-fail{width:24px}
+}
+
+
+/* v1114 — uproszczony układ graczy: nazwa + punkty, dwa pola statystyk i duże pole czasu. */
+#screen-multiplayer-room .mp-duel-player{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap:clamp(8px,1.1vh,14px);
+}
+#screen-multiplayer-room .mp-duel-head{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(105px,.70fr);
+  align-items:stretch;
+  min-width:0;
+  border:1px solid rgba(170,112,51,.58);
+  border-radius:11px;
+  overflow:hidden;
+  background:rgba(32,14,5,.20);
+  box-shadow:inset 0 1px 0 rgba(255,218,142,.08),0 5px 12px rgba(0,0,0,.22);
+}
+#screen-multiplayer-room .mp-duel-name{
+  min-width:0;
+  padding:clamp(10px,1.2vh,16px) clamp(8px,1vw,14px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#ffe7b5;
+  font:900 clamp(16px,1.45vw,25px)/1.1 Georgia,'Times New Roman',serif;
+  text-shadow:0 3px 6px #000;
+}
+#screen-multiplayer-room .mp-duel-head .mp-stat-player{
+  min-width:0;
+  padding:clamp(8px,1vh,13px) 7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  border-left:1px solid rgba(170,112,51,.48);
+  background:rgba(28,12,4,.18);
+  text-align:center;
+}
+#screen-multiplayer-room .mp-duel-head .mp-stat-player span,
+#screen-multiplayer-room .mp-duel-head .mp-stat-player strong{
+  display:inline;
+  margin:0;
+  color:#55ff55;
+  font:900 clamp(11px,.95vw,17px)/1 Georgia,'Times New Roman',serif;
+  white-space:nowrap;
+  text-shadow:0 0 10px rgba(85,255,85,.12),0 3px 5px #000;
+}
+#screen-multiplayer-room .mp-duel-stats{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+#screen-multiplayer-room .mp-duel-turn{
+  flex:1 1 auto;
+  min-height:clamp(82px,13vh,150px);
+  border-color:rgba(120,211,104,.34);
+  background:rgba(1,8,5,.10);
+}
+#screen-multiplayer-room .mp-turn-seconds{
+  font-size:clamp(44px,4.3vw,76px);
+  letter-spacing:0;
+}
+#screen-multiplayer-room .mp-turn-fail{
+  width:clamp(48px,4.4vw,76px);
+}
+@media (max-height:650px),(max-width:900px){
+  #screen-multiplayer-room .mp-duel-head{grid-template-columns:minmax(0,1.35fr) minmax(82px,.65fr)}
+  #screen-multiplayer-room .mp-duel-name{padding:6px 5px;font-size:clamp(11px,1.65vw,17px)}
+  #screen-multiplayer-room .mp-duel-head .mp-stat-player{padding:5px 3px;gap:3px}
+  #screen-multiplayer-room .mp-duel-head .mp-stat-player span,
+  #screen-multiplayer-room .mp-duel-head .mp-stat-player strong{font-size:clamp(8px,1.15vw,13px)}
+  #screen-multiplayer-room .mp-duel-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #screen-multiplayer-room .mp-duel-turn{min-height:54px}
+  #screen-multiplayer-room .mp-turn-seconds{font-size:clamp(28px,3.8vw,48px)}
+  #screen-multiplayer-room .mp-turn-fail{width:36px}
 }

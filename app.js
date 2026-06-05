@@ -1,4 +1,4 @@
-const VERSION = '1113';
+const VERSION = '1114';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -236,7 +236,7 @@ function updateMultiplayerTurnUi(){
 
     [`mpDuelPlayer${number}Name`,`mpGamePlayer${number}Name`].forEach(id=>{const el=$(id);if(el)el.textContent=nameText;});
     [`mpDuelPlayer${number}Timer`,`mpGamePlayer${number}Timer`].forEach(id=>{
-      const el=$(id);if(!el)return;el.textContent=`${seconds} SEK.`;el.hidden=failed;el.setAttribute('aria-hidden',failed?'true':'false');
+      const el=$(id);if(!el)return;el.textContent=String(seconds);el.hidden=failed;el.setAttribute('aria-hidden',failed?'true':'false');
     });
     [`mpDuelPlayer${number}Fail`,`mpGamePlayer${number}Fail`].forEach(id=>{
       const el=$(id);if(!el)return;el.hidden=!failed;el.setAttribute('aria-hidden',failed?'false':'true');
@@ -628,5 +628,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1113').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1114').catch(()=>{}));}
 
