@@ -1,11 +1,10 @@
-ZOMBIE HANGMAN WEB 1098 — pliki do podmiany
+ZOMBIE HANGMAN WEB 1099 — pliki do podmiany
 
-Baza: stabilna kompilacja 1085.
+Baza: kompilacja 1098.
 
-Zmiana w 1098:
-- ekran główny przed wejściem w pełny ekran pokazuje całą scenę,
-- tło zachowuje proporcje i nie wychodzi poza okno przeglądarki,
-- drogowskaz skaluje się razem z widoczną sceną,
-- pozostałe ekrany i mechanika gry nie zostały zmienione.
+Zmiana w 1099:
+- ekran główny wypełnia całe okno przeglądarki bez czarnych pasów,
+- tło jest dopasowane do 100% szerokości i 100% wysokości okna,
+- pozostałe ekrany i mechanika gry bez zmian.
 
 Podmień wszystkie pliki z paczki.

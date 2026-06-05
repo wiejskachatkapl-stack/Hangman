@@ -4043,3 +4043,33 @@ body{
   left:max(12px, calc((100vw - min(100vw, 187.5vh)) / 2 + 18px)) !important;
   bottom:max(12px, calc((100vh - min(100vh, 53.333vw)) / 2 + 18px)) !important;
 }
+
+/* v1099 — ekran główny dopasowany dokładnie do całego okna przeglądarki.
+   Celowo rozciąga scenę do szerokości i wysokości okna, bez czarnych pasów.
+   Zmieniono wyłącznie ekran główny. */
+#screen-menu.menu-screen{
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  background-color:#000 !important;
+  background-position:center center, center center, center center !important;
+  background-repeat:no-repeat, no-repeat, no-repeat !important;
+  background-size:auto, auto, 100% 100% !important;
+}
+#screen-menu .menu-wrap{
+  position:absolute !important;
+  inset:0 !important;
+  left:0 !important;
+  top:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  width:100% !important;
+  height:100% !important;
+  transform:scale(var(--menu-scale)) !important;
+  transform-origin:center center !important;
+  overflow:hidden !important;
+}
+#screen-menu .gear{
+  left:2.2% !important;
+  bottom:3.5% !important;
+}

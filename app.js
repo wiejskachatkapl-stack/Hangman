@@ -1,4 +1,4 @@
-const VERSION = '1098';
+const VERSION = '1099';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -275,5 +275,5 @@ window.addEventListener('load', () => {
 
 document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1098').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1099').catch(()=>{}));}
 
