@@ -1,10 +1,12 @@
-ZOMBIE HANGMAN WEB 1105 - pliki do podmiany
+ZOMBIE HANGMAN 1106 - pliki do podmiany
 
-Zmiany:
-- po utworzeniu pokoju lub dołączeniu do pokoju gra przechodzi do wnętrza pokoju Multiplayer,
-- dodany ekran pokoju z kodem, hostem, statusem i listą graczy,
-- gospodarz ma aktywny przycisk ROZPOCZNIJ GRĘ,
-- gracz dołączający widzi OCZEKIWANIE NA HOSTA,
-- OPUŚĆ POKÓJ wraca do pierwszego panelu Multiplayer,
-- ekran pokoju jest responsywny na komputerze i telefonie,
-- na tym ekranie będziemy dalej dopracowywać mechanikę rozgrywki Multiplayer.
+Podmień całą zawartość paczki na GitHubie.
+
+Zmiany w Multiplayer:
+- przycisk ROZPOCZNIJ GRĘ przechodzi do ekranu losowania kategorii,
+- LOSUJ uruchamia właściwą planszę odgadywania w trybie Multiplayer,
+- przycisk MENU w rozgrywce Multiplayer wraca do pokoju,
+- COFNIJ z losowania Multiplayer wraca do pokoju,
+- status pokoju jest aktualizowany podczas losowania i gry.
+
+Pozostałych ekranów nie zmieniano.

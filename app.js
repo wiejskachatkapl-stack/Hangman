@@ -1,4 +1,4 @@
-const VERSION = '1105';
+const VERSION = '1106';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -51,6 +51,7 @@ let state = loadState();
 let game = null;
 let menuScale = Number(localStorage.getItem('zhMenuScale') || '1');
 let multiplayerRoom = null;
+let gameMode = 'single';
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 function applyScale(){menuScale=clamp(menuScale,.72,1.18);document.documentElement.style.setProperty('--menu-scale', menuScale.toFixed(2));localStorage.setItem('zhMenuScale', String(menuScale));}
 function loadState(){
@@ -79,6 +80,17 @@ function show(name){
   if(name==='play-menu') requestAnimationFrame(updatePlayHotspots);
   if(name==='multiplayer') requestAnimationFrame(prepareMultiplayerScreen);
   if(name==='multiplayer-room') requestAnimationFrame(renderMultiplayerRoom);
+  if(name==='draw-category') requestAnimationFrame(prepareDrawCategoryScreen);
+}
+function setGameMode(mode){
+  gameMode = mode === 'multiplayer' ? 'multiplayer' : 'single';
+  document.body.dataset.gameMode = gameMode;
+}
+function prepareDrawCategoryScreen(){
+  const title=document.querySelector('#screen-draw-category .draw-card h1');
+  const back=document.querySelector('#screen-draw-category .draw-back-img-btn');
+  if(title) title.textContent=gameMode==='multiplayer' ? 'LOSOWANIE KATEGORII – MULTIPLAYER' : 'LOSOWANIE KATEGORII';
+  if(back) back.dataset.action='draw-back';
 }
 function newGame(){
   if(!PHRASES.length) return;
@@ -88,7 +100,12 @@ function newGame(){
   }
   lastPhraseIndex = idx;
   const item = PHRASES[idx];
-  game={phrase:item.text.toUpperCase(),cat:item.cat,guessed:new Set(),mistakes:0,finished:false};
+  game={phrase:item.text.toUpperCase(),cat:item.cat,guessed:new Set(),mistakes:0,finished:false,mode:gameMode};
+  if(gameMode==='multiplayer' && multiplayerRoom){
+    multiplayerRoom.status='Rozgrywka trwa';
+    multiplayerRoom.round={category:item.cat, phrase:item.text.toUpperCase(), startedAt:Date.now()};
+    saveMultiplayerRoom();
+  }
   show('game');
   renderKeyboard();
   renderGame('');
@@ -184,7 +201,21 @@ function renderGame(msg){
 }
 function guess(ch){if(!game || game.finished || game.guessed.has(ch)) return;game.guessed.add(ch);if(game.phrase.includes(ch)){const count=[...game.phrase].filter(x=>x===ch).length; state.score += 10*count; state.zombiePoints += 10*count;checkZombieUnlock();if(isWin()) return finish(true);renderGame(`Dobrze! Litera ${ch} występuje ${count}x.`);} else {game.mistakes++;if(game.mistakes>=6) return finish(false);renderGame(`Nie ma litery ${ch}.`);}save();}
 function isWin(){return [...game.phrase].every(ch=>ch===' ' || game.guessed.has(ch));}
-function finish(win){game.finished=true; state.played++;if(win){state.wins++; state.score+=50; state.zombiePoints+=50; checkZombieUnlock(); renderGame(''); save(); setTimeout(showWinPrompt, 220);}else {state.losses++; renderGame(`PRZEGRANA. Hasło: ${game.phrase}. Kliknij „Nowe hasło”.`); save();}}
+function finish(win){
+  game.finished=true;
+  state.played++;
+  if(gameMode==='multiplayer' && multiplayerRoom){
+    multiplayerRoom.status=win?'Hasło odgadnięte':'Runda przegrana';
+    multiplayerRoom.lastResult={win,phrase:game.phrase,category:game.cat,finishedAt:Date.now()};
+    saveMultiplayerRoom();
+  }
+  if(win){
+    state.wins++; state.score+=50; state.zombiePoints+=50; checkZombieUnlock(); renderGame(''); save(); setTimeout(showWinPrompt, 220);
+  }else{
+    state.losses++; renderGame(`PRZEGRANA. Hasło: ${game.phrase}.`); save();
+    if(gameMode==='multiplayer') setTimeout(()=>show('multiplayer-room'),900);
+  }
+}
 function checkZombieUnlock(){while(state.zombiePoints>=300){state.zombiePoints-=300; state.unlocked=Math.min(ZOMBIES.length,state.unlocked+1); state.lifelines=START_LIFELINES; state.adLifelinesUsed=0;}}
 function hint(){if(!game || game.finished) return;if(state.lifelines<=0){renderGame('Nie masz już kół ratunkowych.'); return;}const missing=[...new Set([...game.phrase].filter(ch=>ch!==' ' && !game.guessed.has(ch)))];if(!missing.length) return;const ch=missing[Math.floor(Math.random()*missing.length)];state.lifelines--; game.guessed.add(ch); state.score+=5; state.zombiePoints+=5; checkZombieUnlock();if(isWin()) finish(true); else renderGame(`Koło ratunkowe odkryło literę ${ch}.`);save();}
 function addLifelineByAd(){if(!game || game.finished) return;if(state.lifelines>0) return;if(state.adLifelinesUsed>=MAX_AD_LIFELINES_PER_ZOMBIE){renderGame('Limit reklam dla tego zombiaka został wykorzystany.'); return;}alert('Tu będzie reklama. Po obejrzeniu dodano 1 koło ratunkowe.');state.adLifelinesUsed++;state.lifelines=1;save();renderGame('Dodano 1 koło ratunkowe.');}
@@ -202,9 +233,15 @@ function hideWinPrompt(){
   p.setAttribute('aria-hidden','true');
 }
 function continueAfterWin(){
-  // Po odgadnięciu hasła przycisk LOSUJ losuje od razu nowe hasło/kategorię,
-  // bez przechodzenia do ekranu Losowanie kategorii.
   hideWinPrompt();
+  if(gameMode==='multiplayer'){
+    if(multiplayerRoom){
+      multiplayerRoom.status='Losowanie nowej kategorii';
+      saveMultiplayerRoom();
+    }
+    show('draw-category');
+    return;
+  }
   newGame();
 }
 function backToMenuAfterWin(){
@@ -331,10 +368,17 @@ function renderMultiplayerRoom(){
   const host=document.getElementById('mpHostName');
   const status=document.getElementById('mpRoomStatusText');
   const list=document.getElementById('mpPlayersList');
+  const gameInfo=document.getElementById('mpRoomGameInfo');
   if(code) code.textContent=multiplayerRoom.code || '------';
   if(title) title.textContent=multiplayerRoom.isHost ? 'Twój pokój' : 'Pokój gracza';
   if(host) host.textContent=multiplayerRoom.host || '---';
   if(status) status.textContent=multiplayerRoom.status || 'Oczekiwanie na graczy';
+  if(gameInfo){
+    const round=multiplayerRoom.round;
+    gameInfo.innerHTML=round
+      ? `<strong>Ostatnia kategoria:</strong> ${round.category}<br><span>Kliknij „ROZPOCZNIJ GRĘ”, aby przejść do losowania kolejnej kategorii.</span>`
+      : 'Host rozpoczyna grę, następnie losuje kategorię i wszyscy przechodzą do planszy odgadywania.';
+  }
   if(list){
     list.innerHTML='';
     (multiplayerRoom.players||[]).forEach((player,index)=>{
@@ -352,6 +396,7 @@ function renderMultiplayerRoom(){
   }
 }
 function leaveMultiplayerRoom(){
+  setGameMode('single');
   multiplayerRoom=null;
   saveMultiplayerRoom();
   show('multiplayer');
@@ -359,10 +404,18 @@ function leaveMultiplayerRoom(){
 }
 function startMultiplayerGame(){
   if(!multiplayerRoom || !multiplayerRoom.isHost) return;
-  multiplayerRoom.status='Przygotowanie rozgrywki';
+  setGameMode('multiplayer');
+  multiplayerRoom.status='Losowanie kategorii';
   saveMultiplayerRoom();
-  renderMultiplayerRoom();
-  alert('Pokój jest gotowy. W następnym kroku podłączymy właściwą mechanikę rozgrywki Multiplayer.');
+  show('draw-category');
+}
+function drawBack(){
+  if(gameMode==='multiplayer' && multiplayerRoom) show('multiplayer-room');
+  else show('play-menu');
+}
+function gameMenu(){
+  if(gameMode==='multiplayer' && multiplayerRoom) show('multiplayer-room');
+  else show('menu');
 }
 
 function showFullscreenPrompt(){
@@ -392,7 +445,44 @@ window.addEventListener('load', () => {
   setTimeout(showFullscreenPrompt, 450);
 });
 
-document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') show('multiplayer');if(action==='multiplayer-back') show('menu');if(action==='create-room') createMultiplayerRoom();if(action==='join-room') joinMultiplayerRoom();if(action==='mp-leave-room') leaveMultiplayerRoom();if(action==='mp-start-game') startMultiplayerGame();if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
+document.addEventListener('click', e=>{
+  const action=e.target.closest('[data-action]')?.dataset.action;
+  if(!action) return;
+  if(action==='menu'){
+    if(e.target.closest('#screen-game')) gameMenu();
+    else show('menu');
+  }
+  if(action==='play-back') show('menu');
+  if(action==='play-menu') show('play-menu');
+  if(action==='about') show('about');
+  if(action==='stats') show('stats');
+  if(action==='gallery') show('gallery');
+  if(action==='settings') show('settings');
+  if(action==='new-single'){setGameMode('single');show('draw-category');}
+  if(action==='draw-category') newGame();
+  if(action==='draw-back') drawBack();
+  if(action==='hint') hint();
+  if(action==='add-lifeline') addLifelineByAd();
+  if(action==='fullscreen') enterFullscreenByButton();
+  if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}
+  if(action==='fullscreen-no') hideFullscreenPrompt();
+  if(action==='win-losuj') continueAfterWin();
+  if(action==='win-menu') backToMenuAfterWin();
+  if(action==='scale-down'){menuScale-=.06;applyScale();}
+  if(action==='scale-up'){menuScale+=.06;applyScale();}
+  if(action==='scale-reset'){menuScale=1;applyScale();}
+  if(action==='dual-info') show('multiplayer');
+  if(action==='multiplayer-back') show('menu');
+  if(action==='create-room') createMultiplayerRoom();
+  if(action==='join-room') joinMultiplayerRoom();
+  if(action==='mp-leave-room') leaveMultiplayerRoom();
+  if(action==='mp-start-game') startMultiplayerGame();
+  if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');
+  if(action==='reset-stats' && confirm('Czy wyczyścić zapis i statystyki?')){
+    localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();
+  }
+});
+
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1104').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1106').catch(()=>{}));}
 
