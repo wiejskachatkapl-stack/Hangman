@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#05070c" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman 1102</title>
+  <title>Zombie Hangman 1103</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=1102" />
+  <link rel="stylesheet" href="style.css?v=1103" />
 </head>
 <body>
   <div id="app" class="app">
@@ -41,6 +41,38 @@
         </div>
       </div>
       <button class="gear" data-action="settings" aria-label="Ustawienia">⚙</button>
+    </section>
+
+    <section id="screen-multiplayer" class="screen multiplayer-screen" aria-label="Gra podwójna - pokoje">
+      <div class="multiplayer-shell">
+        <div class="multiplayer-left">
+          <div class="multiplayer-art-frame">
+            <img src="assets/img/multiplayer_room.png" alt="Zombie grające przy stole" />
+          </div>
+          <button class="multiplayer-menu-button" data-action="multiplayer-back" aria-label="Wróć do wyboru gry">
+            <img src="assets/img/btn_menu_v1067.png" alt="Menu" />
+          </button>
+        </div>
+
+        <div class="multiplayer-panel">
+          <h1>GRA PODWÓJNA <span>(pokoje)</span></h1>
+
+          <label class="multiplayer-field" for="multiplayerNick">
+            <span>Nick</span>
+            <input id="multiplayerNick" type="text" maxlength="20" autocomplete="nickname" placeholder="Wpisz nick" />
+          </label>
+
+          <button class="wood-btn multiplayer-main-btn" data-action="create-room">UTWÓRZ POKÓJ</button>
+
+          <label class="multiplayer-field multiplayer-code-field" for="multiplayerRoomCode">
+            <span>Kod pokoju</span>
+            <input id="multiplayerRoomCode" type="text" maxlength="8" autocomplete="off" inputmode="text" placeholder="Wpisz kod pokoju" />
+          </label>
+
+          <button class="wood-btn multiplayer-main-btn" data-action="join-room">DOŁĄCZ DO POKOJU</button>
+          <div id="multiplayerStatus" class="multiplayer-status" aria-live="polite"></div>
+        </div>
+      </div>
     </section>
 
     <section id="screen-draw-category" class="screen draw-category-screen" aria-label="Losowanie kategorii">
@@ -116,7 +148,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>1102</strong></p>
+        <p>Wersja: <strong>1103</strong></p>
         <button class="wood-btn" data-action="menu">Menu</button>
       </div>
     </section>
@@ -132,7 +164,7 @@
       </div>
     </div>
   </div>
-  <div id="buildVersion" class="build-version">1102</div>
+  <div id="buildVersion" class="build-version">1103</div>
   <div id="winPrompt" class="game-result-prompt" aria-hidden="true">
     <div class="game-result-card">
       <h2>Hasło odgadnięte</h2>
@@ -151,12 +183,12 @@
   <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
 
   <script>
-    window.ZH_BUILD = '1102';
+    window.ZH_BUILD = '1103';
     if ('caches' in window) {
-      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1102').map(k => caches.delete(k)))).catch(()=>{});
+      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1103').map(k => caches.delete(k)))).catch(()=>{});
     }
   </script>
-  <script src="assets/data/hasla.js?v=1102"></script>
-  <script src="app.js?v=1102"></script>
+  <script src="assets/data/hasla.js?v=1103"></script>
+  <script src="app.js?v=1103"></script>
 </body>
 </html>

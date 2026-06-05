@@ -4121,3 +4121,181 @@ body{
     background-position:center center !important;
   }
 }
+
+
+/* v1103 — pierwszy ekran MULTIPLAYER. Układ zawsze dopasowany do widocznego okna. */
+#screen-multiplayer.multiplayer-screen{
+  background:
+    linear-gradient(rgba(2,4,8,.14),rgba(2,4,8,.28)),
+    url('assets/img/bg_game_single.png') center center/cover no-repeat !important;
+  overflow:hidden !important;
+}
+#screen-multiplayer .multiplayer-shell{
+  position:absolute;
+  inset:clamp(10px,2vh,24px) clamp(10px,2vw,32px);
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);
+  gap:clamp(14px,2.4vw,44px);
+  align-items:stretch;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+}
+#screen-multiplayer .multiplayer-left{
+  min-width:0;
+  min-height:0;
+  display:grid;
+  grid-template-rows:minmax(0,1fr) auto;
+  gap:clamp(8px,1.4vh,18px);
+  align-items:center;
+}
+#screen-multiplayer .multiplayer-art-frame{
+  min-width:0;
+  min-height:0;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:rgba(0,0,0,.14);
+  box-shadow:0 12px 36px rgba(0,0,0,.48);
+}
+#screen-multiplayer .multiplayer-art-frame img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center center;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+#screen-multiplayer .multiplayer-menu-button{
+  display:block;
+  justify-self:start;
+  width:clamp(190px,27vw,430px);
+  max-width:90%;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  cursor:pointer;
+  line-height:0;
+  filter:drop-shadow(0 8px 13px rgba(0,0,0,.7));
+}
+#screen-multiplayer .multiplayer-menu-button img{
+  display:block;
+  width:100%;
+  height:auto;
+  pointer-events:none;
+}
+#screen-multiplayer .multiplayer-panel{
+  min-width:0;
+  min-height:0;
+  height:100%;
+  padding:clamp(18px,3vh,42px) clamp(18px,3vw,52px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:clamp(10px,1.7vh,22px);
+  overflow:hidden;
+  background:linear-gradient(180deg,rgba(8,13,22,.70),rgba(5,8,14,.56));
+  border:1px solid rgba(255,220,150,.08);
+  box-shadow:inset 0 0 60px rgba(0,0,0,.26),0 14px 42px rgba(0,0,0,.32);
+}
+#screen-multiplayer .multiplayer-panel h1{
+  margin:0 0 clamp(2px,.8vh,10px);
+  text-align:left;
+  font-family:Arial,sans-serif;
+  font-size:clamp(25px,3vw,50px);
+  line-height:1.05;
+  letter-spacing:.4px;
+  color:#ffd67d;
+  text-shadow:0 3px 6px #000;
+}
+#screen-multiplayer .multiplayer-panel h1 span{white-space:nowrap}
+#screen-multiplayer .multiplayer-field{
+  position:relative;
+  display:block;
+  margin:0;
+}
+#screen-multiplayer .multiplayer-field span{
+  position:absolute;
+  left:clamp(14px,1.4vw,24px);
+  top:-.58em;
+  z-index:2;
+  padding:0 8px;
+  color:#d8d8dc;
+  background:#151923;
+  font-family:Arial,sans-serif;
+  font-size:clamp(15px,1.45vw,25px);
+}
+#screen-multiplayer .multiplayer-field input{
+  display:block;
+  width:100%;
+  height:clamp(58px,11vh,112px);
+  padding:clamp(12px,2vh,22px) clamp(16px,2vw,30px);
+  border:3px solid rgba(190,190,205,.62);
+  border-radius:12px;
+  outline:none;
+  background:rgba(8,10,16,.35);
+  color:#fff1cf;
+  font-family:Arial,sans-serif;
+  font-size:clamp(22px,3vw,46px);
+  box-shadow:inset 0 0 24px rgba(0,0,0,.28);
+}
+#screen-multiplayer .multiplayer-field input::placeholder{color:rgba(210,210,220,.36)}
+#screen-multiplayer .multiplayer-field input:focus{border-color:#d9b66e;box-shadow:0 0 0 3px rgba(217,182,110,.13),inset 0 0 24px rgba(0,0,0,.28)}
+#screen-multiplayer .multiplayer-main-btn{
+  width:min(100%,560px);
+  min-height:clamp(54px,9vh,92px);
+  margin:0 auto;
+  padding:clamp(8px,1.5vh,15px) clamp(14px,2vw,24px);
+  border-radius:9px;
+  font-size:clamp(20px,2.45vw,40px);
+}
+#screen-multiplayer .multiplayer-status{
+  min-height:1.4em;
+  margin-top:-2px;
+  text-align:center;
+  font-family:Arial,sans-serif;
+  font-weight:700;
+  font-size:clamp(13px,1.25vw,20px);
+  color:#f2d896;
+  text-shadow:0 2px 4px #000;
+}
+#screen-multiplayer .multiplayer-status[data-type="error"]{color:#ff8585}
+#screen-multiplayer .multiplayer-status[data-type="ok"]{color:#91e69d}
+
+/* Niski ekran, telefon poziomo i okno przeglądarki o małej wysokości. */
+@media (max-height:680px), (max-width:1050px){
+  #screen-multiplayer .multiplayer-shell{
+    inset:clamp(6px,1.2vh,12px) clamp(7px,1.2vw,16px);
+    grid-template-columns:minmax(0,1fr) minmax(300px,.96fr);
+    gap:clamp(8px,1.5vw,18px);
+  }
+  #screen-multiplayer .multiplayer-panel{
+    padding:clamp(10px,1.8vh,18px) clamp(12px,2vw,24px);
+    gap:clamp(6px,1.15vh,12px);
+  }
+  #screen-multiplayer .multiplayer-panel h1{font-size:clamp(21px,3.3vw,35px)}
+  #screen-multiplayer .multiplayer-field input{
+    height:clamp(46px,10vh,70px);
+    font-size:clamp(18px,2.8vw,31px);
+    padding:8px 14px;
+    border-width:2px;
+  }
+  #screen-multiplayer .multiplayer-field span{font-size:clamp(12px,1.8vw,18px)}
+  #screen-multiplayer .multiplayer-main-btn{
+    min-height:clamp(42px,8.5vh,60px);
+    font-size:clamp(17px,2.7vw,28px);
+    padding:6px 12px;
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.15),0 5px 0 #120905,0 8px 14px #000;
+  }
+  #screen-multiplayer .multiplayer-menu-button{width:clamp(140px,23vw,270px)}
+}
+
+/* Bardzo wąski widok: zachowujemy układ obok siebie, ale dajemy więcej miejsca formularzowi. */
+@media (max-width:760px){
+  #screen-multiplayer .multiplayer-shell{grid-template-columns:minmax(0,.82fr) minmax(280px,1.18fr)}
+  #screen-multiplayer .multiplayer-art-frame img{object-fit:cover}
+}

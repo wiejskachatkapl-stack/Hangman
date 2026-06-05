@@ -1,9 +1,9 @@
-ZOMBIE HANGMAN WEB 1102 — pliki do podmiany
+ZOMBIE HANGMAN WEB 1103 - pliki do podmiany
 
-Baza: kompilacja 1101.
-
-Zmiana w 1102:
-- tylko zakładka GRAJ: zintegrowane tło wypełnia całe okno przeglądarki bez czarnych bocznych pól,
-- niewidzialne pola kliknięć przeliczane są tym samym algorytmem cover,
-- pozostałe ekrany i mechanika gry bez zmian,
-- kompilacja i cache: 1102.
+Zmiany:
+- dodany pierwszy ekran Multiplayer po kliknięciu MULTIPLAYER,
+- grafika multiplayer_room.png po lewej,
+- panel Nick / Utwórz pokój / Kod pokoju / Dołącz do pokoju po prawej,
+- ekran dopasowuje się automatycznie do okna komputera i telefonu,
+- przycisk MENU wraca do ekranu wyboru trybu gry,
+- pozostałe ekrany i mechanika gry nie zostały zmienione.

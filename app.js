@@ -1,4 +1,4 @@
-const VERSION = '1102';
+const VERSION = '1103';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const FALLBACK_PHRASES = [
@@ -76,6 +76,7 @@ function show(name){
   if(name==='stats') renderStats();
   if(name==='gallery') renderGallery();
   if(name==='play-menu') requestAnimationFrame(updatePlayHotspots);
+  if(name==='multiplayer') requestAnimationFrame(prepareMultiplayerScreen);
 }
 function newGame(){
   if(!PHRASES.length) return;
@@ -257,6 +258,38 @@ window.addEventListener('load', () => {
 });
 
 
+function getMultiplayerNick(){
+  return (document.getElementById('multiplayerNick')?.value || '').trim();
+}
+function setMultiplayerStatus(text, type='info'){
+  const box=document.getElementById('multiplayerStatus');
+  if(!box) return;
+  box.textContent=text;
+  box.dataset.type=type;
+}
+function createMultiplayerRoom(){
+  const nick=getMultiplayerNick();
+  if(!nick){setMultiplayerStatus('Wpisz nick, aby utworzyć pokój.','error');return;}
+  localStorage.setItem('zhMultiplayerNick',nick);
+  const code=Math.random().toString(36).slice(2,8).toUpperCase();
+  const input=document.getElementById('multiplayerRoomCode');
+  if(input) input.value=code;
+  setMultiplayerStatus(`Pokój utworzony. Kod: ${code}`,'ok');
+}
+function joinMultiplayerRoom(){
+  const nick=getMultiplayerNick();
+  const code=(document.getElementById('multiplayerRoomCode')?.value || '').trim().toUpperCase();
+  if(!nick){setMultiplayerStatus('Wpisz nick, aby dołączyć do pokoju.','error');return;}
+  if(code.length<4){setMultiplayerStatus('Wpisz prawidłowy kod pokoju.','error');return;}
+  localStorage.setItem('zhMultiplayerNick',nick);
+  setMultiplayerStatus(`Dołączanie do pokoju ${code} będzie podłączone w następnym etapie.`,'ok');
+}
+function prepareMultiplayerScreen(){
+  const nick=document.getElementById('multiplayerNick');
+  if(nick && !nick.value) nick.value=localStorage.getItem('zhMultiplayerNick') || '';
+  setMultiplayerStatus('');
+}
+
 function showFullscreenPrompt(){
   const p = $('fullscreenPrompt');
   if(!p) return;
@@ -284,7 +317,7 @@ window.addEventListener('load', () => {
   setTimeout(showFullscreenPrompt, 450);
 });
 
-document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') alert('Gra podwójna będzie przeniesiona w kolejnym etapie po ustabilizowaniu gry pojedynczej.');if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
+document.addEventListener('click', e=>{const action=e.target.closest('[data-action]')?.dataset.action; if(!action) return;if(action==='menu'||action==='play-back') show('menu');if(action==='play-menu') show('play-menu');if(action==='about') show('about');if(action==='stats') show('stats');if(action==='gallery') show('gallery');if(action==='settings') show('settings');if(action==='new-single') show('draw-category');if(action==='draw-category') newGame();if(action==='hint') hint();if(action==='add-lifeline') addLifelineByAd();if(action==='fullscreen') enterFullscreenByButton();if(action==='fullscreen-yes'){hideFullscreenPrompt();enterFullscreenByButton();}if(action==='fullscreen-no') hideFullscreenPrompt();if(action==='win-losuj') continueAfterWin();if(action==='win-menu') backToMenuAfterWin();if(action==='scale-down'){menuScale-=.06;applyScale();}if(action==='scale-up'){menuScale+=.06;applyScale();}if(action==='scale-reset'){menuScale=1;applyScale();}if(action==='dual-info') show('multiplayer');if(action==='multiplayer-back') show('play-menu');if(action==='create-room') createMultiplayerRoom();if(action==='join-room') joinMultiplayerRoom();if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');if(action==='reset-stats'){ if(confirm('Czy wyczyścić zapis i statystyki?')){localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();}}});
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1102').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1103').catch(()=>{}));}
 
