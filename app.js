@@ -1,4 +1,4 @@
-const VERSION = '1119';
+const VERSION = '1120';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const MP_ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPQRS'.split(''), 'ŚTUVWXYZŹŻ'.split('')];
@@ -871,5 +871,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1119').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1120').catch(()=>{}));}
 

@@ -5097,3 +5097,80 @@ body:not([data-game-mode="multiplayer"]) .mp-game-turn-panel{display:none !impor
   #screen-multiplayer-room .mp-room-code-badge{min-width:140px;padding:6px 8px}
   #screen-multiplayer-room .mp-room-code-badge strong{font-size:clamp(18px,2.6vw,28px);letter-spacing:2px}
 }
+
+
+/* v1120 — zmniejszony górny panel graczy na telefonach, aby klawiatura Multiplayer była w całości widoczna. */
+@media (max-height:760px),(max-width:1000px){
+  #screen-multiplayer-room .mp-room-shell{
+    gap:4px !important;
+    inset:4px 6px !important;
+  }
+  #screen-multiplayer-room .mp-room-header{
+    min-height:0 !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top{
+    gap:4px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-player{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) clamp(54px,8vw,76px) !important;
+    grid-template-rows:auto auto !important;
+    align-items:stretch !important;
+    gap:3px !important;
+    padding:4px !important;
+    min-height:0 !important;
+    border-radius:9px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head{
+    grid-column:1;
+    grid-row:1;
+    min-height:0 !important;
+    border-radius:7px !important;
+    grid-template-columns:minmax(0,1.45fr) minmax(64px,.58fr) !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-name{
+    padding:3px 5px !important;
+    font-size:clamp(10px,1.35vw,15px) !important;
+    line-height:1 !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player{
+    padding:3px 3px !important;
+    gap:2px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player span,
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player strong{
+    font-size:clamp(7px,.92vw,10px) !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats{
+    grid-column:1;
+    grid-row:2;
+    border-radius:7px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats div{
+    padding:3px 3px !important;
+    gap:2px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats span,
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats strong{
+    font-size:clamp(7px,.92vw,10px) !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-turn{
+    grid-column:2;
+    grid-row:1 / span 2;
+    min-height:0 !important;
+    height:auto !important;
+    border-radius:7px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-turn-seconds{
+    font-size:clamp(22px,3vw,34px) !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-turn-fail{
+    width:clamp(24px,3.6vw,34px) !important;
+  }
+  #screen-multiplayer-room .mp-room-main{
+    gap:4px !important;
+  }
+  #screen-multiplayer-room .mp-room-actions{
+    gap:5px !important;
+  }
+}
