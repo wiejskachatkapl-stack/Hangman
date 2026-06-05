@@ -4910,3 +4910,67 @@ body:not([data-game-mode="multiplayer"]) .mp-game-turn-panel{display:none !impor
   #screen-multiplayer-room .mp-preview-key-row button.mp-preview-key{min-width:32px;height:32px;font-size:clamp(13px,1.8vw,18px);border-radius:8px;padding:0 5px}
   #screen-multiplayer-room .mp-room-message{font-size:clamp(9px,1.2vw,13px);min-height:20px}
 }
+
+
+/* v1118 — pełna klawiatura na telefonie oraz wyraźna aktywna kolej gracza. */
+#screen-multiplayer-room .mp-duel-player,
+#screen-multiplayer-room .mp-player-row{
+  transition:opacity .28s ease,filter .28s ease,transform .28s ease,box-shadow .28s ease,border-color .28s ease;
+}
+#screen-multiplayer-room.mp-round-active .mp-duel-player.mp-turn-inactive{
+  opacity:.34;
+  filter:grayscale(.72) blur(.85px) brightness(.72);
+  transform:scale(.985);
+}
+#screen-multiplayer-room.mp-round-active .mp-duel-player.mp-turn-active{
+  opacity:1;
+  filter:none;
+  transform:none;
+  border-radius:12px;
+  box-shadow:inset 0 0 0 3px rgba(85,255,85,.82),0 0 25px rgba(85,255,85,.30),0 8px 18px rgba(0,0,0,.28);
+}
+#screen-multiplayer-room.mp-round-active .mp-player-row.mp-turn-inactive{
+  opacity:.38;
+  filter:grayscale(.7) blur(.45px) brightness(.72);
+}
+#screen-multiplayer-room.mp-round-active .mp-player-row.mp-turn-active{
+  opacity:1;
+  filter:none;
+  border-color:rgba(85,255,85,.76);
+  box-shadow:inset 0 0 0 1px rgba(85,255,85,.42),0 0 13px rgba(85,255,85,.23),0 4px 12px rgba(0,0,0,.32);
+}
+
+@media (max-height:700px),(max-width:1000px){
+  #screen-multiplayer-room .mp-preview-keyboard{
+    width:100%;
+    min-width:0;
+    gap:clamp(3px,.7vh,6px) !important;
+    padding:clamp(4px,.7vh,7px) !important;
+    overflow:hidden;
+  }
+  #screen-multiplayer-room .mp-preview-key-row{
+    width:100%;
+    min-width:0;
+    display:grid !important;
+    grid-template-columns:repeat(var(--mp-key-count),minmax(0,1fr));
+    gap:clamp(2px,.35vw,4px) !important;
+    flex-wrap:nowrap !important;
+  }
+  #screen-multiplayer-room .mp-preview-key-row button.mp-preview-key{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    height:clamp(27px,5.2vh,34px) !important;
+    padding:0 !important;
+    border-width:1px !important;
+    border-radius:5px !important;
+    font-size:clamp(10px,1.7vw,15px) !important;
+  }
+}
+
+@media (orientation:portrait) and (max-width:700px){
+  #screen-multiplayer-room .mp-preview-key-row button.mp-preview-key{
+    height:clamp(24px,4.5vh,31px) !important;
+    font-size:clamp(9px,2.4vw,13px) !important;
+  }
+}

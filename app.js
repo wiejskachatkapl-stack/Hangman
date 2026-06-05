@@ -1,4 +1,4 @@
-const VERSION = '1117';
+const VERSION = '1118';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const MP_ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPQRS'.split(''), 'ŚTUVWXYZŹŻ'.split('')];
@@ -164,6 +164,7 @@ function renderMultiplayerRoomKeyboard(){
   MP_ALPHABET_ROWS.forEach(row=>{
     const rowEl=document.createElement('div');
     rowEl.className='mp-preview-key-row';
+    rowEl.style.setProperty('--mp-key-count',String(row.length));
     row.forEach(ch=>{
       const b=document.createElement('button');
       b.type='button';
@@ -329,8 +330,11 @@ function updateMultiplayerTurnUi(){
     [`mpDuelPlayer${number}Fail`,`mpGamePlayer${number}Fail`].forEach(id=>{
       const el=$(id);if(!el)return;el.hidden=!failed;el.setAttribute('aria-hidden',failed?'false':'true');
     });
-    [`mpDuelPlayer${number}Card`,`mpGamePlayer${number}Card`].forEach(id=>{
-      const el=$(id);if(!el)return;el.classList.toggle('mp-turn-active',active);el.classList.toggle('mp-turn-failed',failed);
+    [`mpDuelPlayer${number}Card`,`mpGamePlayer${number}Card`,`mpPlayerListRow${number}`].forEach(id=>{
+      const el=$(id);if(!el)return;
+      el.classList.toggle('mp-turn-active',active);
+      el.classList.toggle('mp-turn-inactive',Boolean(running && !active));
+      el.classList.toggle('mp-turn-failed',failed);
     });
   });
 }
@@ -743,6 +747,7 @@ function renderMultiplayerRoom(){
     (multiplayerRoom.players||[]).forEach((player,index)=>{
       const row=document.createElement('div');
       row.className='mp-player-row';
+      row.id=`mpPlayerListRow${index+1}`;
       row.innerHTML=`<span class="mp-player-number">${index+1}</span><strong>${player.nick}</strong><span class="mp-player-role">${player.role||'GRACZ'}</span><span class="mp-player-online" title="Online"></span>`;
       list.appendChild(row);
     });
@@ -866,5 +871,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1117').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1118').catch(()=>{}));}
 
