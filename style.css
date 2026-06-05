@@ -4015,3 +4015,31 @@ body{
     background-position:center center !important;
   }
 }
+
+/* v1098 — ekran główny: cała scena zawsze mieści się w oknie przeglądarki.
+   Zmieniono wyłącznie ekran główny. Pozostałe ekrany i mechanika gry bez zmian. */
+#screen-menu.menu-screen{
+  background-color:#000 !important;
+  background-position:center center, center center, center center !important;
+  background-repeat:no-repeat, no-repeat, no-repeat !important;
+  background-size:auto, auto, contain !important;
+}
+
+#screen-menu .menu-wrap{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  right:auto !important;
+  bottom:auto !important;
+  width:min(100vw, calc(100vh * 1.875)) !important;
+  height:min(100vh, calc(100vw / 1.875)) !important;
+  transform:translate(-50%,-50%) scale(var(--menu-scale)) !important;
+  transform-origin:center center !important;
+  overflow:visible !important;
+}
+
+/* Ustawienia pozostają przy dolnym lewym rogu widocznej sceny. */
+#screen-menu .gear{
+  left:max(12px, calc((100vw - min(100vw, 187.5vh)) / 2 + 18px)) !important;
+  bottom:max(12px, calc((100vh - min(100vh, 53.333vw)) / 2 + 18px)) !important;
+}
