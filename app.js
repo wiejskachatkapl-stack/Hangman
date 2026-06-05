@@ -1,4 +1,4 @@
-const VERSION = '1120';
+const VERSION = '1121';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const MP_ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPQRS'.split(''), 'ŚTUVWXYZŹŻ'.split('')];
@@ -200,7 +200,7 @@ function renderMultiplayerRoomGame(msg=''){
       [...game.phrase].forEach(ch=>{
         const d=document.createElement('span');
         d.className=ch===' ' ? 'mp-room-letter space' : 'mp-room-letter';
-        d.textContent=ch===' ' ? '' : (game.guessed.has(ch) || game.finished ? ch : '—');
+        d.textContent=ch===' ' ? '' : (game.guessed.has(ch) ? ch : '—');
         word.appendChild(d);
       });
     }
@@ -364,7 +364,10 @@ function switchMultiplayerTurn(){
   game.turnIndex=(game.turnIndex+1)%count;
   game.turnFails=[false,false];
   game.turnLocked=false;
-  startMultiplayerTurnTimer(true);
+  game.turnSeconds=MP_TURN_SECONDS;
+  game.turnDeadline=Date.now()+MP_TURN_SECONDS*1000;
+  saveMultiplayerRoom();
+  startMultiplayerTurnTimer(false);
   renderGame('Kolej następnego gracza.');
 }
 function failMultiplayerTurn(message){
@@ -397,9 +400,14 @@ function registerCorrectMultiplayerGuess(count){
     player.playerPoints=Number(player.playerPoints||0)+(10*count);
     player.zombiePoints=Number(player.zombiePoints||0)+(10*count);
   }
+  // Każda poprawna litera daje temu samemu graczowi nowe pełne 10 sekund.
+  game.turnSeconds=MP_TURN_SECONDS;
+  game.turnDeadline=Date.now()+MP_TURN_SECONDS*1000;
+  game.turnLocked=false;
+  game.turnFails=[false,false];
   saveMultiplayerRoom();
   renderMultiplayerRoom();
-  startMultiplayerTurnTimer(true);
+  startMultiplayerTurnTimer(false);
 }
 function guess(ch){
   if(!game || game.finished || game.turnLocked) return;
@@ -599,23 +607,26 @@ function saveMultiplayerRoom(){
   const db=getFirebaseDb();
   if(!db) return;
   const code=multiplayerRoom.code;
-  const roomRef=db.ref(`${MP_FIREBASE_ROOT}/${code}`);
-  const updateData={
-    code,
-    host:multiplayerRoom.host||'',
-    hostId:multiplayerRoom.hostId||((multiplayerRoom.isHost)?mpClientId:''),
-    status:multiplayerRoom.status||'Oczekiwanie na graczy',
-    round:serializeMultiplayerRound(),
-    lastResult:multiplayerRoom.lastResult||null,
-    updatedAt:firebaseServerTimestamp()
+  const rootPath=`${MP_FIREBASE_ROOT}/${code}`;
+  const updates={
+    [`${rootPath}/code`]:code,
+    [`${rootPath}/host`]:multiplayerRoom.host||'',
+    [`${rootPath}/hostId`]:multiplayerRoom.hostId||((multiplayerRoom.isHost)?mpClientId:''),
+    [`${rootPath}/status`]:multiplayerRoom.status||'Oczekiwanie na graczy',
+    [`${rootPath}/round`]:serializeMultiplayerRound(),
+    [`${rootPath}/lastResult`]:multiplayerRoom.lastResult||null,
+    [`${rootPath}/updatedAt`]:firebaseServerTimestamp()
   };
-  roomRef.update(updateData).catch(err=>setMultiplayerStatus(`Błąd synchronizacji: ${err.message}`,'error'));
   (multiplayerRoom.players||[]).forEach(player=>{
     if(!player.id) return;
-    db.ref(`${MP_FIREBASE_ROOT}/${code}/players/${player.id}`).update({
-      nick:player.nick||'Gracz',role:player.role||'GRACZ',playerPoints:Number(player.playerPoints||0),zombiePoints:Number(player.zombiePoints||0),errors:Number(player.errors||0),joinedAt:Number(player.joinedAt||Date.now())
-    }).catch(()=>{});
+    updates[`${rootPath}/players/${player.id}/nick`]=player.nick||'Gracz';
+    updates[`${rootPath}/players/${player.id}/role`]=player.role||'GRACZ';
+    updates[`${rootPath}/players/${player.id}/playerPoints`]=Number(player.playerPoints||0);
+    updates[`${rootPath}/players/${player.id}/zombiePoints`]=Number(player.zombiePoints||0);
+    updates[`${rootPath}/players/${player.id}/errors`]=Number(player.errors||0);
+    updates[`${rootPath}/players/${player.id}/joinedAt`]=Number(player.joinedAt||Date.now());
   });
+  db.ref().update(updates).catch(err=>setMultiplayerStatus(`Błąd synchronizacji: ${err.message}`,'error'));
 }
 function loadMultiplayerRoom(){
   try{return JSON.parse(localStorage.getItem('zhCurrentMultiplayerRoom')||'null')}catch(e){return null}
@@ -871,5 +882,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1120').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1121').catch(()=>{}));}
 

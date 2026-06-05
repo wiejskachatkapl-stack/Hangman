@@ -1,10 +1,10 @@
-ZOMBIE HANGMAN 1120 - pliki do podmiany
+ZOMBIE HANGMAN 1121 - pliki do podmiany
 
 Podmień całą zawartość paczki na GitHubie.
 
-Zmiana względem wersji 1119:
-- na telefonach i niskich ekranach zmniejszono wysokość górnych kontenerów graczy,
-- licznik 10 został przeniesiony na prawą stronę każdego górnego kontenera gracza,
-- zmniejszono odstępy, obramowania i czcionki wyłącznie w mobilnym widoku Multiplayer,
-- dzięki temu pełna klawiatura Multiplayer mieści się w widoku telefonu,
-- widok komputerowy i pozostałe elementy gry pozostają bez zmian.
+Naprawy względem wersji 1120:
+- po każdej poprawnie odgadniętej literze aktywny gracz ponownie otrzymuje pełne 10 sekund,
+- punkty gracza, punkty zombie i błędy są zapisywane razem z rundą w jednej operacji Firebase i od razu widoczne w górnym pasku,
+- po błędnej literze lub upływie czasu błąd gracza jest naliczany i kolej przechodzi na drugiego gracza,
+- nieodgadnięte hasło nie wyświetla się automatycznie po zakończeniu czasu lub przegranej rundzie,
+- gra pojedyncza i wygląd wersji 1120 pozostają bez zmian.

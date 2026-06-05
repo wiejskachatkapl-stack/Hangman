@@ -1,4 +1,4 @@
-const CACHE = 'zombie-hangman-web-v1120';
+const CACHE = 'zombie-hangman-web-v1121';
 const FILES = [
   './', './index.html', './style.css', './app.js', './manifest.json', './README.txt',
   './assets/data/hasla.js',
@@ -29,7 +29,7 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   const url = new URL(req.url);
   const isHtml = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
-  const isFresh = isHtml || url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.search.includes('v=1120');
+  const isFresh = isHtml || url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.search.includes('v=1121');
 
   if (isFresh) {
     event.respondWith(
