@@ -1,10 +1,9 @@
-ZOMBIE HANGMAN WEB 1100 — pliki do podmiany
+ZOMBIE HANGMAN WEB 1102 — pliki do podmiany
 
-Baza: kompilacja 1098.
+Baza: kompilacja 1101.
 
-Zmiana w 1100:
-- ekran główny wypełnia całe okno przeglądarki bez czarnych pasów,
-- tło jest dopasowane do 100% szerokości i 100% wysokości okna,
-- pozostałe ekrany i mechanika gry bez zmian.
-
-Podmień wszystkie pliki z paczki.
+Zmiana w 1102:
+- tylko zakładka GRAJ: zintegrowane tło wypełnia całe okno przeglądarki bez czarnych bocznych pól,
+- niewidzialne pola kliknięć przeliczane są tym samym algorytmem cover,
+- pozostałe ekrany i mechanika gry bez zmian,
+- kompilacja i cache: 1102.

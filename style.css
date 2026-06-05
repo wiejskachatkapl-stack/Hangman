@@ -4095,3 +4095,29 @@ body{
     bottom:clamp(5px, .8vh, 12px) !important;
   }
 }
+
+
+/* v1102 — zakładka GRAJ: zintegrowane tło wypełnia całe okno przeglądarki.
+   Usuwa czarne pola po bokach. Hotspoty w app.js używają identycznego algorytmu cover. */
+#screen-play-menu.play-menu-screen{
+  background-color:#000 !important;
+  background-image:url('assets/img/bg_graj_integrated.png') !important;
+  background-repeat:no-repeat !important;
+  background-position:center center !important;
+  background-size:cover !important;
+}
+#screen-play-menu .play-start-wrap,
+#screen-play-menu .play-integrated-hotspots{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  transform:none !important;
+  overflow:hidden !important;
+}
+@media (orientation: landscape), (orientation: portrait){
+  #screen-play-menu.play-menu-screen{
+    background-size:cover !important;
+    background-position:center center !important;
+  }
+}
