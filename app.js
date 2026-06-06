@@ -1,4 +1,4 @@
-const VERSION = '1122';
+const VERSION = '1123';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const MP_ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPQRS'.split(''), 'ŚTUVWXYZŹŻ'.split('')];
@@ -62,9 +62,10 @@ let mpTurnDeadline = 0;
 let mpTurnFeedbackTimeout = null;
 const MP_FIREBASE_ROOT = 'rooms';
 const MP_CLIENT_ID_KEY = 'zhMultiplayerClientId';
+const MP_REMEMBERED_ROOM_KEY = 'zhRememberedMultiplayerRoom';
 const mpClientId = (()=>{
-  let id=sessionStorage.getItem(MP_CLIENT_ID_KEY);
-  if(!id){id='web_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,10);sessionStorage.setItem(MP_CLIENT_ID_KEY,id);}
+  let id=localStorage.getItem(MP_CLIENT_ID_KEY);
+  if(!id){id='web_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,10);localStorage.setItem(MP_CLIENT_ID_KEY,id);}
   return id;
 })();
 let mpRoomFirebaseRef = null;
@@ -84,6 +85,25 @@ function getMultiplayerCountdownLeft(){
   return Math.max(0,Math.ceil((Number(game.countdownUntil)-multiplayerNow())/1000));
 }
 function isMultiplayerCountdownActive(){return getMultiplayerCountdownLeft()>0;}
+function isMultiplayerRoundActive(){return gameMode==='multiplayer' && game && !game.finished;}
+function getRememberedMultiplayerRoom(){
+  try{return JSON.parse(localStorage.getItem(MP_REMEMBERED_ROOM_KEY)||'null') || null;}catch(e){return null;}
+}
+function rememberMultiplayerRoom(room){
+  if(!room?.code) return;
+  localStorage.setItem(MP_REMEMBERED_ROOM_KEY,JSON.stringify({code:room.code,me:room.me||localStorage.getItem('zhMultiplayerNick')||'',myId:mpClientId,isHost:Boolean(room.isHost),hostId:room.hostId||''}));
+}
+function getActiveMultiplayerPlayers(){
+  const players=multiplayerRoom?.players||[];
+  const ids=Array.isArray(multiplayerRoom?.duelPlayerIds)?multiplayerRoom.duelPlayerIds:[];
+  const picked=ids.map(id=>players.find(p=>p.id===id)).filter(Boolean);
+  if(picked.length>=2) return picked.slice(0,2);
+  if(picked.length===1){
+    const second=players.find(p=>p.id!==picked[0].id);
+    if(second) return [picked[0],second];
+  }
+  return players.slice(0,2);
+}
 function multiplayerFirebaseReady(){return Boolean(getFirebaseDb());}
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 function applyScale(){menuScale=clamp(menuScale,.72,1.18);document.documentElement.style.setProperty('--menu-scale', menuScale.toFixed(2));localStorage.setItem('zhMenuScale', String(menuScale));}
@@ -141,7 +161,7 @@ function newGame(){
   if(gameMode==='multiplayer' && multiplayerRoom){
     multiplayerRoom.status='Rozgrywka trwa';
     multiplayerRoom.round={category:item.cat, phrase:item.text.toUpperCase(), startedAt:firebaseServerTimestamp(), countdownUntil};
-    (multiplayerRoom.players||[]).slice(0,2).forEach(player=>{
+    getActiveMultiplayerPlayers().forEach(player=>{
       player.errors=0;
       if(typeof player.playerPoints!=='number') player.playerPoints=0;
       if(typeof player.zombiePoints!=='number') player.zombiePoints=0;
@@ -304,13 +324,13 @@ function renderGame(msg){
   });
 }
 function getMultiplayerTurnCount(){
-  return Math.max(1,Math.min(2,(multiplayerRoom?.players||[]).length || 1));
+  return Math.max(1,Math.min(2,getActiveMultiplayerPlayers().length || 1));
 }
 function getMultiplayerTurnPlayer(index){
-  return (multiplayerRoom?.players||[])[index] || null;
+  return getActiveMultiplayerPlayers()[index] || null;
 }
 function getMyMultiplayerPlayerIndex(){
-  return (multiplayerRoom?.players||[]).findIndex(player=>player.id===mpClientId);
+  return getActiveMultiplayerPlayers().findIndex(player=>player.id===mpClientId);
 }
 function isMyMultiplayerTurn(){
   if(gameMode!=='multiplayer' || !game || game.finished) return false;
@@ -330,7 +350,7 @@ function stopMultiplayerTurnTimer(){
   mpTurnDeadline=0;
 }
 function updateMultiplayerTurnUi(){
-  const players=(multiplayerRoom?.players||[]).slice(0,2);
+  const players=getActiveMultiplayerPlayers();
   const running=gameMode==='multiplayer' && game && !game.finished;
   ensureMultiplayerTurnState();
   [0,1].forEach(index=>{
@@ -341,7 +361,7 @@ function updateMultiplayerTurnUi(){
     const active=Boolean(running && !countdownActive && game.turnIndex===index && !game.turnLocked);
     const failed=Boolean(running && !countdownActive && game.turnFails?.[index]);
     const seconds=running ? (countdownActive ? countdownLeft : Math.max(0,Math.ceil((Number(game.turnDeadline||0)-multiplayerNow())/1000))) : MP_TURN_SECONDS;
-    const nameText=player?.nick || (index===0?'GRACZ 1':'OCZEKIWANIE NA GRACZA 2');
+    const nameText=player?.nick || (index===0?'GRACZ 1':'OCZEKIWANIE NA GRACZA');
 
     [`mpDuelPlayer${number}Name`,`mpGamePlayer${number}Name`].forEach(id=>{const el=$(id);if(el)el.textContent=nameText;});
     [`mpDuelPlayer${number}Timer`,`mpGamePlayer${number}Timer`].forEach(id=>{
@@ -350,12 +370,21 @@ function updateMultiplayerTurnUi(){
     [`mpDuelPlayer${number}Fail`,`mpGamePlayer${number}Fail`].forEach(id=>{
       const el=$(id);if(!el)return;el.hidden=!failed;el.setAttribute('aria-hidden',failed?'false':'true');
     });
-    [`mpDuelPlayer${number}Card`,`mpGamePlayer${number}Card`,`mpPlayerListRow${number}`].forEach(id=>{
+    [`mpDuelPlayer${number}Card`,`mpGamePlayer${number}Card`].forEach(id=>{
       const el=$(id);if(!el)return;
       el.classList.toggle('mp-turn-active',active);
       el.classList.toggle('mp-turn-inactive',Boolean(running && !countdownActive && !active));
       el.classList.toggle('mp-turn-failed',failed);
     });
+  });
+  document.querySelectorAll('#screen-multiplayer-room .mp-player-row[data-player-id]').forEach(row=>{
+    const rowId=row.dataset.playerId;
+    const activePlayer=getMultiplayerTurnPlayer(game?.turnIndex||0);
+    const isActive=Boolean(running && !getMultiplayerCountdownLeft() && activePlayer?.id===rowId && !game?.turnLocked);
+    const isDuelPlayer=players.some(p=>p?.id===rowId);
+    row.classList.toggle('mp-turn-active',isActive);
+    row.classList.toggle('mp-turn-inactive',Boolean(running && !getMultiplayerCountdownLeft() && isDuelPlayer && !isActive));
+    row.classList.toggle('mp-spectator',Boolean(running && !isDuelPlayer));
   });
 }
 function startMultiplayerTurnTimer(resetSeconds=true){
@@ -600,7 +629,7 @@ function makeRoomCode(){
   return code;
 }
 function normalizeFirebasePlayers(playersData){
-  return Object.entries(playersData||{}).map(([id,p])=>({id,...p})).sort((a,b)=>Number(a.joinedAt||0)-Number(b.joinedAt||0)).slice(0,2);
+  return Object.entries(playersData||{}).map(([id,p])=>({id,...p})).sort((a,b)=>Number(a.joinedAt||0)-Number(b.joinedAt||0));
 }
 function serializeMultiplayerRound(){
   if(gameMode!=='multiplayer' || !game) return multiplayerRoom?.round || null;
@@ -626,6 +655,7 @@ function serializeMultiplayerRound(){
 function saveLocalMultiplayerRoom(){
   if(multiplayerRoom){
     localStorage.setItem('zhCurrentMultiplayerRoom',JSON.stringify({code:multiplayerRoom.code,me:multiplayerRoom.me,myId:mpClientId,isHost:multiplayerRoom.isHost}));
+    rememberMultiplayerRoom(multiplayerRoom);
   }else localStorage.removeItem('zhCurrentMultiplayerRoom');
 }
 function saveMultiplayerRoom(){
@@ -640,6 +670,7 @@ function saveMultiplayerRoom(){
     [`${rootPath}/host`]:multiplayerRoom.host||'',
     [`${rootPath}/hostId`]:multiplayerRoom.hostId||((multiplayerRoom.isHost)?mpClientId:''),
     [`${rootPath}/status`]:multiplayerRoom.status||'Oczekiwanie na graczy',
+    [`${rootPath}/duelPlayerIds`]:Array.isArray(multiplayerRoom.duelPlayerIds)?multiplayerRoom.duelPlayerIds.slice(0,2):getActiveMultiplayerPlayers().map(p=>p.id).slice(0,2),
     [`${rootPath}/round`]:serializeMultiplayerRound(),
     [`${rootPath}/lastResult`]:multiplayerRoom.lastResult||null,
     [`${rootPath}/updatedAt`]:firebaseServerTimestamp()
@@ -698,7 +729,7 @@ function subscribeToFirebaseRoom(code){
     }
     mpApplyingFirebaseSnapshot=true;
     const players=normalizeFirebasePlayers(raw.players);
-    multiplayerRoom={...raw,code,players,myId:mpClientId,me:players.find(p=>p.id===mpClientId)?.nick||localStorage.getItem('zhMultiplayerNick')||'',isHost:raw.hostId===mpClientId};
+    multiplayerRoom={...raw,code,players,duelPlayerIds:Array.isArray(raw.duelPlayerIds)?raw.duelPlayerIds:Object.values(raw.duelPlayerIds||{}),myId:mpClientId,me:players.find(p=>p.id===mpClientId)?.nick||localStorage.getItem('zhMultiplayerNick')||'',isHost:raw.hostId===mpClientId};
     saveLocalMultiplayerRoom();
     if(raw.round?.phrase) applyFirebaseRound(raw.round);
     else if(raw.status!=='Rozgrywka trwa'){game=null;stopMultiplayerTurnTimer();}
@@ -721,12 +752,29 @@ async function createMultiplayerRoom(){
   if(!db){setMultiplayerStatus('Brak połączenia z Firebase. Odśwież stronę.','error');return;}
   syncFirebaseClock();
   localStorage.setItem('zhMultiplayerNick',nick);
+  const remembered=getRememberedMultiplayerRoom();
+  if(remembered?.code){
+    const rememberedRef=db.ref(`${MP_FIREBASE_ROOT}/${remembered.code}`);
+    const rememberedSnap=await rememberedRef.once('value').catch(()=>null);
+    if(rememberedSnap?.exists()){
+      const raw=rememberedSnap.val();
+      const role=raw.hostId===mpClientId?'HOST':'GRACZ';
+      const current=raw.players?.[mpClientId]||{};
+      const player={...current,nick,role,playerPoints:Number(current.playerPoints||0),zombiePoints:Number(current.zombiePoints||0),errors:Number(current.errors||0),joinedAt:Number(current.joinedAt||Date.now())};
+      await rememberedRef.child(`players/${mpClientId}`).update(player);
+      rememberedRef.child(`players/${mpClientId}`).onDisconnect().remove();
+      const input=document.getElementById('multiplayerRoomCode');if(input) input.value=remembered.code;
+      enterMultiplayerRoom({...raw,code:remembered.code,players:normalizeFirebasePlayers({...raw.players,[mpClientId]:player}),me:nick,isHost:raw.hostId===mpClientId,duelPlayerIds:Array.isArray(raw.duelPlayerIds)?raw.duelPlayerIds:Object.values(raw.duelPlayerIds||{})});
+      setMultiplayerStatus('Wrócono do zapamiętanego pokoju.','ok');
+      return;
+    }
+  }
   setMultiplayerStatus('Tworzenie pokoju...','info');
   for(let attempt=0;attempt<5;attempt++){
     const code=makeRoomCode();
     const roomRef=db.ref(`${MP_FIREBASE_ROOT}/${code}`);
     const player={nick,role:'HOST',playerPoints:0,zombiePoints:0,errors:0,joinedAt:Date.now()};
-    const room={code,host:nick,hostId:mpClientId,status:'Oczekiwanie na graczy',createdAt:firebaseServerTimestamp(),updatedAt:firebaseServerTimestamp(),players:{[mpClientId]:player},round:null};
+    const room={code,host:nick,hostId:mpClientId,status:'Oczekiwanie na graczy',createdAt:firebaseServerTimestamp(),updatedAt:firebaseServerTimestamp(),players:{[mpClientId]:player},duelPlayerIds:[mpClientId],round:null};
     const result=await roomRef.transaction(current=>current===null?room:undefined).catch(()=>null);
     if(result?.committed){
       roomRef.child(`players/${mpClientId}`).onDisconnect().remove();
@@ -751,18 +799,21 @@ async function joinMultiplayerRoom(){
   if(!snap?.exists()){setMultiplayerStatus('Nie znaleziono pokoju o takim kodzie.','error');return;}
   const raw=snap.val();
   const currentPlayers=normalizeFirebasePlayers(raw.players);
-  if(currentPlayers.length>=2 && !currentPlayers.some(p=>p.id===mpClientId)){setMultiplayerStatus('Ten pokój ma już dwóch graczy.','error');return;}
   localStorage.setItem('zhMultiplayerNick',nick);
-  const player={nick,role:'GRACZ',playerPoints:0,zombiePoints:0,errors:0,joinedAt:Date.now()};
-  await roomRef.child(`players/${mpClientId}`).set(player);
+  const existing=currentPlayers.find(p=>p.id===mpClientId)||{};
+  const player={...existing,nick,role:raw.hostId===mpClientId?'HOST':'GRACZ',playerPoints:Number(existing.playerPoints||0),zombiePoints:Number(existing.zombiePoints||0),errors:Number(existing.errors||0),joinedAt:Number(existing.joinedAt||Date.now())};
+  await roomRef.child(`players/${mpClientId}`).update(player);
   roomRef.child(`players/${mpClientId}`).onDisconnect().remove();
-  await roomRef.update({status:'Dwóch graczy w pokoju',updatedAt:firebaseServerTimestamp()});
-  enterMultiplayerRoom({...raw,code,players:[...currentPlayers.filter(p=>p.id!==mpClientId),{id:mpClientId,...player}],me:nick,isHost:false});
+  await roomRef.update({status:'Gracze w pokoju',updatedAt:firebaseServerTimestamp()});
+  enterMultiplayerRoom({...raw,code,players:[...currentPlayers.filter(p=>p.id!==mpClientId),{id:mpClientId,...player}],me:nick,isHost:raw.hostId===mpClientId,duelPlayerIds:Array.isArray(raw.duelPlayerIds)?raw.duelPlayerIds:Object.values(raw.duelPlayerIds||{})});
 }
 function prepareMultiplayerScreen(){
   const nick=document.getElementById('multiplayerNick');
   if(nick && !nick.value) nick.value=localStorage.getItem('zhMultiplayerNick') || '';
-  setMultiplayerStatus(multiplayerFirebaseReady()?'':'Łączenie z Firebase...');
+  const remembered=getRememberedMultiplayerRoom();
+  const codeInput=document.getElementById('multiplayerRoomCode');
+  if(codeInput && !codeInput.value && remembered?.code) codeInput.value=remembered.code;
+  setMultiplayerStatus(multiplayerFirebaseReady()?(remembered?.code?`Zapamiętany pokój: ${remembered.code}`:''):'Łączenie z Firebase...');
 }
 function renderMultiplayerRoom(){
   if(!multiplayerRoom) multiplayerRoom=loadMultiplayerRoom();
@@ -790,11 +841,13 @@ function renderMultiplayerRoom(){
       const row=document.createElement('div');
       row.className='mp-player-row';
       row.id=`mpPlayerListRow${index+1}`;
-      row.innerHTML=`<span class="mp-player-number">${index+1}</span><strong>${player.nick}</strong><span class="mp-player-role">${player.role||'GRACZ'}</span><span class="mp-player-online" title="Online"></span>`;
+      row.dataset.playerId=player.id||'';
+      const canChallenge=player.id!==mpClientId && !isMultiplayerRoundActive();
+      row.innerHTML=`<span class="mp-player-number">${index+1}</span><strong>${player.nick}</strong><span class="mp-player-role">${player.role||'GRACZ'}</span>${canChallenge?`<button class="mp-challenge-btn" type="button" data-action="mp-challenge-player" data-player-id="${player.id}">WYZWANIE</button>`:''}<span class="mp-player-online" title="Online"></span>`;
       list.appendChild(row);
     });
   }
-  const duelPlayers=(multiplayerRoom.players||[]).slice(0,2);
+  const duelPlayers=getActiveMultiplayerPlayers();
   [0,1].forEach(index=>{
     const player=duelPlayers[index];
     const number=index+1;
@@ -823,13 +876,26 @@ async function leaveMultiplayerRoom(){
   const room=multiplayerRoom;
   detachFirebaseRoomListener();
   if(db && room?.code){
-    if(room.isHost) await db.ref(`${MP_FIREBASE_ROOT}/${room.code}`).remove().catch(()=>{});
-    else await db.ref(`${MP_FIREBASE_ROOT}/${room.code}/players/${mpClientId}`).remove().catch(()=>{});
+    await db.ref(`${MP_FIREBASE_ROOT}/${room.code}/players/${mpClientId}/leftAt`).set(firebaseServerTimestamp()).catch(()=>{});
+    await db.ref(`${MP_FIREBASE_ROOT}/${room.code}/updatedAt`).set(firebaseServerTimestamp()).catch(()=>{});
   }
-  setGameMode('single');multiplayerRoom=null;game=null;saveLocalMultiplayerRoom();show('multiplayer');setMultiplayerStatus('Opuszczono pokój.','ok');
+  rememberMultiplayerRoom(room);
+  setGameMode('single');multiplayerRoom=null;game=null;saveLocalMultiplayerRoom();show('multiplayer');setMultiplayerStatus('Pokój został zapamiętany. Możesz wrócić do niego później.','ok');
+}
+function challengeMultiplayerPlayer(playerId){
+  if(!multiplayerRoom || !playerId || isMultiplayerRoundActive()) return;
+  const players=multiplayerRoom.players||[];
+  const other=players.find(p=>p.id===playerId);
+  const me=players.find(p=>p.id===mpClientId);
+  if(!other || !me) return;
+  multiplayerRoom.duelPlayerIds=[mpClientId,playerId];
+  multiplayerRoom.status=`${me.nick} wyzwał gracza ${other.nick} do gry`;
+  saveMultiplayerRoom();
+  renderMultiplayerRoom();
 }
 function startMultiplayerGame(){
   if(!multiplayerRoom || !multiplayerRoom.isHost || (multiplayerRoom.players||[]).length<2) return;
+  if(getActiveMultiplayerPlayers().length<2) multiplayerRoom.duelPlayerIds=(multiplayerRoom.players||[]).slice(0,2).map(p=>p.id);
   setGameMode('multiplayer');
   game=null;
   multiplayerRoom.status='Losowanie kategorii';
@@ -906,6 +972,7 @@ document.addEventListener('click', e=>{
   if(action==='join-room') joinMultiplayerRoom();
   if(action==='mp-leave-room') leaveMultiplayerRoom();
   if(action==='mp-start-game') startMultiplayerGame();
+  if(action==='mp-challenge-player') challengeMultiplayerPlayer(e.target.closest('[data-player-id]')?.dataset.playerId);
   if(action==='exit') alert('W wersji webowej zamknij kartę przeglądarki albo wróć przyciskiem systemowym.');
   if(action==='reset-stats' && confirm('Czy wyczyścić zapis i statystyki?')){
     localStorage.removeItem(STORE_KEY); state=loadState(); renderStats(); renderGallery();
@@ -913,5 +980,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1122').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1123').catch(()=>{}));}
 

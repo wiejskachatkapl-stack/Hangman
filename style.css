@@ -5174,3 +5174,30 @@ body:not([data-game-mode="multiplayer"]) .mp-game-turn-panel{display:none !impor
     gap:5px !important;
   }
 }
+
+
+/* v1123 — brak limitu osób w pokoju, wyzwania graczy i zapamiętany pokój. */
+#screen-multiplayer-room .mp-player-row{
+  grid-template-columns:34px minmax(0,1fr) auto auto 12px;
+}
+#screen-multiplayer-room .mp-challenge-btn{
+  min-width:0;
+  padding:5px 8px;
+  border:1px solid rgba(120,211,104,.55);
+  border-radius:8px;
+  background:linear-gradient(180deg,rgba(34,90,31,.42),rgba(8,22,8,.46));
+  color:#79ff79;
+  font:900 clamp(8px,.75vw,12px)/1 Arial,sans-serif;
+  text-shadow:0 2px 4px #000;
+  cursor:pointer;
+  white-space:nowrap;
+}
+#screen-multiplayer-room .mp-challenge-btn:hover{filter:brightness(1.18)}
+#screen-multiplayer-room.mp-round-active .mp-player-row.mp-spectator{
+  opacity:.55;
+  filter:grayscale(.35) brightness(.78);
+}
+@media (max-height:700px),(max-width:1000px){
+  #screen-multiplayer-room .mp-player-row{grid-template-columns:28px minmax(0,1fr) auto auto 10px;gap:5px}
+  #screen-multiplayer-room .mp-challenge-btn{padding:3px 5px;font-size:clamp(7px,1vw,10px)}
+}
