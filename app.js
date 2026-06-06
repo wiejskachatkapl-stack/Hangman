@@ -1,4 +1,4 @@
-const VERSION = '1124';
+const VERSION = '1125';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const MP_ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPQRS'.split(''), 'ŚTUVWXYZŹŻ'.split('')];

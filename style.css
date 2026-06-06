@@ -5255,3 +5255,209 @@ body:not([data-game-mode="multiplayer"]) .mp-game-turn-panel{display:none !impor
   .mp-result-image{max-height:min(300px,58vh)}
   .mp-result-text{font-size:clamp(22px,4.8vw,48px)}
 }
+
+
+/* v1125 — poprawka widoku iPhone/Messenger: pełna klawiatura w Multiplayer. */
+@media (orientation:landscape) and (max-height:520px), (max-width:950px) and (max-height:560px){
+  #screen-multiplayer-room.multiplayer-room-screen{
+    height:100dvh !important;
+    min-height:0 !important;
+  }
+  #screen-multiplayer-room .mp-room-shell{
+    inset:2px 4px !important;
+    gap:3px !important;
+    grid-template-rows:clamp(44px,13vh,58px) minmax(0,1fr) clamp(34px,9vh,42px) !important;
+  }
+
+  /* Górny pas graczy — bardzo niski, żeby nie zabierał miejsca klawiaturze. */
+  #screen-multiplayer-room .mp-versus-panel-top{
+    gap:4px !important;
+    height:100% !important;
+    min-height:0 !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-player{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) clamp(38px,7vw,50px) !important;
+    grid-template-rows:1fr 1fr !important;
+    gap:2px !important;
+    padding:2px !important;
+    border-width:1px !important;
+    border-radius:7px !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    min-height:0 !important;
+    border-radius:5px !important;
+    grid-template-columns:minmax(0,1.35fr) minmax(54px,.62fr) !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-name{
+    padding:2px 4px !important;
+    font-size:clamp(9px,1.28vw,13px) !important;
+    line-height:1 !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player{
+    padding:2px 2px !important;
+    gap:1px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats{
+    grid-column:1 !important;
+    grid-row:2 !important;
+    border-radius:5px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats div{
+    padding:2px 2px !important;
+    gap:1px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player span,
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-head .mp-stat-player strong,
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats span,
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-stats strong{
+    font-size:clamp(6px,.9vw,9px) !important;
+    line-height:1 !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-duel-turn{
+    grid-column:2 !important;
+    grid-row:1 / span 2 !important;
+    min-height:0 !important;
+    height:auto !important;
+    border-radius:5px !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-turn-seconds{
+    font-size:clamp(19px,3.2vw,30px) !important;
+    line-height:1 !important;
+  }
+  #screen-multiplayer-room .mp-versus-panel-top .mp-turn-fail{
+    width:clamp(20px,3.2vw,28px) !important;
+  }
+
+  /* Główne pole — niższe nagłówki i więcej miejsca na litery. */
+  #screen-multiplayer-room .mp-room-main{
+    grid-template-columns:minmax(132px,.24fr) minmax(0,1fr) minmax(104px,.18fr) !important;
+    gap:3px !important;
+    min-height:0 !important;
+  }
+  #screen-multiplayer-room .mp-room-players-card,
+  #screen-multiplayer-room .mp-room-center-card,
+  #screen-multiplayer-room .mp-room-gallows-card{
+    padding:4px !important;
+    border-width:1px !important;
+    border-radius:8px !important;
+  }
+  #screen-multiplayer-room h2{
+    font-size:clamp(12px,2.0vw,18px) !important;
+    line-height:1.05 !important;
+    margin:0 0 4px !important;
+  }
+  #screen-multiplayer-room .mp-player-row{
+    grid-template-columns:22px minmax(0,1fr) auto auto 8px !important;
+    gap:3px !important;
+    padding:4px 4px !important;
+    border-radius:7px !important;
+  }
+  #screen-multiplayer-room .mp-player-number{width:19px !important;height:19px !important;font-size:10px !important}
+  #screen-multiplayer-room .mp-player-row strong{font-size:clamp(11px,1.55vw,15px) !important}
+  #screen-multiplayer-room .mp-player-role{font-size:clamp(7px,1vw,10px) !important}
+  #screen-multiplayer-room .mp-player-online{width:8px !important;height:8px !important}
+  #screen-multiplayer-room .mp-challenge-btn{padding:2px 3px !important;font-size:7px !important}
+
+  #screen-multiplayer-room .mp-preview-panel{
+    gap:3px !important;
+    min-height:0 !important;
+  }
+  #screen-multiplayer-room .mp-preview-word-wrap{
+    padding:4px !important;
+    border-radius:8px !important;
+    flex:0 0 auto !important;
+  }
+  #screen-multiplayer-room .mp-preview-category{
+    font-size:clamp(12px,1.7vw,16px) !important;
+    line-height:1 !important;
+  }
+  #screen-multiplayer-room .mp-preview-word-box{
+    margin-top:4px !important;
+    min-height:clamp(34px,10vh,48px) !important;
+    padding:4px 8px !important;
+    gap:clamp(3px,.45vw,6px) !important;
+    border-width:1px !important;
+    border-radius:8px !important;
+  }
+  #screen-multiplayer-room .mp-room-letter{
+    min-width:clamp(14px,1.6vw,22px) !important;
+    min-height:clamp(20px,4vh,28px) !important;
+    font-size:clamp(15px,2vw,24px) !important;
+  }
+  #screen-multiplayer-room .mp-preview-help-row{
+    gap:5px !important;
+    flex:0 0 auto !important;
+  }
+  #screen-multiplayer-room .mp-preview-help-label{
+    font-size:clamp(13px,1.8vw,18px) !important;
+    line-height:1 !important;
+  }
+  #screen-multiplayer-room .mp-preview-help-icons{gap:5px !important}
+  #screen-multiplayer-room .mp-preview-life,
+  #screen-multiplayer-room .mp-preview-life img{width:26px !important;height:26px !important}
+  #screen-multiplayer-room .mp-preview-keyboard{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    gap:2px !important;
+    padding:3px !important;
+    border-radius:8px !important;
+    justify-content:end !important;
+  }
+  #screen-multiplayer-room .mp-preview-key-row{
+    display:grid !important;
+    grid-template-columns:repeat(var(--mp-key-count),minmax(0,1fr)) !important;
+    gap:2px !important;
+    width:100% !important;
+  }
+  #screen-multiplayer-room .mp-preview-key-row button.mp-preview-key{
+    width:100% !important;
+    min-width:0 !important;
+    height:clamp(22px,5.4vh,29px) !important;
+    padding:0 !important;
+    border-width:1px !important;
+    border-radius:5px !important;
+    font-size:clamp(11px,1.55vw,16px) !important;
+    line-height:1 !important;
+  }
+  #screen-multiplayer-room .mp-room-message{
+    min-height:14px !important;
+    padding:1px 4px !important;
+    font-size:clamp(7px,1vw,10px) !important;
+  }
+  #screen-multiplayer-room .mp-room-gallows-card img{object-fit:contain !important}
+
+  /* Dolny pas — niższe przyciski i mniejszy kod pokoju. */
+  #screen-multiplayer-room .mp-room-actions{
+    grid-template-columns:minmax(0,1fr) clamp(116px,17vw,155px) !important;
+    gap:5px !important;
+    min-height:0 !important;
+  }
+  #screen-multiplayer-room .mp-room-action-buttons{gap:5px !important}
+  #screen-multiplayer-room .mp-room-action{
+    width:min(170px,24vw) !important;
+    min-height:0 !important;
+    height:clamp(30px,8vh,38px) !important;
+    padding:3px 6px !important;
+    font-size:clamp(11px,1.55vw,16px) !important;
+    line-height:1.05 !important;
+  }
+  #screen-multiplayer-room .mp-room-code-badge{
+    min-width:0 !important;
+    padding:3px 5px !important;
+    border-radius:8px !important;
+  }
+  #screen-multiplayer-room .mp-room-code-badge-label{
+    font-size:clamp(7px,1vw,10px) !important;
+    letter-spacing:1px !important;
+  }
+  #screen-multiplayer-room .mp-room-code-badge strong{
+    margin-top:1px !important;
+    font-size:clamp(17px,2.7vw,25px) !important;
+    letter-spacing:2px !important;
+  }
+}
