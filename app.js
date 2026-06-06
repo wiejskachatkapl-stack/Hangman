@@ -1,4 +1,4 @@
-const VERSION = '1121';
+const VERSION = '1122';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const MP_ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPQRS'.split(''), 'ŚTUVWXYZŹŻ'.split('')];
@@ -54,6 +54,9 @@ let menuScale = Number(localStorage.getItem('zhMenuScale') || '1');
 let multiplayerRoom = null;
 let gameMode = 'single';
 const MP_TURN_SECONDS = 10;
+const MP_ROUND_COUNTDOWN_SECONDS = 3;
+let mpServerTimeOffset = 0;
+let mpServerClockListening = false;
 let mpTurnInterval = null;
 let mpTurnDeadline = 0;
 let mpTurnFeedbackTimeout = null;
@@ -69,6 +72,18 @@ let mpRoomFirebaseListener = null;
 let mpApplyingFirebaseSnapshot = false;
 function getFirebaseDb(){return window.firebase?.apps?.length ? window.firebase.database() : null;}
 function firebaseServerTimestamp(){return window.firebase?.database?.ServerValue?.TIMESTAMP || Date.now();}
+function syncFirebaseClock(){
+  const db=getFirebaseDb();
+  if(!db || mpServerClockListening) return;
+  mpServerClockListening=true;
+  db.ref('.info/serverTimeOffset').on('value',snap=>{mpServerTimeOffset=Number(snap.val()||0);});
+}
+function multiplayerNow(){return Date.now()+mpServerTimeOffset;}
+function getMultiplayerCountdownLeft(){
+  if(gameMode!=='multiplayer' || !game || game.finished || !game.countdownUntil) return 0;
+  return Math.max(0,Math.ceil((Number(game.countdownUntil)-multiplayerNow())/1000));
+}
+function isMultiplayerCountdownActive(){return getMultiplayerCountdownLeft()>0;}
 function multiplayerFirebaseReady(){return Boolean(getFirebaseDb());}
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 function applyScale(){menuScale=clamp(menuScale,.72,1.18);document.documentElement.style.setProperty('--menu-scale', menuScale.toFixed(2));localStorage.setItem('zhMenuScale', String(menuScale));}
@@ -120,10 +135,12 @@ function newGame(){
   }
   lastPhraseIndex = idx;
   const item = PHRASES[idx];
-  game={phrase:item.text.toUpperCase(),cat:item.cat,guessed:new Set(),mistakes:0,finished:false,mode:gameMode,turnIndex:0,turnSeconds:MP_TURN_SECONDS,turnDeadline:Date.now()+MP_TURN_SECONDS*1000,turnFails:[false,false],turnLocked:false};
+  const roundStartNow = multiplayerNow();
+  const countdownUntil = gameMode==='multiplayer' ? roundStartNow + MP_ROUND_COUNTDOWN_SECONDS*1000 : 0;
+  game={phrase:item.text.toUpperCase(),cat:item.cat,guessed:new Set(),mistakes:0,finished:false,mode:gameMode,turnIndex:0,turnSeconds:MP_TURN_SECONDS,turnDeadline:(countdownUntil || roundStartNow)+MP_TURN_SECONDS*1000,countdownUntil,turnFails:[false,false],turnLocked:false};
   if(gameMode==='multiplayer' && multiplayerRoom){
     multiplayerRoom.status='Rozgrywka trwa';
-    multiplayerRoom.round={category:item.cat, phrase:item.text.toUpperCase(), startedAt:Date.now()};
+    multiplayerRoom.round={category:item.cat, phrase:item.text.toUpperCase(), startedAt:firebaseServerTimestamp(), countdownUntil};
     (multiplayerRoom.players||[]).slice(0,2).forEach(player=>{
       player.errors=0;
       if(typeof player.playerPoints!=='number') player.playerPoints=0;
@@ -134,7 +151,7 @@ function newGame(){
     saveMultiplayerRoom();
     show('multiplayer-room');
     renderMultiplayerRoom();
-    startMultiplayerTurnTimer(true);
+    startMultiplayerTurnTimer(false);
     return;
   }
   show('game');
@@ -170,7 +187,7 @@ function renderMultiplayerRoomKeyboard(){
       b.type='button';
       b.className='mp-preview-key';
       b.textContent=ch;
-      b.disabled=!game || game.finished || game.turnLocked || !isMyMultiplayerTurn();
+      b.disabled=!game || game.finished || game.turnLocked || isMultiplayerCountdownActive() || !isMyMultiplayerTurn();
       if(game?.guessed?.has(ch)){
         b.classList.add('used');
         b.classList.add(game.phrase.includes(ch)?'good':'bad');
@@ -191,7 +208,7 @@ function renderMultiplayerRoomGame(msg=''){
   document.querySelector('#screen-multiplayer-room')?.classList.toggle('mp-round-active',Boolean(playing && !game.finished));
   if(category) category.textContent=playing ? game.cat : '---';
   if(help) help.textContent=String(state.lifelines);
-  if(message) message.textContent=msg || (playing ? (game.finished?'Runda zakończona.':'Wybierz literę.') : 'Kliknij „ROZPOCZNIJ GRĘ”, a następnie wylosuj kategorię.');
+  if(message){const cd=getMultiplayerCountdownLeft();message.textContent=msg || (playing ? (game.finished?'Runda zakończona.':(cd>0?`Start za: ${cd}`:'Wybierz literę.')) : 'Kliknij „ROZPOCZNIJ GRĘ”, a następnie wylosuj kategorię.');}
   if(word){
     if(!playing){
       word.textContent='_ _ _ _ _ _ _ _';
@@ -305,7 +322,8 @@ function ensureMultiplayerTurnState(){
   if(!Array.isArray(game.turnFails)) game.turnFails=[false,false];
   if(typeof game.turnSeconds!=='number') game.turnSeconds=MP_TURN_SECONDS;
   if(typeof game.turnLocked!=='boolean') game.turnLocked=false;
-  if(typeof game.turnDeadline!=='number') game.turnDeadline=Date.now()+MP_TURN_SECONDS*1000;
+  if(typeof game.turnDeadline!=='number') game.turnDeadline=multiplayerNow()+MP_TURN_SECONDS*1000;
+  if(typeof game.countdownUntil!=='number') game.countdownUntil=0;
 }
 function stopMultiplayerTurnTimer(){
   if(mpTurnInterval){clearInterval(mpTurnInterval);mpTurnInterval=null;}
@@ -318,9 +336,11 @@ function updateMultiplayerTurnUi(){
   [0,1].forEach(index=>{
     const number=index+1;
     const player=players[index];
-    const active=Boolean(running && game.turnIndex===index && !game.turnLocked);
-    const failed=Boolean(running && game.turnFails?.[index]);
-    const seconds=running ? Math.max(0,Number(game.turnSeconds||0)) : MP_TURN_SECONDS;
+    const countdownLeft=getMultiplayerCountdownLeft();
+    const countdownActive=countdownLeft>0;
+    const active=Boolean(running && !countdownActive && game.turnIndex===index && !game.turnLocked);
+    const failed=Boolean(running && !countdownActive && game.turnFails?.[index]);
+    const seconds=running ? (countdownActive ? countdownLeft : Math.max(0,Math.ceil((Number(game.turnDeadline||0)-multiplayerNow())/1000))) : MP_TURN_SECONDS;
     const nameText=player?.nick || (index===0?'GRACZ 1':'OCZEKIWANIE NA GRACZA 2');
 
     [`mpDuelPlayer${number}Name`,`mpGamePlayer${number}Name`].forEach(id=>{const el=$(id);if(el)el.textContent=nameText;});
@@ -333,7 +353,7 @@ function updateMultiplayerTurnUi(){
     [`mpDuelPlayer${number}Card`,`mpGamePlayer${number}Card`,`mpPlayerListRow${number}`].forEach(id=>{
       const el=$(id);if(!el)return;
       el.classList.toggle('mp-turn-active',active);
-      el.classList.toggle('mp-turn-inactive',Boolean(running && !active));
+      el.classList.toggle('mp-turn-inactive',Boolean(running && !countdownActive && !active));
       el.classList.toggle('mp-turn-failed',failed);
     });
   });
@@ -344,18 +364,20 @@ function startMultiplayerTurnTimer(resetSeconds=true){
   ensureMultiplayerTurnState();
   if(resetSeconds){
     game.turnSeconds=MP_TURN_SECONDS;
-    game.turnDeadline=Date.now()+MP_TURN_SECONDS*1000;
+    game.turnDeadline=multiplayerNow()+MP_TURN_SECONDS*1000;
     game.turnLocked=false;
+    game.countdownUntil=0;
     game.turnFails=[false,false];
     saveMultiplayerRoom();
   }
-  mpTurnDeadline=Number(game.turnDeadline||Date.now()+Math.max(1,game.turnSeconds)*1000);
+  mpTurnDeadline=Number(game.turnDeadline||multiplayerNow()+Math.max(1,game.turnSeconds)*1000);
   updateMultiplayerTurnUi();
   mpTurnInterval=setInterval(()=>{
     if(gameMode!=='multiplayer' || !game || game.finished){stopMultiplayerTurnTimer();return;}
-    const left=Math.max(0,Math.ceil((Number(game.turnDeadline||mpTurnDeadline)-Date.now())/1000));
-    if(left!==game.turnSeconds){game.turnSeconds=left;updateMultiplayerTurnUi();}
-    if(left<=0 && multiplayerRoom?.isHost) failMultiplayerTurn('Czas minął — kolej następnego gracza.');
+    const countdownLeft=getMultiplayerCountdownLeft();
+    const left=countdownLeft>0 ? countdownLeft : Math.max(0,Math.ceil((Number(game.turnDeadline||mpTurnDeadline)-multiplayerNow())/1000));
+    if(left!==game.turnSeconds){game.turnSeconds=left;updateMultiplayerTurnUi();renderMultiplayerRoomGame();}
+    if(countdownLeft<=0 && left<=0 && multiplayerRoom?.isHost) failMultiplayerTurn('Czas minął — kolej następnego gracza.');
   },200);
 }
 function switchMultiplayerTurn(){
@@ -364,8 +386,9 @@ function switchMultiplayerTurn(){
   game.turnIndex=(game.turnIndex+1)%count;
   game.turnFails=[false,false];
   game.turnLocked=false;
+  game.countdownUntil=0;
   game.turnSeconds=MP_TURN_SECONDS;
-  game.turnDeadline=Date.now()+MP_TURN_SECONDS*1000;
+  game.turnDeadline=multiplayerNow()+MP_TURN_SECONDS*1000;
   saveMultiplayerRoom();
   startMultiplayerTurnTimer(false);
   renderGame('Kolej następnego gracza.');
@@ -376,7 +399,7 @@ function failMultiplayerTurn(message){
   stopMultiplayerTurnTimer();
   game.turnLocked=true;
   game.turnSeconds=0;
-  game.turnDeadline=Date.now();
+  game.turnDeadline=multiplayerNow();
   game.turnFails=[false,false];
   game.turnFails[game.turnIndex]=true;
   game.mistakes++;
@@ -402,15 +425,17 @@ function registerCorrectMultiplayerGuess(count){
   }
   // Każda poprawna litera daje temu samemu graczowi nowe pełne 10 sekund.
   game.turnSeconds=MP_TURN_SECONDS;
-  game.turnDeadline=Date.now()+MP_TURN_SECONDS*1000;
+  game.turnDeadline=multiplayerNow()+MP_TURN_SECONDS*1000;
   game.turnLocked=false;
   game.turnFails=[false,false];
+  game.countdownUntil=0;
   saveMultiplayerRoom();
   renderMultiplayerRoom();
   startMultiplayerTurnTimer(false);
 }
 function guess(ch){
   if(!game || game.finished || game.turnLocked) return;
+  if(gameMode==='multiplayer' && isMultiplayerCountdownActive()){renderGame(`Start za: ${getMultiplayerCountdownLeft()}`);return;}
   if(gameMode==='multiplayer' && !isMyMultiplayerTurn()){renderGame('Teraz gra drugi gracz.');return;}
   if(game.guessed.has(ch)){
     if(gameMode==='multiplayer') failMultiplayerTurn(`Litera ${ch} była już użyta — kolej następnego gracza.`);
@@ -460,6 +485,7 @@ function finish(win){
 function checkZombieUnlock(){while(state.zombiePoints>=300){state.zombiePoints-=300; state.unlocked=Math.min(ZOMBIES.length,state.unlocked+1); state.lifelines=START_LIFELINES; state.adLifelinesUsed=0;}}
 function hint(){
   if(!game || game.finished) return;
+  if(gameMode==='multiplayer' && isMultiplayerCountdownActive()){renderGame(`Start za: ${getMultiplayerCountdownLeft()}`);return;}
   if(gameMode==='multiplayer' && !isMyMultiplayerTurn()){renderGame('Teraz gra drugi gracz.');return;}
   if(state.lifelines<=0){renderGame('Nie masz już kół ratunkowych.');return;}
   const missing=[...new Set([...game.phrase].filter(ch=>ch!==' ' && !game.guessed.has(ch)))];
@@ -589,7 +615,8 @@ function serializeMultiplayerRound(){
     finished:Boolean(game.finished),
     turnIndex:Number(game.turnIndex||0),
     turnSeconds:Number(game.turnSeconds||0),
-    turnDeadline:Number(game.turnDeadline||Date.now()),
+    turnDeadline:Number(game.turnDeadline||multiplayerNow()),
+    countdownUntil:Number(game.countdownUntil||0),
     turnFails:Array.isArray(game.turnFails)?game.turnFails:[false,false],
     turnLocked:Boolean(game.turnLocked),
     lifelines:Number(state.lifelines||0),
@@ -647,7 +674,8 @@ function applyFirebaseRound(remoteRound){
     mode:'multiplayer',
     turnIndex:Number(remoteRound.turnIndex||0),
     turnSeconds:Number(remoteRound.turnSeconds??MP_TURN_SECONDS),
-    turnDeadline:Number(remoteRound.turnDeadline||Date.now()+MP_TURN_SECONDS*1000),
+    turnDeadline:Number(remoteRound.turnDeadline||multiplayerNow()+MP_TURN_SECONDS*1000),
+    countdownUntil:Number(remoteRound.countdownUntil||0),
     turnFails:Array.isArray(remoteRound.turnFails)?remoteRound.turnFails:[false,false],
     turnLocked:Boolean(remoteRound.turnLocked)
   };
@@ -656,6 +684,7 @@ function applyFirebaseRound(remoteRound){
   if(!game.finished) startMultiplayerTurnTimer(false); else stopMultiplayerTurnTimer();
 }
 function subscribeToFirebaseRoom(code){
+  syncFirebaseClock();
   const db=getFirebaseDb();
   if(!db){setMultiplayerStatus('Firebase nie został uruchomiony. Odśwież stronę.','error');return;}
   detachFirebaseRoomListener();
@@ -690,6 +719,7 @@ async function createMultiplayerRoom(){
   if(!nick){setMultiplayerStatus('Wpisz nick, aby utworzyć pokój.','error');return;}
   const db=getFirebaseDb();
   if(!db){setMultiplayerStatus('Brak połączenia z Firebase. Odśwież stronę.','error');return;}
+  syncFirebaseClock();
   localStorage.setItem('zhMultiplayerNick',nick);
   setMultiplayerStatus('Tworzenie pokoju...','info');
   for(let attempt=0;attempt<5;attempt++){
@@ -714,6 +744,7 @@ async function joinMultiplayerRoom(){
   if(code.length<4){setMultiplayerStatus('Wpisz prawidłowy kod pokoju.','error');return;}
   const db=getFirebaseDb();
   if(!db){setMultiplayerStatus('Brak połączenia z Firebase. Odśwież stronę.','error');return;}
+  syncFirebaseClock();
   setMultiplayerStatus('Dołączanie do pokoju...','info');
   const roomRef=db.ref(`${MP_FIREBASE_ROOT}/${code}`);
   const snap=await roomRef.once('value').catch(()=>null);
@@ -882,5 +913,5 @@ document.addEventListener('click', e=>{
 });
 
 applyScale();
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1121').catch(()=>{}));}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js?v=1122').catch(()=>{}));}
 

@@ -1,10 +1,10 @@
-ZOMBIE HANGMAN 1121 - pliki do podmiany
+ZOMBIE HANGMAN 1122 - pliki do podmiany
 
 Podmień całą zawartość paczki na GitHubie.
 
-Naprawy względem wersji 1120:
-- po każdej poprawnie odgadniętej literze aktywny gracz ponownie otrzymuje pełne 10 sekund,
-- punkty gracza, punkty zombie i błędy są zapisywane razem z rundą w jednej operacji Firebase i od razu widoczne w górnym pasku,
-- po błędnej literze lub upływie czasu błąd gracza jest naliczany i kolej przechodzi na drugiego gracza,
-- nieodgadnięte hasło nie wyświetla się automatycznie po zakończeniu czasu lub przegranej rundzie,
-- gra pojedyncza i wygląd wersji 1120 pozostają bez zmian.
+Zmiana względem wersji 1121:
+- naprawiono wizualne odliczanie czasu na różnych urządzeniach — licznik korzysta teraz z czasu zsynchronizowanego z Firebase,
+- po każdej poprawnej literze aktywny gracz nadal dostaje nowe pełne 10 sekund,
+- po wylosowaniu hasła w Multiplayer pojawia się odliczanie 3, 2, 1 i dopiero potem rozpoczyna się tura gracza,
+- podczas odliczania startowego klawiatura i koła ratunkowe są zablokowane,
+- mechanika, punkty, błędy i synchronizacja Firebase pozostają jak w 1121.
