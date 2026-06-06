@@ -1,4 +1,4 @@
-const VERSION = '1123';
+const VERSION = '1124';
 const ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPRS'.split(''), 'ŚTUWYZŹŻ'.split('')];
 const ALPHABET = ALPHABET_ROWS.flat();
 const MP_ALPHABET_ROWS = ['AĄBCĆDEĘFGHI'.split(''), 'JKLŁMNŃOÓPQRS'.split(''), 'ŚTUVWXYZŹŻ'.split('')];
@@ -71,6 +71,8 @@ const mpClientId = (()=>{
 let mpRoomFirebaseRef = null;
 let mpRoomFirebaseListener = null;
 let mpApplyingFirebaseSnapshot = false;
+let mpLastShownEventId = null;
+let mpResultOverlayQueue = Promise.resolve();
 function getFirebaseDb(){return window.firebase?.apps?.length ? window.firebase.database() : null;}
 function firebaseServerTimestamp(){return window.firebase?.database?.ServerValue?.TIMESTAMP || Date.now();}
 function syncFirebaseClock(){
@@ -103,6 +105,66 @@ function getActiveMultiplayerPlayers(){
     if(second) return [picked[0],second];
   }
   return players.slice(0,2);
+}
+
+function createMultiplayerEvent(type, playerNick){
+  return {
+    id:`${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+    type,
+    playerNick:playerNick||'GRACZ',
+    createdAt:Date.now()
+  };
+}
+function queueMultiplayerResultOverlay(event){
+  if(!event || !event.id || mpLastShownEventId===event.id) return;
+  mpLastShownEventId=event.id;
+  mpResultOverlayQueue=mpResultOverlayQueue.then(()=>showMultiplayerResultOverlay(event)).catch(()=>{});
+}
+function showMultiplayerResultOverlay(event){
+  return new Promise(resolve=>{
+    const overlay=$('mpResultOverlay');
+    const text=$('mpResultText');
+    const img=$('mpResultImage');
+    if(!overlay || !text){resolve();return;}
+    const player=String(event.playerNick||'GRACZ');
+    const hide=()=>{overlay.classList.remove('show','image-mode','text-mode');overlay.setAttribute('aria-hidden','true');};
+    const showZombieCapture=()=>{
+      if(img) img.src='assets/img/mp_zombie_captured.png';
+      text.textContent='';
+      overlay.classList.add('show','image-mode');
+      overlay.classList.remove('text-mode');
+      overlay.setAttribute('aria-hidden','false');
+      setTimeout(()=>{
+        overlay.classList.remove('image-mode');
+        overlay.classList.add('text-mode');
+        text.textContent=`ZOMBIAK ZDOBYTY PRZEZ GRACZA ${player}`;
+        setTimeout(()=>{hide();resolve();},3000);
+      },3000);
+    };
+    if(event.type==='zombieCaptured'){showZombieCapture();return;}
+    overlay.classList.add('show','text-mode');
+    overlay.classList.remove('image-mode');
+    overlay.setAttribute('aria-hidden','false');
+    text.textContent=`HASŁO ODGADŁ GRACZ ${player}`;
+    setTimeout(()=>{
+      if(event.type==='phraseAndZombie') showZombieCapture();
+      else {hide();resolve();}
+    },3000);
+  });
+}
+function addMultiplayerPlayerPoints(player, pointDelta=0, zombieDelta=0){
+  if(!player) return false;
+  player.playerPoints=Number(player.playerPoints||0)+Number(pointDelta||0);
+  const before=Number(player.zombiePoints||0);
+  let after=before+Number(zombieDelta||0);
+  const captured=after>=300;
+  while(after>=300) after-=300;
+  player.zombiePoints=after;
+  if(captured && multiplayerRoom){
+    if(multiplayerRoom.overlayEvent?.type==='phraseSolved') multiplayerRoom.overlayEvent={...multiplayerRoom.overlayEvent,type:'phraseAndZombie'};
+    else multiplayerRoom.overlayEvent=createMultiplayerEvent('zombieCaptured',player.nick);
+  }
+  return captured;
 }
 function multiplayerFirebaseReady(){return Boolean(getFirebaseDb());}
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
@@ -448,10 +510,7 @@ function failMultiplayerTurn(message){
 }
 function registerCorrectMultiplayerGuess(count){
   const player=getMultiplayerTurnPlayer(game.turnIndex);
-  if(player){
-    player.playerPoints=Number(player.playerPoints||0)+(10*count);
-    player.zombiePoints=Number(player.zombiePoints||0)+(10*count);
-  }
+  if(player) addMultiplayerPlayerPoints(player,10*count,10*count);
   // Każda poprawna litera daje temu samemu graczowi nowe pełne 10 sekund.
   game.turnSeconds=MP_TURN_SECONDS;
   game.turnDeadline=multiplayerNow()+MP_TURN_SECONDS*1000;
@@ -494,21 +553,28 @@ function finish(win){
   game.finished=true;
   updateMultiplayerTurnUi();
   state.played++;
+  const multiplayerWinner=(gameMode==='multiplayer') ? getMultiplayerTurnPlayer(game.turnIndex) : null;
   if(gameMode==='multiplayer' && multiplayerRoom){
     multiplayerRoom.status=win?'Hasło odgadnięte':'Runda przegrana';
-    multiplayerRoom.lastResult={win,phrase:game.phrase,category:game.cat,finishedAt:Date.now()};
-    saveMultiplayerRoom();
+    multiplayerRoom.lastResult={win,phrase:game.phrase,category:game.cat,winnerNick:multiplayerWinner?.nick||'',finishedAt:Date.now()};
+    if(win) multiplayerRoom.overlayEvent=createMultiplayerEvent('phraseSolved',multiplayerWinner?.nick);
   }
   if(win){
     state.wins++; state.score+=50; state.zombiePoints+=50; checkZombieUnlock();
     if(gameMode==='multiplayer'){
-      const player=getMultiplayerTurnPlayer(game.turnIndex);
-      if(player){player.playerPoints=Number(player.playerPoints||0)+50;player.zombiePoints=Number(player.zombiePoints||0)+50;}
+      if(multiplayerWinner) addMultiplayerPlayerPoints(multiplayerWinner,50,50);
       saveMultiplayerRoom();
+      renderGame(`Hasło odgadł gracz ${multiplayerWinner?.nick||''}`);
+    }else{
+      renderGame('Hasło odgadnięte!');
+      setTimeout(showWinPrompt, 220);
     }
-    renderGame('Hasło odgadnięte!'); save(); setTimeout(showWinPrompt, 220);
+    save();
   }else{
-    state.losses++; renderGame(`PRZEGRANA. Hasło: ${game.phrase}.`); save();
+    state.losses++;
+    if(gameMode==='multiplayer'){saveMultiplayerRoom();renderGame('Runda przegrana.');}
+    else renderGame(`PRZEGRANA. Hasło: ${game.phrase}.`);
+    save();
   }
 }
 function checkZombieUnlock(){while(state.zombiePoints>=300){state.zombiePoints-=300; state.unlocked=Math.min(ZOMBIES.length,state.unlocked+1); state.lifelines=START_LIFELINES; state.adLifelinesUsed=0;}}
@@ -527,7 +593,7 @@ function hint(){
   checkZombieUnlock();
   if(gameMode==='multiplayer'){
     const player=getMultiplayerTurnPlayer(game.turnIndex);
-    if(player){player.playerPoints=Number(player.playerPoints||0)+5;player.zombiePoints=Number(player.zombiePoints||0)+5;}
+    if(player) addMultiplayerPlayerPoints(player,5,5);
     saveMultiplayerRoom();
     startMultiplayerTurnTimer(true);
   }
@@ -673,6 +739,7 @@ function saveMultiplayerRoom(){
     [`${rootPath}/duelPlayerIds`]:Array.isArray(multiplayerRoom.duelPlayerIds)?multiplayerRoom.duelPlayerIds.slice(0,2):getActiveMultiplayerPlayers().map(p=>p.id).slice(0,2),
     [`${rootPath}/round`]:serializeMultiplayerRound(),
     [`${rootPath}/lastResult`]:multiplayerRoom.lastResult||null,
+    [`${rootPath}/overlayEvent`]:multiplayerRoom.overlayEvent||null,
     [`${rootPath}/updatedAt`]:firebaseServerTimestamp()
   };
   (multiplayerRoom.players||[]).forEach(player=>{
@@ -736,6 +803,7 @@ function subscribeToFirebaseRoom(code){
     mpApplyingFirebaseSnapshot=false;
     if(raw.round?.phrase && !document.getElementById('screen-multiplayer-room')?.classList.contains('active')) show('multiplayer-room');
     else renderMultiplayerRoom();
+    if(raw.overlayEvent) queueMultiplayerResultOverlay(raw.overlayEvent);
   };
   mpRoomFirebaseRef.on('value',mpRoomFirebaseListener,err=>setMultiplayerStatus(`Brak dostępu do bazy: ${err.message}`,'error'));
 }
@@ -774,7 +842,7 @@ async function createMultiplayerRoom(){
     const code=makeRoomCode();
     const roomRef=db.ref(`${MP_FIREBASE_ROOT}/${code}`);
     const player={nick,role:'HOST',playerPoints:0,zombiePoints:0,errors:0,joinedAt:Date.now()};
-    const room={code,host:nick,hostId:mpClientId,status:'Oczekiwanie na graczy',createdAt:firebaseServerTimestamp(),updatedAt:firebaseServerTimestamp(),players:{[mpClientId]:player},duelPlayerIds:[mpClientId],round:null};
+    const room={code,host:nick,hostId:mpClientId,status:'Oczekiwanie na graczy',createdAt:firebaseServerTimestamp(),updatedAt:firebaseServerTimestamp(),players:{[mpClientId]:player},duelPlayerIds:[mpClientId],round:null,overlayEvent:null};
     const result=await roomRef.transaction(current=>current===null?room:undefined).catch(()=>null);
     if(result?.committed){
       roomRef.child(`players/${mpClientId}`).onDisconnect().remove();

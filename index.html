@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#05070c" />
   <meta name="apple-mobile-web-app-title" content="Zombie Hangman" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Zombie Hangman 1123</title>
+  <title>Zombie Hangman 1124</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css?v=1123" />
+  <link rel="stylesheet" href="style.css?v=1124" />
 </head>
 <body>
   <div id="app" class="app">
@@ -258,7 +258,7 @@
     <section id="screen-settings" class="screen sub-screen">
       <div class="panel board-panel">
         <h1>USTAWIENIA</h1>
-        <p>Wersja: <strong>1123</strong></p>
+        <p>Wersja: <strong>1124</strong></p>
         <button class="wood-btn" data-action="menu">Menu</button>
       </div>
     </section>
@@ -274,7 +274,7 @@
       </div>
     </div>
   </div>
-  <div id="buildVersion" class="build-version">1123</div>
+  <div id="buildVersion" class="build-version">1124</div>
   <div id="winPrompt" class="game-result-prompt" aria-hidden="true">
     <div class="game-result-card">
       <h2>Hasło odgadnięte</h2>
@@ -290,12 +290,20 @@
     </div>
   </div>
 
+
+  <div id="mpResultOverlay" class="mp-result-overlay" aria-hidden="true">
+    <div class="mp-result-card">
+      <img id="mpResultImage" class="mp-result-image" src="assets/img/mp_zombie_captured.png" alt="Hurra zombie wyeliminowany" />
+      <div id="mpResultText" class="mp-result-text"></div>
+    </div>
+  </div>
+
   <div id="rotateHint" class="rotate-hint">Obróć telefon poziomo, aby uzyskać najlepszy widok gry.</div>
 
   <script>
-    window.ZH_BUILD = '1123';
+    window.ZH_BUILD = '1124';
     if ('caches' in window) {
-      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1123').map(k => caches.delete(k)))).catch(()=>{});
+      caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('zombie-hangman-web-') && k !== 'zombie-hangman-web-v1124').map(k => caches.delete(k)))).catch(()=>{});
     }
   </script>
   <script src="https://www.gstatic.com/firebasejs/12.2.1/firebase-app-compat.js"></script>
@@ -312,7 +320,7 @@
       measurementId: "G-49ZVCHNCPX"
     });
   </script>
-  <script src="assets/data/hasla.js?v=1123"></script>
-  <script src="app.js?v=1123"></script>
+  <script src="assets/data/hasla.js?v=1124"></script>
+  <script src="app.js?v=1124"></script>
 </body>
 </html>

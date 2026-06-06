@@ -5201,3 +5201,57 @@ body:not([data-game-mode="multiplayer"]) .mp-game-turn-panel{display:none !impor
   #screen-multiplayer-room .mp-player-row{grid-template-columns:28px minmax(0,1fr) auto auto 10px;gap:5px}
   #screen-multiplayer-room .mp-challenge-btn{padding:3px 5px;font-size:clamp(7px,1vw,10px)}
 }
+
+
+/* v1124 — komunikaty końcowe Multiplayer: hasło odgadnięte i zombiak zdobyty. */
+.mp-result-overlay{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(16px,3vw,40px);
+  background:rgba(0,0,0,.34);
+  pointer-events:none;
+}
+.mp-result-overlay.show{display:flex}
+.mp-result-card{
+  width:min(980px,88vw);
+  min-height:min(260px,46vh);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:clamp(14px,2.4vh,26px);
+  padding:clamp(16px,3vh,34px);
+  border:2px solid rgba(184,139,68,.70);
+  border-radius:18px;
+  background:radial-gradient(circle at 50% 35%,rgba(35,24,11,.78),rgba(4,6,8,.88));
+  box-shadow:0 22px 60px rgba(0,0,0,.72),inset 0 0 32px rgba(255,207,108,.08);
+  text-align:center;
+}
+.mp-result-image{
+  display:block;
+  max-width:min(760px,82vw);
+  max-height:min(430px,66vh);
+  object-fit:contain;
+  filter:drop-shadow(0 15px 18px rgba(0,0,0,.68));
+}
+.mp-result-text{
+  display:none;
+  color:#ffe2a1;
+  font:900 clamp(28px,4.2vw,72px)/1.08 Georgia,'Times New Roman',serif;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  text-shadow:0 5px 7px #000,0 0 20px rgba(255,211,118,.16);
+}
+.mp-result-overlay.text-mode .mp-result-image{display:none}
+.mp-result-overlay.text-mode .mp-result-text{display:block}
+.mp-result-overlay.image-mode .mp-result-image{display:block}
+.mp-result-overlay.image-mode .mp-result-text{display:none}
+@media (max-height:600px),(max-width:900px){
+  .mp-result-card{width:min(900px,92vw);min-height:min(190px,54vh);padding:12px}
+  .mp-result-image{max-height:min(300px,58vh)}
+  .mp-result-text{font-size:clamp(22px,4.8vw,48px)}
+}

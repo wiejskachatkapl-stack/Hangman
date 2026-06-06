@@ -1,14 +1,11 @@
-ZOMBIE HANGMAN 1123 - pliki do podmiany
+ZOMBIE HANGMAN 1124 - pliki do podmiany
 
 Podmień całą zawartość paczki na GitHubie.
 
-Zmiana względem wersji 1122:
-- usunięto limit dwóch osób w pokoju Multiplayer — w pokoju może być więcej graczy,
-- lista „Gracze w pokoju” pokazuje wszystkich obecnych graczy,
-- przy graczach dodano przycisk „WYZWANIE”, którym można wybrać osobę do pojedynku,
-- aktywna rozgrywka nadal odbywa się między dwoma wybranymi graczami,
-- pokój jest zapamiętywany w przeglądarce: po powrocie można wejść do tego samego pokoju zamiast tworzyć nowy,
-- kliknięcie „Utwórz pokój” wraca do zapamiętanego pokoju, jeśli ten pokój nadal istnieje w Firebase,
-- przycisk „Opuść pokój” nie kasuje już całego pokoju hosta, tylko zapamiętuje możliwość powrotu.
-
-Gra pojedyncza i pozostała mechanika wersji 1122 pozostały bez zmian.
+Zmiana względem wersji 1123:
+- po odgadnięciu hasła w Multiplayer pojawia się komunikat: „HASŁO ODGADŁ GRACZ” + nick gracza,
+- po zdobyciu zombiaka przez gracza pojawia się grafika „HURRA!! ZOMBIE WYELIMINOWANY” przez 3 sekundy,
+- następnie przez 3 sekundy pojawia się komunikat: „ZOMBIAK ZDOBYTY PRZEZ GRACZA” + nick gracza,
+- grafika została dodana jako assets/img/mp_zombie_captured.png,
+- komunikaty są synchronizowane przez Firebase, więc widzą je wszyscy gracze w pokoju,
+- gra pojedyncza pozostała bez zmian.

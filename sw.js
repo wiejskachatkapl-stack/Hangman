@@ -1,4 +1,4 @@
-const CACHE = 'zombie-hangman-web-v1123';
+const CACHE = 'zombie-hangman-web-v1124';
 const FILES = [
   './', './index.html', './style.css', './app.js', './manifest.json', './README.txt',
   './assets/data/hasla.js',
@@ -8,7 +8,8 @@ const FILES = [
   './assets/img/img_ratunek_v1098.png'
   ,'./assets/img/multiplayer_room.png',
   './assets/img/multiplayer_gallows.png',
-  './assets/img/mp_room_chibi_background.png'
+  './assets/img/mp_room_chibi_background.png',
+  './assets/img/mp_zombie_captured.png'
 ];
 
 self.addEventListener('install', event => {
@@ -29,7 +30,7 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   const url = new URL(req.url);
   const isHtml = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html');
-  const isFresh = isHtml || url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.search.includes('v=1123');
+  const isFresh = isHtml || url.pathname.endsWith('.css') || url.pathname.endsWith('.js') || url.search.includes('v=1124');
 
   if (isFresh) {
     event.respondWith(
